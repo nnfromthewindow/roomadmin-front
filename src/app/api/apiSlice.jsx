@@ -33,5 +33,7 @@ const baseQueryWithReauth = async(args, api, extraOptions)=>{
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
+    //add cached data
+    //tagTypes:['Todo'],
     endpoints: builder => ({})
 })

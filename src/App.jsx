@@ -6,7 +6,7 @@ import './App.css'
 import Login from './features/auth/Login'
 import Welcome from './features/auth/Welcome'
 import RequireAuth from './features/auth/requireAuth'
-
+import TodosList from './features/todos/todosList'
 
 function App() {
 
@@ -16,7 +16,8 @@ function App() {
       <Route index element={<Login/>}/>
       
       <Route element={<RequireAuth/>}>
-        <Route path='todos' element={<Welcome/>}/>
+        <Route path='welcome' element={<Welcome/>}/>
+        <Route path='todos' element={<TodosList/>}/>
       </Route>
     </Route>
 </Routes>

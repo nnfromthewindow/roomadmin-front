@@ -32,7 +32,7 @@ const Login = () =>{
             dispatch(setCredentials({...userData, username}))
             setUsername('')
             setPassword('')
-            navigate('/todos')
+            navigate('/welcome')
         } catch (err) {
             if (!err?.originalStatus) {
                 // isLoading: true until timeout occurs
