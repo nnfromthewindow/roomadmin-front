@@ -18,6 +18,7 @@ function App() {
       <Route element={<RequireAuth/>}>
         <Route path='welcome' element={<Welcome/>}/>
         <Route path='todos' element={<TodosList/>}/>
+        <Route path='todos/:username' element={<TodosList/>}/>
       </Route>
     </Route>
 </Routes>

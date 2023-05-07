@@ -13,7 +13,7 @@ const Welcome = () => {
         <section className="welcome">
             <h1>{welcome}</h1>
             <p>Token: {token}</p>
-            <p><Link to="/todos">Go to Todos</Link></p>
+            <p><Link to={`/todos/${user}`}>Go to Todos</Link></p>
         </section>
     )
 
