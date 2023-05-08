@@ -7,6 +7,7 @@ import Login from './features/auth/Login'
 import Welcome from './features/auth/Welcome'
 import RequireAuth from './features/auth/requireAuth'
 import TodosList from './features/todos/todosList'
+import TodosUserList from './features/todos/TodosUserList'
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
       <Route element={<RequireAuth/>}>
         <Route path='welcome' element={<Welcome/>}/>
         <Route path='todos' element={<TodosList/>}/>
-        <Route path='todos/:username' element={<TodosList/>}/>
+        <Route path='todos/:username' element={<TodosUserList/>}/>
       </Route>
     </Route>
 </Routes>
