@@ -14,6 +14,7 @@ const Welcome = () => {
             <h1>{welcome}</h1>
             <p>Token: {token}</p>
             <p><Link to={`/todos/${user}`}>Go to Todos</Link></p>
+            <p><Link to={'/bookings'}>Go to Bookings</Link></p>
         </section>
     )
 

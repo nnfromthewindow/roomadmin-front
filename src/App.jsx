@@ -8,6 +8,7 @@ import Welcome from './features/auth/Welcome'
 import RequireAuth from './features/auth/requireAuth'
 import TodosList from './features/todos/todosList'
 import TodosUserList from './features/todos/TodosUserList'
+import Bookings from './features/bookings/Bookings'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='welcome' element={<Welcome/>}/>
         <Route path='todos' element={<TodosList/>}/>
         <Route path='todos/:username' element={<TodosUserList/>}/>
+        <Route path='bookings' element={<Bookings/>}/>
       </Route>
     </Route>
 </Routes>
