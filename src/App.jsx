@@ -9,6 +9,9 @@ import RequireAuth from './features/auth/requireAuth'
 import TodosList from './features/todos/todosList'
 import TodosUserList from './features/todos/TodosUserList'
 import Bookings from './features/bookings/Bookings'
+import CustomersList from './features/customers/CustomersList'
+
+
 
 function App() {
 
@@ -22,6 +25,7 @@ function App() {
         <Route path='todos' element={<TodosList/>}/>
         <Route path='todos/:username' element={<TodosUserList/>}/>
         <Route path='bookings' element={<Bookings/>}/>
+        <Route path='customers' element={<CustomersList/>}/>
       </Route>
     </Route>
 </Routes>

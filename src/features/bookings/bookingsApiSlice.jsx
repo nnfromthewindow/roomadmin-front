@@ -17,15 +17,23 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             transformResponse: (response) =>{
-                console.log(response)
+               
                 const loadedBookings = response.map(booking=>{
                     booking.id = booking._id
                     return booking
                 })
                 
-                return loadedBookings
+                return bookingsAdapter.setAll(initialState, loadedBookings)
+            },
+            providesTags: (result, error, arg) =>{
+                if(result?.ids){
+                return [
+                    {type:'Booking', id:'LIST'},
+                    ...result.ids.map(id => ({ type:'Booking', id}))
+                ]
+                } else return [{type: 'Booking', id:'LIST'}]
             }
-        })
+        }),
     })
 })
 

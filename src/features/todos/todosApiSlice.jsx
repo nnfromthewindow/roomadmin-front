@@ -22,12 +22,18 @@ export const todosApiSlice = apiSlice.injectEndpoints({
                 todo.id=todo._id
                 return todo
             })
-           console.log(loadedTodos)
-    
-       
-           return loadedTodos
+        
+           return todosAdapter.setAll(initialState, loadedTodos)
             
         },
+        providesTags: (result, error, arg) => {
+            if(result?.ids){
+                return[
+                {type:'Todo', id:'LIST'},
+                ...result.ids.map(id =>({type:'Todo', id}))
+                ]
+            } else return [{type:'Todo', id:'LIST'}]
+        }
     })
     })
 })

@@ -18,14 +18,15 @@ const TodosUserList = () =>{
         if(isLoading){
             content = <p>"Loading..."</p>
         } else if (isSuccess){
+            const{ids, entities} = todos
         content = (
             <section className="todos">
                 <h1>Todos</h1>
                 <ul>
-                    {todos.map((todo, i) =>{
-                    return <li key={i}>
-                        <h2>{todo.description}</h2>
-                        <h3>Status:{todo.status}</h3>
+                    {ids.map(todoId =>{
+                    return <li key={todoId}>
+                        <h2>{entities[todoId].description}</h2>
+                        <h3>Status:{entities[todoId].status}</h3>
                     </li>
                     })}
                 </ul>

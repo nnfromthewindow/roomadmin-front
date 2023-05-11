@@ -9,27 +9,30 @@ const Bookings = () => {
     isError,
     error
   } = useGetBookingsQuery()
-  console.log()
+ 
   let content
 
   if(isLoading){
     content = <p>"Loading..."</p>
   } else if (isSuccess){
+
+    const {ids, entities} = bookings
+
   content = (
       <section className="bookings">
           <h1>BOOKINGS</h1>
           <ul>
-              {bookings.map((booking, i) =>{
+              {ids.map((bookingId, i) =>{
               return <li key={i}>
-                  <h2>INCOME: {booking.income}</h2>
-                  <h2>OUTCOME: {booking.outcome}</h2>
-                  <h2>ROOM: {booking.room}</h2>
-                  <h2>PAX: {booking.pax}</h2>
-                  <h2>CLIENT: {booking.client.name}</h2>
-                  <h2>VALUE: {booking.value}</h2>
-                  <h2>DISCOUNT: {booking.discount}</h2>
-                  <h2>TOTAL VALUE:{booking.totalValue}</h2>
-                  <h2>NOTE: {booking.note}</h2>
+                  <h2>INCOME: {entities[bookingId].income}</h2>
+                  <h2>OUTCOME: {entities[bookingId].outcome}</h2>
+                  <h2>ROOM: {entities[bookingId].room}</h2>
+                  <h2>PAX: {entities[bookingId].pax}</h2>
+                  <h2>CLIENT: {entities[bookingId].client.name}</h2>
+                  <h2>VALUE: {entities[bookingId].value}</h2>
+                  <h2>DISCOUNT: {entities[bookingId].discount}</h2>
+                  <h2>TOTAL VALUE:{entities[bookingId].totalValue}</h2>
+                  <h2>NOTE: {entities[bookingId].note}</h2>
               </li>
               })}
           </ul>
