@@ -17,7 +17,7 @@ export const todosApiSlice = apiSlice.injectEndpoints({
                 return response.status === 200 && !result.isError
             },
         }),
-        transformResponse: (response)  => {
+        transformResponse: response => {
             const loadedTodos = response.todos.map(todo=>{
                 todo.id=todo._id
                 return todo

@@ -20,7 +20,7 @@ const TodosList = () =>{
 
     content = (
         <section className="todos">
-            <h1>Todos</h1>
+            <h1>TODOS</h1>
             <ul>
                 {ids.map(todoId =>{
                 return <li key={todoId}>

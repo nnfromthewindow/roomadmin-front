@@ -28,7 +28,7 @@ const Bookings = () => {
                   <h2>OUTCOME: {entities[bookingId].outcome}</h2>
                   <h2>ROOM: {entities[bookingId].room}</h2>
                   <h2>PAX: {entities[bookingId].pax}</h2>
-                  <h2>CLIENT: {entities[bookingId].client.name}</h2>
+                  <h2>CLIENT: {entities[bookingId].client}</h2>
                   <h2>VALUE: {entities[bookingId].value}</h2>
                   <h2>DISCOUNT: {entities[bookingId].discount}</h2>
                   <h2>TOTAL VALUE:{entities[bookingId].totalValue}</h2>

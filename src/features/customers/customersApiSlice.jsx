@@ -16,7 +16,7 @@ export const customersApiSlice = apiSlice.injectEndpoints({
             return response.status === 200 && !result.isError},
         }),
     transformResponse: (response) => {
-        console.log(response)
+        
     const loadedCustomers = response.map(customer=>{
         customer.id = customer._id
         return customer})
