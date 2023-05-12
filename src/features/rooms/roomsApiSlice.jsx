@@ -41,3 +41,16 @@ export const roomsApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetRoomsQuery
 } = roomsApiSlice
+
+export const selectRoomsResult = roomsApiSlice.endpoints.getRooms.select()
+
+const selectRoomsData = createSelector(
+    selectRoomsResult,
+    roomsResult => roomsResult.data 
+)
+
+export const {
+    selectAll: selectAllRooms,
+    selectById: selectRoomById,
+    selectIds: selectRoomIds
+} = roomsAdapter.getSelectors(state => selectRoomsData(state) ?? initialState)

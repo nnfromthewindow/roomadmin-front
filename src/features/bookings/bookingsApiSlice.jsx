@@ -40,3 +40,16 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetBookingsQuery
 } = bookingsApiSlice
+
+export const selectBookingsResult = bookingsApiSlice.endpoints.getBookings.select()
+
+const selectBookingsData = createSelector(
+    selectBookingsResult,
+    bookingsResult => bookingsResult.data 
+)
+
+export const {
+    selectAll: selectAllBookings,
+    selectById: selectBookingById,
+    selectIds: selectBookingIds
+} = bookingsAdapter.getSelectors(state => selectBookingsData(state) ?? initialState)

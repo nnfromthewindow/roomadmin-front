@@ -39,3 +39,16 @@ export const ledgerApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetLedgerQuery
 } = ledgerApiSlice
+
+export const selectLedgerResult = ledgerApiSlice.endpoints.getLedger.select()
+
+const selectLedgerData = createSelector(
+    selectLedgerResult,
+    ledgerResult => ledgerResult.data 
+)
+
+export const {
+    selectAll: selectAllLedger,
+    selectById: selectLedgerItemById,
+    selectIds: selectLedgerItemIds
+} = ledgerAdapter.getSelectors(state => selectLedgerData(state) ?? initialState)

@@ -41,3 +41,16 @@ export const ratesApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetRatesQuery
 } = ratesApiSlice
+
+export const selectRatesResult = ratesApiSlice.endpoints.getRates.select()
+
+const selectRatesData = createSelector(
+    selectRatesResult,
+    ratesResult => ratesResult.data 
+)
+
+export const {
+    selectAll: selectAllRates,
+    selectById: selectRateById,
+    selectIds: selectRateIds
+} = ratesAdapter.getSelectors(state => selectRatesData(state) ?? initialState)

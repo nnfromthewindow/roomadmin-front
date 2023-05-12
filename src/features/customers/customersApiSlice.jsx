@@ -37,3 +37,15 @@ export const {
     useGetCustomersQuery
 } = customersApiSlice
 
+export const selectCustomersResult = customersApiSlice.endpoints.getCustomers.select()
+
+const selectCustomersData = createSelector(
+    selectCustomersResult,
+    customersResult => customersResult.data 
+)
+
+export const {
+    selectAll: selectAllCustomers,
+    selectById: selectCustomerById,
+    selectIds: selectCustomerIds
+} = customersAdapter.getSelectors(state => selectCustomersData(state) ?? initialState)

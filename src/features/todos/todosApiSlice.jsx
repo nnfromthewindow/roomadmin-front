@@ -41,3 +41,16 @@ export const todosApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetTodosByUserQuery
 } = todosApiSlice
+
+export const selectTodosResult = todosApiSlice.endpoints.getTodosByUser.select()
+
+const selectTodosData = createSelector(
+    selectTodosResult,
+    todosResult => todosResult.data 
+)
+
+export const {
+    selectAll: selectAllTodos,
+    selectById: selectTodoById,
+    selectIds: selectTodoIds
+} = todosAdapter.getSelectors(state => selectTodosData(state) ?? initialState)
