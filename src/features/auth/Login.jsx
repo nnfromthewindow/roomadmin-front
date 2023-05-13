@@ -61,11 +61,18 @@ const Login = () =>{
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
             <div className="login_inputs_container">
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="username" className="login_label">Username:</label>
-                    <input type="text" className="login_input" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
-                    <label htmlFor="password" className="login_input">Password:</label>
-                    <input type="password" className="login_input" id="pasword" onChange={handlePwdInput} value={password} required/>
+                <form className="login_form" onSubmit={handleSubmit}>
+                    <div className="login_container">
+                    <div className="login_labels">
+                        <label htmlFor="username" >Username:</label>
+                        <label htmlFor="password" >Password:</label>
+                    </div>
+                    <div className="login_inputs">
+                        <input type="text"  id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
+                        <input type="password"  id="pasword" onChange={handlePwdInput} value={password} required/>
+                    </div>
+                    </div>
+                    
                     <button className="loginBtn" type="submit">Login</button>
                 </form>
             </div>
