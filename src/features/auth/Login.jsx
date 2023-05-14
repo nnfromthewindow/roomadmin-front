@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
-
+import { TextField, Button } from "@mui/material"
 
 const Login = () =>{
     const userRef = useRef()
@@ -68,12 +68,15 @@ const Login = () =>{
                         <label htmlFor="password" >Password:</label>
                     </div>
                     <div className="login_inputs">
-                        <input type="text"  id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
-                        <input type="password"  id="pasword" onChange={handlePwdInput} value={password} required/>
+                    <TextField className="login_textfield" label="Username" variant="filled" type="text" color="secondary" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
+                    <TextField className="login_textfield"  label="Password" variant="filled" type="password" color="secondary" id="pasword" onChange={handlePwdInput} value={password} required/>
+                        
                     </div>
                     </div>
-                    
-                    <button className="loginBtn" type="submit">Login</button>
+                    <div className="loginBtn_container">
+                    <Button className="loginBtn" variant="contained" type="submit" color="success">Login</Button>
+                    </div>
+                  
                 </form>
             </div>
         </main>

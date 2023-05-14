@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import PublicLayout from './components/PublicLayout'
-import UserLayout from './components/UserLayout'
+import PrivateLayout from './components/PrivateLayout'
 import './App.css'
 import Login from './features/auth/Login'
 import Welcome from './features/auth/Welcome'
@@ -21,8 +21,9 @@ function App() {
 <Routes>
     <Route path="/" element={<PublicLayout/>}>
       <Route index element={<Login/>}/>
-      
+    </Route> 
       <Route element={<RequireAuth/>}>
+        <Route element={<PrivateLayout/>}>
         <Route path='welcome' element={<Welcome/>}/>
         <Route path='todos' element={<TodosList/>}/>
         <Route path='todos/:username' element={<TodosUserList/>}/>
@@ -32,8 +33,9 @@ function App() {
         <Route path='ledger' element={<Ledger/>}/>
         <Route path='rates' element={<Rates/>}/>
         <Route path='rooms' element={<Rooms/>}/>
+        </Route>
       </Route>
-    </Route>
+    
 </Routes>
   
   )
