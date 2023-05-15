@@ -1,7 +1,6 @@
 
 import { useGetTodosByUserQuery } from "./todosApiSlice";
 import { Link } from "react-router-dom";
-import Todo from "./Todo";
 import { useParams } from "react-router-dom";
 
 const TodosUserList = () =>{

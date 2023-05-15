@@ -1,4 +1,4 @@
-import { useGetTodosByUserQuery } from "./todosApiSlice";
+import { useGetTodosQuery } from "./todosApiSlice";
 import { Link } from "react-router-dom";
 
 const TodosList = () =>{
@@ -8,8 +8,8 @@ const TodosList = () =>{
     isSuccess,
     isError,
     error
-    } = useGetTodosByUserQuery()
-
+    } = useGetTodosQuery()
+  
     let content
     
     if(isLoading){

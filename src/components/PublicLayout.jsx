@@ -4,7 +4,7 @@ const PublicLayout = () =>{
     return(
         <>
         <div className="loginTitle-container">
-        <h2 className="loginTitle">ROOM ADMIN APP</h2>
+        <h2 className="loginTitle">ROOMY</h2>
         </div>
             <div className="outlet-public">
                 <Outlet/>

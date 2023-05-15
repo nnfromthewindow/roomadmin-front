@@ -34,11 +34,38 @@ export const todosApiSlice = apiSlice.injectEndpoints({
                 ]
             } else return [{type:'Todo', id:'LIST'}]
         }
-    })
+    }),
+    getTodos: builder.query({
+            query: () =>({
+            url: '/todos',
+            validateStatus: (response, result) => {
+                return response.status === 200 && !result.isError
+            },
+        }),
+        transformResponse: response => {
+            console.log(response)
+            const loadedTodos = response.todos.map(todo=>{
+                todo.id=todo._id
+                return todo
+            })
+        
+           return todosAdapter.setAll(initialState, loadedTodos)
+            
+        },
+        providesTags: (result, error, arg) => {
+            if(result?.ids){
+                return[
+                {type:'Todo', id:'LIST'},
+                ...result.ids.map(id =>({type:'Todo', id}))
+                ]
+            } else return [{type:'Todo', id:'LIST'}]
+        }
+    }),
     })
 })
 
 export const {
+    useGetTodosQuery,
     useGetTodosByUserQuery
 } = todosApiSlice
 
