@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
 import PublicLayout from './components/PublicLayout'
 import PrivateLayout from './components/PrivateLayout'
 import './App.css'
