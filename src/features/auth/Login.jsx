@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
 import { TextField, Button } from "@mui/material"
+import { ColorRing } from "react-loader-spinner"
 
 const Login = () =>{
     const userRef = useRef()
@@ -52,7 +53,19 @@ const Login = () =>{
     const handleUserInput = (e) => setUsername(e.target.value)
     const handlePwdInput = (e) => setPassword(e.target.value)
 
-    const content = isLoading ? <h1>Loading...</h1> : (
+    const content = isLoading ? <div className="spinner">
+        <ColorRing
+  visible={true}
+  height="200"
+  width="200"
+  ariaLabel="blocks-loading"
+  wrapperStyle={{}}
+  wrapperClass="blocks-wrapper"
+  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+/>
+    </div>
+    
+     : (
         <main className="login">
             <div className="logo_container">
                 <img src="https://github.com/nnfromthewindow/imagentest/blob/main/assets/img/logoficticio.png?raw=true" alt="Imagen Logo" />

@@ -44,7 +44,7 @@ export const todosApiSlice = apiSlice.injectEndpoints({
         }),
         transformResponse: response => {
             console.log(response)
-            const loadedTodos = response.todos.map(todo=>{
+            const loadedTodos = response.map(todo=>{
                 todo.id=todo._id
                 return todo
             })

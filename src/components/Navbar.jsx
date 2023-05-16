@@ -13,19 +13,39 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
+import useAuth from '../features/hooks/useAuth';
+import { useSendLogoutMutation } from '../features/auth/authApiSlice';
 
-
-const pages = [
-  { name: 'Todos', route: '/todos' },
-  { name: 'Bookings', route: '/bookings' },
-  { name: 'Customers', route: '/customers' },
-  { name: 'Users', route: '/users' },
-  { name: 'Ledger', route: '/ledger' },
-  { name: 'Configuration', route: '/configuration' }
-];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+
+  const { username, isAdmin } = useAuth()
+
+  const [sendLogout, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+}] = useSendLogoutMutation()
+
+  const pagesAdmin = [
+    { name: 'Todos', route: '/todos' },
+    { name: 'Bookings', route: '/bookings' },
+    { name: 'Customers', route: '/customers' },
+    { name: 'Users', route: '/users' },
+    { name: 'Ledger', route: '/ledger' },
+    { name: 'Configuration', route: '/configuration' }
+  ];
+  const pagesEmployee = [
+    { name: 'Todos', route: `todos/${username}`}
+  ];
+  
+  const settings = [
+  { name: 'Account', route: '/welcome' }
+];
+  
+  
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,7 +64,19 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  return (
+  
+  let pages
+  let content;
+
+if(isAdmin){
+pages = pagesAdmin
+  }else{
+pages = pagesEmployee
+  }
+
+  
+
+  content = (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -161,17 +193,25 @@ function ResponsiveAppBar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-            >
+            >     
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              
+               <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting.name}</Typography>
                 </MenuItem>
-              ))}
+               
+              ))}    
+              <MenuItem key='Logout' onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center" onClick={sendLogout}>Logout</Typography>
+                </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
-  );
+  )
+  
+
+  return content;
 }
 export default ResponsiveAppBar;

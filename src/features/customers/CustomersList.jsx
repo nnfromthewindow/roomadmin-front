@@ -1,5 +1,6 @@
 import { useGetCustomersQuery } from "./customersApiSlice"
 import { Link } from "react-router-dom"
+import { ColorRing } from "react-loader-spinner"
 
 const CustomersList = () => {
     const{data:customers,
@@ -11,7 +12,17 @@ const CustomersList = () => {
 let content
 
 if(isLoading){
-    content = <p>"Loading..."</p>
+    content = <div className="spinner">
+    <ColorRing
+visible={true}
+height="200"
+width="200"
+ariaLabel="blocks-loading"
+wrapperStyle={{}}
+wrapperClass="blocks-wrapper"
+colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+/>
+</div>
 } else if (isSuccess){
 
 const {ids, entities} = customers
