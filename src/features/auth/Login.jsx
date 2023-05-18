@@ -36,7 +36,6 @@ const Login = () =>{
             navigate('/welcome')
         } catch (err) {
             if (!err?.originalStatus) {
-                // isLoading: true until timeout occurs
                 setErrMsg('No Server Response');
             } else if (err.originalStatus === 400) {
                 setErrMsg('Missing Username or Password');

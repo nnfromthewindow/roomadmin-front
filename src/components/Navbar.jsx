@@ -85,7 +85,7 @@ pages = pagesEmployee
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/welcome"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -129,16 +129,16 @@ pages = pagesEmployee
               }}
             >
               {pages.map((page) => (
-  <Button
-    key={page.name}
-    component={Link}
-    to={page.route}
-    onClick={handleCloseNavMenu}
-    sx={{ my: 2, color: 'black', display: 'block' }}
-  >
-    {page.name}
-  </Button>
-))}
+                <Button
+                  key={page.name}
+                  component={Link}
+                  to={page.route}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'black', display: 'block' }}
+                >
+                  {page.name}
+                </Button>
+              ))}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -146,7 +146,7 @@ pages = pagesEmployee
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/welcome"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -163,12 +163,14 @@ pages = pagesEmployee
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.name}
-              </Button>
+              key={page.name}
+              component={Link}
+              to={page.route}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'black', display: 'block' }}
+            >
+              {page.name}
+            </Button>
             ))}
           </Box>
 
