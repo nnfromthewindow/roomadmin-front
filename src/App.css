@@ -161,9 +161,19 @@ line-height: 2rem;
 margin-top: 1rem;
 text-align: center;
 }
-.contact_icon{
-    color: 'red';
-    width: 3rem;
+
+.contact_item--icon{
+cursor: pointer;
+}
+
+.contact_item--icon:hover{
+transform: scale(1.2);
+transition: 0.2s;
+}
+
+.menu{
+    display: flex;
+  
 }
 
 @media only screen and (max-width: 285px) {

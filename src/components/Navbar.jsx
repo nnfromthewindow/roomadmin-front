@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import { Link } from 'react-router-dom';
 import useAuth from '../features/hooks/useAuth';
 import { useSendLogoutMutation } from '../features/auth/authApiSlice';
@@ -29,12 +29,12 @@ function ResponsiveAppBar() {
 }] = useSendLogoutMutation()
 
   const pagesAdmin = [
-    { name: 'Todos', route: '/todos' },
-    { name: 'Bookings', route: '/bookings' },
-    { name: 'Customers', route: '/customers' },
-    { name: 'Users', route: '/users' },
-    { name: 'Ledger', route: '/ledger' },
-    { name: 'Configuration', route: '/configuration' }
+    { name: 'Todos', route: '/todos',icon: <AddTask/> },
+    { name: 'Bookings', route: '/bookings',icon: <AddTask/> },
+    { name: 'Customers', route: '/customers',icon: <AddTask/> },
+    { name: 'Users', route: '/users',icon: <AddTask/> },
+    { name: 'Ledger', route: '/ledger',icon: <AddTask/> },
+    { name: 'Configuration', route: '/configuration',icon: <AddTask/> }
   ];
   const pagesEmployee = [
     { name: 'Todos', route: `todos/${username}`}
@@ -80,7 +80,7 @@ pages = pagesEmployee
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AddHomeWorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -129,6 +129,8 @@ pages = pagesEmployee
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              <div className="menu">
+              <div className='menu_title'>
               {pages.map((page) => (
                 <Button
                   key={page.name}
@@ -140,9 +142,21 @@ pages = pagesEmployee
                   {page.name}
                 </Button>
               ))}
+              </div>
+              <div className="menu_icons">
+                {pages.map((page)=>(
+                  <div key={page.name}>
+                    {page.icon}
+                  </div>
+                )                  
+                )}
+              </div>
+              </div>
+              
+              
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AddHomeWorkIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
