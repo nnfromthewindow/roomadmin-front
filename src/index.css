@@ -49,5 +49,6 @@ table {
 
 
 :root{
---background: #3467C9;
+--background-public: #3467C9;
+--background-private: #E6E6E6;
 }

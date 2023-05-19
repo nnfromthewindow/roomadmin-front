@@ -4,7 +4,7 @@ import Footer from './Footer'
 
 const PrivateLayout = () =>{
     return(
-        <section className='layout'>
+        <section className='layout_private'>
             <Navbar/>
             
             <div className='outlet-private'>
