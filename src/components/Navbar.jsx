@@ -15,7 +15,8 @@ import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import { Link } from 'react-router-dom';
 import useAuth from '../features/hooks/useAuth';
 import { useSendLogoutMutation } from '../features/auth/authApiSlice';
-import { AddTask } from '@mui/icons-material';
+import { AddTask, MenuBook, Group, SupervisedUserCircle,CurrencyExchange, Settings } from '@mui/icons-material';
+import { pink,deepOrange,teal,red,lightGreen,brown } from '@mui/material/colors';
 
 function ResponsiveAppBar() {
 
@@ -29,12 +30,12 @@ function ResponsiveAppBar() {
 }] = useSendLogoutMutation()
 
   const pagesAdmin = [
-    { name: 'Todos', route: '/todos',icon: <AddTask/> },
-    { name: 'Bookings', route: '/bookings',icon: <AddTask/> },
-    { name: 'Customers', route: '/customers',icon: <AddTask/> },
-    { name: 'Users', route: '/users',icon: <AddTask/> },
-    { name: 'Ledger', route: '/ledger',icon: <AddTask/> },
-    { name: 'Configuration', route: '/configuration',icon: <AddTask/> }
+    { name: 'Todos', route: '/todos',icon: <AddTask sx={{ color: pink[700] }}/> },
+    { name: 'Bookings', route: '/bookings',icon: <MenuBook sx={{ color: deepOrange[500] }}/> },
+    { name: 'Customers', route: '/customers',icon: <Group sx={{ color: teal[700] }}/> },
+    { name: 'Users', route: '/users',icon: <SupervisedUserCircle sx={{ color: red[700] }}/> },
+    { name: 'Ledger', route: '/ledger',icon: <CurrencyExchange sx={{ color: lightGreen['A400'] }}/> },
+    { name: 'Configuration', route: '/configuration',icon: <Settings sx={{ color: brown[500] }}/> }
   ];
   const pagesEmployee = [
     { name: 'Todos', route: `todos/${username}`}
@@ -130,27 +131,29 @@ pages = pagesEmployee
               }}
             >
               <div className="menu">
-              <div className='menu_title'>
+             
               {pages.map((page) => (
-                <Button
-                  key={page.name}
-                  component={Link}
-                  to={page.route}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'black', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-              ))}
-              </div>
-              <div className="menu_icons">
-                {pages.map((page)=>(
-                  <div key={page.name}>
-                    {page.icon}
+                <div className='menu_items' key={page.name}>
+                  
+                  <div className="menu_icons">
+                      {page.icon}
                   </div>
-                )                  
-                )}
-              </div>
+                  <Button
+                    
+                    component={Link}
+                    to={page.route}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'black', display: 'block' }}
+                  >
+                    {page.name}
+                  </Button>  
+                </div>
+                
+              ))}
+           
+              
+               
+              
               </div>
               
               
