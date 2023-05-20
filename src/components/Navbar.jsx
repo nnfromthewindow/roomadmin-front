@@ -16,7 +16,8 @@ import { Link } from 'react-router-dom';
 import useAuth from '../features/hooks/useAuth';
 import { useSendLogoutMutation } from '../features/auth/authApiSlice';
 import { AddTask, MenuBook, Group, SupervisedUserCircle,CurrencyExchange, Settings } from '@mui/icons-material';
-import { pink,deepOrange,teal,red,lightGreen,brown } from '@mui/material/colors';
+import { pink,deepOrange,teal,red,lightGreen,brown,lightBlue } from '@mui/material/colors';
+import { Logout, ManageAccounts } from '@mui/icons-material';
 
 function ResponsiveAppBar() {
 
@@ -38,11 +39,11 @@ function ResponsiveAppBar() {
     { name: 'Configuration', route: '/configuration',icon: <Settings sx={{ color: brown[500] }}/> }
   ];
   const pagesEmployee = [
-    { name: 'Todos', route: `todos/${username}`}
+    { name: 'Todos', route: `todos/${username}`,icon: <AddTask sx={{ color: pink[700] }}/> }
   ];
   
   const settings = [
-  { name: 'Account', route: '/welcome' }
+  { name: 'Account', route: '/welcome' , icon:<ManageAccounts sx={{ color: lightBlue[800], marginRight:'1rem' }}/>}
 ];
   
   
@@ -127,7 +128,7 @@ pages = pagesEmployee
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none'},
               }}
             >
               <div className="menu">
@@ -143,7 +144,9 @@ pages = pagesEmployee
                     component={Link}
                     to={page.route}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'black', display: 'block' }}
+                    sx={{ my: 1.2, 
+                      color: 'black', display: 'block' ,fontFamily:'Dosis', 
+                      fontSize:'1.2em', textShadow:'1px 1px 3px #616161' }}
                   >
                     {page.name}
                   </Button>  
@@ -217,12 +220,18 @@ pages = pagesEmployee
               {settings.map((setting) => (
               
                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting.name}</Typography>
+                {setting.icon}
+                  <Typography textAlign="center" sx={{my: 1.2, 
+                      color: 'black', display: 'block' ,fontFamily:'Dosis', 
+                      fontSize:'1.2em', textShadow:'1px 1px 3px #616161'}}>{setting.name}</Typography>
                 </MenuItem>
                
               ))}    
               <MenuItem key='Logout' onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={sendLogout}>Logout</Typography>
+                  <Logout sx={{ color: red[500], marginRight:'1rem'}}/>
+                  <Typography textAlign="center" onClick={sendLogout} sx={{my: 1.2, 
+                      color: 'black', display: 'block' ,fontFamily:'Dosis', 
+                      fontSize:'1.2em', textShadow:'1px 1px 3px #616161'}}>Logout</Typography>
                 </MenuItem>
             </Menu>
           </Box>

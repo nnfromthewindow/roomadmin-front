@@ -31,7 +31,7 @@ const Ledger = () => {
     
         content = (
             <section className="ledger">
-                <h1>LEDGER</h1>
+                <h1 className="main_title">LEDGER</h1>
                 <ul>
                     {ids.map(ledgerItemId =>{
                     return <li key={ledgerItemId}>

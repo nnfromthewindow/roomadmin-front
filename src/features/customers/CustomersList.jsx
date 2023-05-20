@@ -29,7 +29,7 @@ const {ids, entities} = customers
 
 content = (
     <section className="customers">
-        <h1>CUSTOMERS</h1>
+        <h1 className="main_title">CUSTOMERS</h1>
         <ul>
             {ids.map(customerId =>{
             return <li key={customerId}>

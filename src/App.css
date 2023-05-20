@@ -185,6 +185,18 @@ margin: auto 0;
 padding-left: 0.5rem;
 }
 
+.css-6hp17o-MuiList-root-MuiMenu-list{
+    background-color:var(--menu-background);
+}
+
+.main_title{
+font-family: 'Dosis', sans-serif;
+font-size: 3em ;
+padding: 1rem;
+text-align: center;
+
+}
+
 @media only screen and (max-width: 285px) {
     .developer{
         font-size: 0.8em ;

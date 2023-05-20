@@ -31,7 +31,7 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
 
   content = (
       <section className="bookings">
-          <h1>BOOKINGS</h1>
+          <h1 className="main_title">BOOKINGS</h1>
           <ul>
               {ids.map((bookingId, i) =>{
               return <li key={i}>

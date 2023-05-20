@@ -32,7 +32,7 @@ const UsersList = () => {
 
     content = (
         <section className="users">
-            <h1>USERS</h1>
+            <h1 className="main_title">USERS</h1>
             <span>--------------------------</span>
             <ul>
                 {ids.map(userId =>{

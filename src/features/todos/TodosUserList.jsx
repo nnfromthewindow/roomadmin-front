@@ -30,7 +30,7 @@ const TodosUserList = () =>{
             const{ids, entities} = todos
         content = (
             <section className="todos">
-                <h1>Todos</h1>
+                <h1 className="main_title">TODOS</h1>
                 <ul>
                     {ids.map(todoId =>{
                     return <li key={todoId}>
