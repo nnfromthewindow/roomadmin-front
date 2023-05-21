@@ -197,6 +197,52 @@ text-align: center;
 
 }
 
+.todo_card{
+background-color: var(--card-background);
+border-radius: 1rem;
+box-shadow: 2px 2px 6px black;
+height: auto;
+margin: 2rem auto;
+padding: 1rem 0;
+transition: 2s;
+}
+
+.todosBtn_container{
+display: flex;
+justify-content: space-between;
+margin: 0 auto;
+width: 80%;
+}
+
+.todo_date{
+font-family: 'Dosis', sans-serif;
+font-size: 1.3em;
+font-weight: bold;
+padding:0.5rem 0 0.6rem 0;
+text-align: center;
+text-shadow: 1px 1px 6px whitesmoke;
+}
+
+.todo_description{
+color: var(--card-font);
+font-family: 'Dosis', sans-serif;
+font-size: 1.3em;
+margin: 0 auto;
+padding-bottom: 2rem;
+text-shadow: 1px 1px 6px black;
+width: 90%;
+}
+
+.todo_card--container{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+
+.todo_card--text{
+min-height: 6rem;
+}
+
 @media only screen and (max-width: 285px) {
     .developer{
         font-size: 0.8em ;
