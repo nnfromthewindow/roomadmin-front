@@ -199,12 +199,11 @@ text-align: center;
 
 .todo_card{
 background-color: var(--card-background);
-border-radius: 1rem;
 box-shadow: 2px 2px 6px black;
 height: auto;
 margin: 2rem auto;
 padding: 1rem 0;
-transition: 2s;
+transition: 1s;
 }
 
 .todosBtn_container{
@@ -220,7 +219,7 @@ font-size: 1.3em;
 font-weight: bold;
 padding:0.5rem 0 0.6rem 0;
 text-align: center;
-text-shadow: 1px 1px 6px whitesmoke;
+text-shadow: 1px 1px 2px rgb(155, 155, 155);
 }
 
 .todo_description{
@@ -229,7 +228,7 @@ font-family: 'Dosis', sans-serif;
 font-size: 1.3em;
 margin: 0 auto;
 padding-bottom: 2rem;
-text-shadow: 1px 1px 6px black;
+text-shadow: 1px 1px 2px black;
 width: 90%;
 }
 
@@ -241,6 +240,21 @@ justify-content: space-between;
 
 .todo_card--text{
 min-height: 6rem;
+}
+
+.todo_status{
+margin: auto;
+}
+
+.todo_status h3{
+color: var(--card-font);
+font-family: 'Dosis', sans-serif;
+font-size: 1.1em;
+text-shadow: 1px 1px 6px black;
+}
+
+.todosBtn_container{
+text-align: center;
 }
 
 @media only screen and (max-width: 285px) {
