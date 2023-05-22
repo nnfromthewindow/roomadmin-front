@@ -41,7 +41,7 @@ const TodosList = () =>{
                 
                 <h1 className="main_title">TODOS</h1>
                 <div className="todosBtn_container">
-                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em'}}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
+                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
                 </div>
                 {ids.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}
