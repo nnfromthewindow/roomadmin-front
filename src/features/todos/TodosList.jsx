@@ -4,6 +4,8 @@ import Todo from "./Todo";
 import { Button } from "@mui/material";
 import { AddCircleOutline} from "@mui/icons-material";
 import { lightBlue } from "@mui/material/colors";
+import { useState } from "react";
+import NewTodoForm from "./newTodoForm";
 
 const TodosList = () =>{
     const {
@@ -17,6 +19,17 @@ const TodosList = () =>{
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
   
     let content
     
@@ -41,7 +54,8 @@ const TodosList = () =>{
                 
                 <h1 className="main_title">TODOS</h1>
                 <div className="todosBtn_container">
-                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
+                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
+                <NewTodoForm open={open} handleClose={handleClose}/>
                 </div>
                 {ids.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}

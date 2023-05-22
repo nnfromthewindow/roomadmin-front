@@ -257,6 +257,16 @@ text-shadow: 1px 1px 6px black;
 text-align: center;
 }
 
+.todo_employee{
+    color: var(--card-font);
+    font-family: 'Dosis', sans-serif;
+    font-size: 1.3em;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+    text-shadow: 1px 1px 2px black;
+    width: 90%;
+}
+
 @media only screen and (max-width: 285px) {
     .developer{
         font-size: 0.8em ;
@@ -269,4 +279,17 @@ text-align: center;
     .welcome{
         height: 75vh;
     }
+
+    .todo_description{
+        font-size: 1em;
+        }
+    
+    .todo_status h3{
+    font-size: 0.9em;
+    }       
+    
+    .todosBtn_container{
+    
+        width: 90%;
+        }
   }

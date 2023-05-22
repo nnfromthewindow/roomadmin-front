@@ -5,7 +5,7 @@ import { Edit, Delete } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
-import { selectUserById } from "../users/usersApiSlice";
+import { selectUserById, selectAllUsers } from "../users/usersApiSlice";
 
 const Todo = ({todoId})=>{
 
@@ -16,16 +16,13 @@ const Todo = ({todoId})=>{
         }),    
     })
 
-    /*
-    const{user}=useGetUsersQuery("usersList",{
-        selectFromResult: ({data})=>({
-        user: data?.entities[todo.employee]
-        })
-    })
+    
+    const{data:userData}=useGetUsersQuery()
 
-    const user = useSelector(state => selectUserById(state,todo?.employee))
-*/
-    if(todo){
+    const user = useSelector((state) => selectUserById(state,todo?.employee))
+
+    if(todo && userData){
+        
         const date = moment.utc(todo.date).local()
         const dateFormatted = date.format('MMMM D, YYYY')
         return(
@@ -33,8 +30,8 @@ const Todo = ({todoId})=>{
                 <h2 className="todo_date">{dateFormatted}</h2>
                 <div className="todo_card--container">
                     <div className="todo_card--text">
+                        <h3 className="todo_employee"><u>Employee</u>: {user && `${user.name} ${user.lastname}`}</h3>
                         <h3 className="todo_description">{todo.description}</h3>
-                        <h3>Employee:</h3>
                         <h3 className="todo_status"></h3>
                     </div>
                     <div className="todo_card--status">
