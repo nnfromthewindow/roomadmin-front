@@ -61,12 +61,49 @@ export const todosApiSlice = apiSlice.injectEndpoints({
             } else return [{type:'Todo', id:'LIST'}]
         }
     }),
+    addNewTodo: builder.mutation({
+        query: initialTodo => ({
+            url: '/todos',
+            method: 'POST',
+            body: {
+                ...initialTodo,
+            }
+        }),
+        invalidatesTags: [
+            { type: 'Todo', id: "LIST" }
+        ]
+    }),
+    updateTodo: builder.mutation({
+        query: initialTodo => ({
+            url: '/todos',
+            method: 'PATCH',
+            body: {
+                ...initialTodo,
+            }
+        }),
+        invalidatesTags: (result, error, arg) => [
+            { type: 'Todo', id: arg.id }
+        ]
+    }),
+    deleteTodo: builder.mutation({
+        query: ({ id }) => ({
+            url: `/todos`,
+            method: 'DELETE',
+            body: { id }
+        }),
+        invalidatesTags: (result, error, arg) => [
+            { type: 'Todo', id: arg.id }
+        ]
+    }),
     })
 })
 
 export const {
     useGetTodosQuery,
-    useGetTodosByUserQuery
+    useGetTodosByUserQuery,
+    useAddNewTodoMutation,
+    useUpdateTodoMutation,
+    useDeleteTodoMutation,
 } = todosApiSlice
 
 export const selectTodosResult = todosApiSlice.endpoints.getTodosByUser.select()
