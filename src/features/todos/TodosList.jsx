@@ -1,11 +1,13 @@
-import { useGetTodosQuery } from "./todosApiSlice";
+import { useGetTodosQuery, useDeleteTodoMutation } from "./todosApiSlice";
 import { ColorRing } from "react-loader-spinner";
 import Todo from "./Todo";
 import { Button } from "@mui/material";
 import { AddCircleOutline} from "@mui/icons-material";
 import { lightBlue } from "@mui/material/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NewTodoForm from "./newTodoForm";
+import { useGetUsersQuery } from "../users/usersApiSlice";
+
 
 const TodosList = () =>{
     const {
@@ -20,6 +22,9 @@ const TodosList = () =>{
         refetchOnMountOrArgChange: true
     })
 
+
+    const{data:users}=useGetUsersQuery()
+
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -29,6 +34,8 @@ const TodosList = () =>{
     const handleClose = () => {
       setOpen(false);
     };
+
+  
 
   
     let content
@@ -55,7 +62,7 @@ const TodosList = () =>{
                 <h1 className="main_title">TODOS</h1>
                 <div className="todosBtn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
-                <NewTodoForm open={open} handleClose={handleClose}/>
+                <NewTodoForm open={open} handleClose={handleClose} users={users}/>
                 </div>
                 {ids.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}

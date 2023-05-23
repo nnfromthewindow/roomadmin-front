@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import { useAddNewTodoMutation } from './todosApiSlice';
 
 
-const NewTodoForm = ({open, handleClose, users}) =>{
+const EditTodoForm = ({open, handleClose, users}) =>{
 
     const{ids,entities}=users
   
@@ -72,7 +72,7 @@ return (
     <form className='todo_form' onSubmit={onSaveNewTodo}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Todo</DialogTitle>
+        <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Todo</DialogTitle>
 
         <DialogContent>
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Date</InputLabel>
@@ -129,4 +129,4 @@ return (
 
 }
 
-export default NewTodoForm
+export default EditTodoForm

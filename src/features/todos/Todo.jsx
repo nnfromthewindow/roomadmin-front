@@ -1,4 +1,4 @@
-import { useGetTodosQuery } from "./todosApiSlice";
+import { useGetTodosQuery, useDeleteTodoMutation } from "./todosApiSlice";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import { memo } from "react";
 import { Edit, Delete } from "@mui/icons-material";
@@ -6,6 +6,9 @@ import { Button } from "@mui/material";
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
 import { selectUserById, selectAllUsers } from "../users/usersApiSlice";
+import EditTodoForm from "./EditTodoForm";
+import { useState } from "react";
+
 
 const Todo = ({todoId})=>{
 
@@ -16,12 +19,33 @@ const Todo = ({todoId})=>{
         }),    
     })
 
-    
-    const{data:userData}=useGetUsersQuery()
+    const [deleteTodo, {
+        isSuccess: isDelSuccess,
+        isError: isDelError,
+        error: delError
+      }] = useDeleteTodoMutation()
+
+    const{data:users}=useGetUsersQuery()
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     const user = useSelector((state) => selectUserById(state,todo?.employee))
+   
+    
+    const onDeleteTodo = async () => {
+        await deleteTodo({ id: todo.id })
+    }  
 
-    if(todo && userData){
+    
+    if(todo && users){
         
         const date = moment.utc(todo.date).local()
         const dateFormatted = date.format('MMMM D, YYYY')
@@ -36,13 +60,13 @@ const Todo = ({todoId})=>{
                     </div>
                     <div className="todo_card--status">
                         <div className="todosBtn_container">
-                            <Button color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Edit/></Button>
-                            
+                            <Button onClick={handleClickOpen}color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Edit/></Button>
+                            <EditTodoForm open={open} handleClose={handleClose} users={users}/>
                             <div className="todo_status">
                                 <h3>STATUS:{todo.status}</h3>
 
                             </div>
-                            <Button color="error" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Delete/></Button>
+                            <Button onClick={onDeleteTodo} color="error" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Delete/></Button>
                         </div>
                     </div>
                 
