@@ -10,7 +10,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useAddNewTodoMutation } from './todosApiSlice';
+import { useUpdateTodoMutation } from './todosApiSlice';
 
 
 const EditTodoForm = ({open, handleClose, users}) =>{
@@ -22,7 +22,7 @@ const EditTodoForm = ({open, handleClose, users}) =>{
       isSuccess,
       isError,
       error
-    }] = useAddNewTodoMutation()
+    }] = useUpdateTodoMutation()
 
     const navigate = useNavigate()
    
@@ -39,7 +39,7 @@ const EditTodoForm = ({open, handleClose, users}) =>{
         setStatus('')
         handleClose()
       }
-    },[isSuccess])
+    },[isSuccess, navigate])
 
     const handleEmployeeChange = (event) => {
       setEmployee(event.target.value);

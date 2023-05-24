@@ -1,14 +1,13 @@
 import { useGetTodosQuery, useDeleteTodoMutation } from "./todosApiSlice";
 import { useGetUsersQuery } from "../users/usersApiSlice";
-import { memo } from "react";
 import { Edit, Delete } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
 import { selectUserById, selectAllUsers } from "../users/usersApiSlice";
 import EditTodoForm from "./EditTodoForm";
-import { useState } from "react";
-
+import { useState, memo } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Todo = ({todoId})=>{
 
@@ -18,6 +17,8 @@ const Todo = ({todoId})=>{
             
         }),    
     })
+
+    const navigate = useNavigate()
 
     const [deleteTodo, {
         isSuccess: isDelSuccess,
@@ -30,7 +31,10 @@ const Todo = ({todoId})=>{
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
-      setOpen(true);
+        setOpen(true)
+     // navigate(`/todos/${todoId}`)
+      
+
     };
   
     const handleClose = () => {
@@ -43,7 +47,6 @@ const Todo = ({todoId})=>{
     const onDeleteTodo = async () => {
         await deleteTodo({ id: todo.id })
     }  
-
     
     if(todo && users){
         
@@ -60,7 +63,8 @@ const Todo = ({todoId})=>{
                     </div>
                     <div className="todo_card--status">
                         <div className="todosBtn_container">
-                            <Button onClick={handleClickOpen}color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Edit/></Button>
+                            <Button onClick={handleClickOpen}
+                            color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Edit/></Button>
                             <EditTodoForm open={open} handleClose={handleClose} users={users}/>
                             <div className="todo_status">
                                 <h3>STATUS:{todo.status}</h3>
