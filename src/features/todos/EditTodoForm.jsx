@@ -24,13 +24,11 @@ const EditTodoForm = ({open, handleClose, users, todo}) =>{
       error
     }] = useUpdateTodoMutation()
 
-
    
     const [date, setDate] = useState(dayjs(todo.date)) 
     const [employee, setEmployee] = useState(todo.employee); 
     const [description, setDescription] = useState(todo.description);
     const [status, setStatus] = useState(todo.status);  
-
     const user = useSelector((state) => selectUserById(state,todo?.employee))
 
     useEffect(()=>{
