@@ -5,7 +5,19 @@ import {
 import { apiSlice } from "../../app/api/apiSlice";
 
 
-const todosAdapter = createEntityAdapter(/*create sort method*/)
+const todosAdapter = createEntityAdapter({
+    sortComparer: (a, b) => {
+        if (a.date === b.date) {
+          return 0;
+        } else if (a.date && !b.date) {
+          return -1;
+        } else if (!a.date && b.date) {
+          return 1;
+        } else {
+          return a.date > b.date ? -1 : 1;
+        }
+      }
+})
 const initialState = todosAdapter.getInitialState()
 
 export const todosApiSlice = apiSlice.injectEndpoints({

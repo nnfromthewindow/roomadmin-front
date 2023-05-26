@@ -8,38 +8,39 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useAddNewTodoMutation } from './todosApiSlice';
+import { useUpdateTodoMutation} from './todosApiSlice';
+import { useSelector } from 'react-redux';
+import { selectUserById } from '../users/usersApiSlice';
 
-
-const EditTodoForm = ({open, handleClose, users}) =>{
+const EditTodoForm = ({open, handleClose, users, todo}) =>{
 
     const{ids,entities}=users
   
-    const [addNewTodo, {
+    const [updateTodo, {
       isLoading,
       isSuccess,
       isError,
       error
-    }] = useAddNewTodoMutation()
+    }] = useUpdateTodoMutation()
 
-    const navigate = useNavigate()
+
    
-    const [date, setDate] = useState(dayjs()) 
-    const [employee, setEmployee] = useState('');
-    const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('');  
+    const [date, setDate] = useState(dayjs(todo.date)) 
+    const [employee, setEmployee] = useState(todo.employee); 
+    const [description, setDescription] = useState(todo.description);
+    const [status, setStatus] = useState(todo.status);  
+
+    const user = useSelector((state) => selectUserById(state,todo?.employee))
 
     useEffect(()=>{
       if(isSuccess){
-        setDate(dayjs())
-        setEmployee('')
-        setDescription('')
-        setStatus('')
         handleClose()
       }
     },[isSuccess])
+
+    
+ 
 
     const handleEmployeeChange = (event) => {
       setEmployee(event.target.value);
@@ -55,10 +56,10 @@ const EditTodoForm = ({open, handleClose, users}) =>{
 
     const canSave = [date, employee, description, status].every(Boolean) && !isLoading  
 
-    const onSaveNewTodo = async (e) =>{
+    const onSaveSelectedTodo = async (e) =>{
       e.preventDefault()
       if(canSave){
-        await addNewTodo({date, employee, description, status})
+        await updateTodo({id:todo.id, date, employee, description, status})
       }
     }
 
@@ -69,7 +70,7 @@ const EditTodoForm = ({open, handleClose, users}) =>{
     })
 
 return (
-    <form className='todo_form' onSubmit={onSaveNewTodo}>
+    <form className='todo_form' onSubmit={onSaveSelectedTodo}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Todo</DialogTitle>
@@ -118,7 +119,7 @@ return (
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={onSaveNewTodo} disabled={!canSave}>Add Todo</Button>
+          <Button onClick={onSaveSelectedTodo} disabled={!canSave}>Edit Todo</Button>
         </DialogActions>
       </Dialog>
     </LocalizationProvider>

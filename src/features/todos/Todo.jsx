@@ -46,7 +46,13 @@ const Todo = ({todoId})=>{
 
     
     if(todo && users){
-        
+
+        const statusClassName = todo.status === 'PENDING'
+        ? 'status_pending'
+        : todo.status === 'IN PROGRESS'
+          ? 'status_in-progress'
+          : 'status_completed';
+
         const date = moment.utc(todo.date).local()
         const dateFormatted = date.format('MMMM D, YYYY')
         return(
@@ -61,9 +67,9 @@ const Todo = ({todoId})=>{
                     <div className="todo_card--status">
                         <div className="todosBtn_container">
                             <Button onClick={handleClickOpen}color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Edit/></Button>
-                            <EditTodoForm open={open} handleClose={handleClose} users={users}/>
+                            <EditTodoForm open={open} handleClose={handleClose} users={users} todo={todo}/>
                             <div className="todo_status">
-                                <h3>STATUS:{todo.status}</h3>
+                                <h3>STATUS:<div className={statusClassName}>{todo.status}</div></h3>
 
                             </div>
                             <Button onClick={onDeleteTodo} color="error" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Delete/></Button>
