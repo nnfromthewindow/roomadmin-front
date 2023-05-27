@@ -97,6 +97,17 @@ export const todosApiSlice = apiSlice.injectEndpoints({
             { type: 'Todo', id: arg.id }
         ]
     }),
+    updateEmployeeTodo: builder.mutation({
+        query: ({ username, ...initialTodo})=> ({
+            url: `todos/${username}`,
+            method: 'PATCH',
+            body: initialTodo,
+            
+        }),
+        invalidatesTags: (result, error, arg) => [
+            { type: 'Todo', id: arg.id }
+        ]
+    }),
     deleteTodo: builder.mutation({
         query: ({ id }) => ({
             url: `/todos`,
@@ -115,6 +126,7 @@ export const {
     useGetTodosByUserQuery,
     useAddNewTodoMutation,
     useUpdateTodoMutation,
+    useUpdateEmployeeTodoMutation,
     useDeleteTodoMutation,
 } = todosApiSlice
 

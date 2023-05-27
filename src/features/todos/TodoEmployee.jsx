@@ -1,10 +1,12 @@
-import { useGetTodosByUserQuery, useUpdateTodoMutation, selectTodoById } from "./todosApiSlice"
+import { useUpdateEmployeeTodoMutation } from "./todosApiSlice";
 import { memo } from "react";
 import { PlayCircle, CheckCircle } from "@mui/icons-material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import moment from "moment";
+import dayjs from 'dayjs';
+import { Button } from "@mui/material";
 
-const TodoEmployee = ({todoId}) => {
+const TodoEmployee = ({todoId, username, date, description, status, employee}) => {
    /* 
     const{todo}=useGetTodosByUserQuery("todosEmployeeList",{
         selectFromResult: ({data})=>({
@@ -14,51 +16,55 @@ const TodoEmployee = ({todoId}) => {
     })
 
     */
-    const todo = useSelector((state) => selectTodoById(state,todoId))
+    //const todo = useSelector((state) => selectTodoById(state,todoId))
    
-    console.log(todoId)
-    const [updateTodo, {
+    const [updateEmployeeTodo, {
         isLoading,
         isSuccess,
         isError,
         error
-      }] = useUpdateTodoMutation()
+      }] = useUpdateEmployeeTodoMutation()
 
     
-    const [status, setStatus] = useState(todo.status);    
+   // const [status, setStatus] = useState(status);    
+
+   const canSave = [todoId, date, employee, description, status, username].every(Boolean) && !isLoading  
 
     const handleInProgress = async (e) =>{
-      /*  e.preventDefault()
-        todo.status='IN PROGRESS'
-        await updateTodo({id:todo.id, date:todo.date, employee:todo.employee, description:todo.description, status:todo.status})
-    */
+        e.preventDefault()
+        status='IN PROGRESS'
+        if(canSave){
+            await updateEmployeeTodo({id:todoId, date:date, description:description, status:status, employee:employee, username:username})
+        }
+      
+    
     }
 
     const handleCompleted = async (e) =>{
-        /*
         e.preventDefault()
-        todo.status='COMPLETED'
-        await updateTodo({id:todo.id, date:todo.date, employee:todo.employee, description:todo.description, status:todo.status})
-    */
+        status='COMPLETED'
+        if(canSave){
+            await updateEmployeeTodo({id:todoId, date:date, description:description, status:status, employee:employee, username:username})
+        }
     }
 
-    if(todo){
+    if(todoId && date && description && status && employee && username){
 
-        const statusClassName = todo.status === 'PENDING'
+        const statusClassName = status === 'PENDING'
         ? 'status_pending'
-        : todo.status === 'IN PROGRESS'
+        : status === 'IN PROGRESS'
           ? 'status_in-progress'
           : 'status_completed';
 
-        const date = moment.utc(todo.date).local()
-        const dateFormatted = date.format('MMMM D, YYYY')
+        const dateMoment = moment.utc(date).local()
+        const dateFormatted = dateMoment.format('MMMM D, YYYY')
         return(
             <div className="todo_card">
                 <h2 className="todo_date">{dateFormatted}</h2>
                 <div className="todo_card--container">
 
                     <div className="todo_card--text">
-                        <h3 className="todo_description">{todo.description}</h3>
+                        <h3 className="todo_description">{description}</h3>
                         <h3 className="todo_status"></h3>
                     </div>
 
@@ -67,7 +73,7 @@ const TodoEmployee = ({todoId}) => {
                             <Button onClick={handleInProgress}color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><PlayCircle/></Button>
                             
                             <div className="todo_status">
-                                <h3>STATUS:<div className={statusClassName}>{todo.status}</div></h3>
+                                <h3>STATUS:<div className={statusClassName}>{status}</div></h3>
 
                             </div>
                             <Button onClick={handleCompleted} color="error" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><CheckCircle/></Button>

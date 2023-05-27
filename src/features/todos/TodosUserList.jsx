@@ -2,6 +2,8 @@ import { useGetTodosByUserQuery } from "./todosApiSlice";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
+import TodoEmployee from "./TodoEmployee";
+
 
 const TodosUserList = () =>{
     let {username} = useParams();
@@ -28,6 +30,7 @@ const TodosUserList = () =>{
         </div>
         } else if (isSuccess){
             const{ids, entities} = todos
+            /*
         content = (
             <section className="todos">
                 <h1 className="main_title">TODOS</h1>
@@ -42,6 +45,18 @@ const TodosUserList = () =>{
                 <Link to="/welcome">Back to Welcome</Link>
             </section>
             )
+            */
+            content = (
+                <section className="todos_list">
+                    
+                    <h1 className="main_title">TODOS</h1>
+
+                    {ids.map((todoId)=>{
+                   return <TodoEmployee key={todoId} todoId={todoId} username={username} date={entities[todoId].date} description={entities[todoId].description} status={entities[todoId].status} employee={entities[todoId].employee}/>})}
+                </section>
+                
+                )
+
         }else if(isError){
             content = <p>{JSON.stringify(error)}</p>
         }
