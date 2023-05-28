@@ -1,7 +1,10 @@
 import { useGetBookingsQuery } from "./bookingsApiSlice"
+import { useGetCustomersQuery } from "../customers/customersApiSlice"
+import { useGetRatesQuery } from "../rates/ratesApiSlice"
+import { useGetRoomsQuery } from "../rooms/roomsApiSlice"
 import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
-
+import BookingsCalendar from "./BookingsCalendar"
 
 const Bookings = () => {
   const {
@@ -12,6 +15,13 @@ const Bookings = () => {
     error
   } = useGetBookingsQuery()
  
+  const {data:customers} = useGetCustomersQuery()
+
+  const {data:rooms} = useGetRoomsQuery()
+
+  const {data:rates} = useGetRatesQuery()
+
+  console.log(customers)
   let content
 
   
@@ -28,7 +38,7 @@ wrapperClass="blocks-wrapper"
 colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
 />
 </div>
-  } else if (isSuccess){
+  } else if (isSuccess && customers && rooms && rates){
 
     const {ids, entities} = bookings
 
@@ -52,6 +62,7 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           </ul>
         
           <Link to="/welcome">Back to Welcome</Link>
+          <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} rates={rates}/>    
       </section>
       )
   }else if(isError){
