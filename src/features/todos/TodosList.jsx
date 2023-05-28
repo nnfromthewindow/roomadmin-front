@@ -1,7 +1,7 @@
 import { useGetTodosQuery, useDeleteTodoMutation } from "./todosApiSlice";
 import { ColorRing } from "react-loader-spinner";
 import Todo from "./Todo";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { AddCircleOutline} from "@mui/icons-material";
 import { lightBlue } from "@mui/material/colors";
 import { useState, useEffect } from "react";
@@ -16,7 +16,7 @@ const TodosList = () =>{
     isSuccess,
     isError,
     error
-    } = useGetTodosQuery('notesList', {
+    } = useGetTodosQuery('todosList', {
         pollingInterval: 15000,
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
@@ -25,7 +25,8 @@ const TodosList = () =>{
 
     const{data:users}=useGetUsersQuery()
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
+    const [filter, setFilter] = useState("")
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -35,7 +36,9 @@ const TodosList = () =>{
       setOpen(false);
     };
 
-  
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+      }
 
   
     let content
@@ -55,7 +58,19 @@ const TodosList = () =>{
     } else if (isSuccess){
 
         const{ids, entities} = todos
-      
+        const{ entities:usersEntities} = users
+
+        const filteredIds = ids.filter((todoId) => {
+            const todo = entities[todoId];
+            const user = usersEntities[todo.employee];
+            return (
+              todo &&
+              user &&
+              user.name.toLowerCase().includes(filter.toLowerCase()) ||
+              user.lastname.toLowerCase().includes(filter.toLowerCase()) ||
+              todo.date.includes(filter)
+            );
+          });
         content = (
             <section className="todos_list">
                 
@@ -63,8 +78,19 @@ const TodosList = () =>{
                 <div className="todosBtn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
                 <NewTodoForm open={open} handleClose={handleClose} users={users}/>
+               
                 </div>
-                {ids.map((todoId)=>{
+                <div className="filter_container">
+                    <TextField
+                    label="Filter"
+                    variant="outlined"
+                    value={filter}
+                    onChange={handleFilterChange}
+                    sx={{marginTop:'2rem', width: "80%" }}
+                    />
+                </div>
+                
+                {filteredIds.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}
             </section>
             

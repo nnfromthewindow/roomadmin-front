@@ -2,6 +2,7 @@ import { useGetBookingsQuery } from "./bookingsApiSlice"
 import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
 
+
 const Bookings = () => {
   const {
     data:bookings,
@@ -12,6 +13,8 @@ const Bookings = () => {
   } = useGetBookingsQuery()
  
   let content
+
+  
 
   if(isLoading){
     content = <div className="spinner">
@@ -47,6 +50,7 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
               </li>
               })}
           </ul>
+        
           <Link to="/welcome">Back to Welcome</Link>
       </section>
       )

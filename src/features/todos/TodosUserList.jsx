@@ -1,5 +1,4 @@
 import { useGetTodosByUserQuery } from "./todosApiSlice";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import TodoEmployee from "./TodoEmployee";
@@ -12,7 +11,12 @@ const TodosUserList = () =>{
         isLoading,
         isSuccess,
         isError,
-        error} = useGetTodosByUserQuery(username)
+        error} = useGetTodosByUserQuery(username,{
+            pollingInterval: 15000,
+            refetchOnFocus: true,
+            refetchOnMountOrArgChange: true
+        })
+        
 
         let content
     
@@ -29,23 +33,9 @@ const TodosUserList = () =>{
     />
         </div>
         } else if (isSuccess){
+            
             const{ids, entities} = todos
-            /*
-        content = (
-            <section className="todos">
-                <h1 className="main_title">TODOS</h1>
-                <ul>
-                    {ids.map(todoId =>{
-                    return <li key={todoId}>
-                        <h2>{entities[todoId].description}</h2>
-                        <h3>Status:{entities[todoId].status}</h3>
-                    </li>
-                    })}
-                </ul>
-                <Link to="/welcome">Back to Welcome</Link>
-            </section>
-            )
-            */
+   
             content = (
                 <section className="todos_list">
                     

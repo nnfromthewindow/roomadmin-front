@@ -230,6 +230,7 @@ margin: 0 auto;
 padding-bottom: 2rem;
 text-shadow: 1px 1px 2px black;
 width: 90%;
+word-wrap: break-word;
 }
 
 .todo_card--container{
@@ -255,6 +256,10 @@ text-shadow: 1px 1px 6px black;
 
 .todosBtn_container{
 text-align: center;
+}
+
+.filter_container{
+    text-align: center;
 }
 
 .todo_employee{

@@ -1,23 +1,11 @@
 import { useUpdateEmployeeTodoMutation } from "./todosApiSlice";
 import { memo } from "react";
 import { PlayCircle, CheckCircle } from "@mui/icons-material";
-import { useState } from "react";
 import moment from "moment";
-import dayjs from 'dayjs';
 import { Button } from "@mui/material";
 
 const TodoEmployee = ({todoId, username, date, description, status, employee}) => {
-   /* 
-    const{todo}=useGetTodosByUserQuery("todosEmployeeList",{
-        selectFromResult: ({data})=>({
-            todo: data?.entities[todoId]
-            
-        }),    
-    })
-
-    */
-    //const todo = useSelector((state) => selectTodoById(state,todoId))
-   
+ 
     const [updateEmployeeTodo, {
         isLoading,
         isSuccess,
@@ -25,8 +13,6 @@ const TodoEmployee = ({todoId, username, date, description, status, employee}) =
         error
       }] = useUpdateEmployeeTodoMutation()
 
-    
-   // const [status, setStatus] = useState(status);    
 
    const canSave = [todoId, date, employee, description, status, username].every(Boolean) && !isLoading  
 
