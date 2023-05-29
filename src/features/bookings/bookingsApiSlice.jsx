@@ -34,11 +34,48 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
                 } else return [{type: 'Booking', id:'LIST'}]
             }
         }),
+        addNewBooking: builder.mutation({
+            query: initialBooking => ({
+                url: '/bookings',
+                method: 'POST',
+                body: {
+                    ...initialBooking,
+                }
+            }),
+            invalidatesTags: [
+                { type: 'Booking', id: "LIST" }
+            ]
+        }),
+        updateBooking: builder.mutation({
+            query: initialBooking => ({
+                url: '/bookings',
+                method: 'PATCH',
+                body: {
+                    ...initialBooking,
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Booking', id: arg.id }
+            ]
+        }),
+        deleteBooking: builder.mutation({
+            query: ({ id }) => ({
+                url: `/bookings`,
+                method: 'DELETE',
+                body: { id }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Booking', id: arg.id }
+            ]
+        }),
     })
 })
 
 export const {
-    useGetBookingsQuery
+    useGetBookingsQuery,
+    useAddNewBookingMutation,
+    useUpdateBookingMutation,
+    useDeleteBookingMutation
 } = bookingsApiSlice
 
 export const selectBookingsResult = bookingsApiSlice.endpoints.getBookings.select()

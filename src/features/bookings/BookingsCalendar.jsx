@@ -35,12 +35,12 @@ const events = bookingIds.map(bookingId=>{
   const booking = bookingEntities[bookingId]
   const customer = customersEntities[booking.client]
   const room = roomsEntities[booking.room]
-  const incomeDateJs = moment(booking.income, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
-  const outcomeDateJs = moment(booking.outcome, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+  const checkinDateJs = moment(booking.checkin, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+  const checkoutDateJs = moment(booking.checkout, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
 
   return {
-    start:incomeDateJs,
-    end: outcomeDateJs,
+    start:checkinDateJs,
+    end: checkoutDateJs,
     title: `${room.number} - ${customer.name} ${customer.lastname}`,
    
   }
