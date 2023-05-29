@@ -34,18 +34,18 @@ let state
 const events = bookingIds.map(bookingId=>{
   const booking = bookingEntities[bookingId]
   const customer = customersEntities[booking.client]
-  console.log(booking)
-  console.log(customer)
+  const room = roomsEntities[booking.room]
+  const incomeDateJs = moment(booking.income, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+  const outcomeDateJs = moment(booking.outcome, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+
   return {
-    start:booking.income,
-    end:booking.outcome,
-    title: `${customer.name} ${customer.lastname}`
+    start:incomeDateJs,
+    end: outcomeDateJs,
+    title: `${room.number} - ${customer.name} ${customer.lastname}`,
+   
   }
  })
-  
-    state = {
-        events: events
-      };
+
     
       
         return (
@@ -53,12 +53,14 @@ const events = bookingIds.map(bookingId=>{
 
             <DnDCalendar
             localizer={localizer}
-            events={state.events}
+            events={events}
             draggableAccessor={(event) => true}
             defaultDate={new Date()}
             defaultView="month"
             style={{ height: "100vh" }}
             onEventDrop={onEventDrop}
+            
+            
   />
           </div>
         );

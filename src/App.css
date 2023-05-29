@@ -194,8 +194,15 @@ font-family: 'Dosis', sans-serif;
 font-size: 3em ;
 padding: 1rem;
 text-align: center;
-
 }
+
+.btn_container{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 80%;
+    }
+    
 
 .todo_card{
 background-color: var(--card-background);
@@ -204,13 +211,6 @@ height: auto;
 margin: 2rem auto;
 padding: 1rem 0;
 transition: 1s;
-}
-
-.todosBtn_container{
-display: flex;
-justify-content: space-between;
-margin: 0 auto;
-width: 80%;
 }
 
 .todo_date{
@@ -290,6 +290,10 @@ text-align: center;
     font-family: 'Dosis', sans-serif;
     text-shadow: 0px 0px 6px rgb(0, 0, 0);
 
+}
+
+.calendar_container{
+margin-top: 3rem;
 }
 
 @media only screen and (max-width: 285px) {

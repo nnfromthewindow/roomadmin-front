@@ -65,7 +65,7 @@ const Todo = ({todoId})=>{
                         <h3 className="todo_status"></h3>
                     </div>
                     <div className="todo_card--status">
-                        <div className="todosBtn_container">
+                        <div className="btn_container">
                             <Button onClick={handleClickOpen}color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><Edit/></Button>
                             <EditTodoForm open={open} handleClose={handleClose} users={users} todo={todo}/>
                             <div className="todo_status">

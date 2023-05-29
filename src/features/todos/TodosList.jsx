@@ -75,7 +75,7 @@ const TodosList = () =>{
             <section className="todos_list">
                 
                 <h1 className="main_title">TODOS</h1>
-                <div className="todosBtn_container">
+                <div className="btn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
                 <NewTodoForm open={open} handleClose={handleClose} users={users}/>
                

@@ -5,6 +5,12 @@ import { useGetRoomsQuery } from "../rooms/roomsApiSlice"
 import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
 import BookingsCalendar from "./BookingsCalendar"
+import { Button } from "@mui/material"
+import { AddCircleOutline } from "@mui/icons-material"
+import { lightBlue } from "@mui/material/colors"
+import NewBookingForm from "./NewBookingForm"
+import { useState } from "react"
+
 
 const Bookings = () => {
   const {
@@ -21,7 +27,17 @@ const Bookings = () => {
 
   const {data:rates} = useGetRatesQuery()
 
-  console.log(customers)
+  const [open, setOpen] = useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   let content
 
   
@@ -42,6 +58,21 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
 
     const {ids, entities} = bookings
 
+    content = (
+      <section className="bookings">
+          <h1 className="main_title">BOOKINGS</h1>
+          <div className="btn_container">
+                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Booking</Button>
+                <NewBookingForm open={open} handleClose={handleClose}/>
+                </div>
+                <div className="calendar_container">
+                <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} rates={rates}/>
+                </div>
+              
+      </section>
+      
+      )
+/*
   content = (
       <section className="bookings">
           <h1 className="main_title">BOOKINGS</h1>
@@ -65,6 +96,8 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} rates={rates}/>    
       </section>
       )
+*/
+
   }else if(isError){
       content = <p>{JSON.stringify(error)}</p>
   }
