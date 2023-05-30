@@ -27,10 +27,25 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
   const [room, setRoom] = useState('')
   const [passengers, setPassengers] = useState('')
   const [customer, setCustomer] = useState('')
-  const [cost, setCost] = useState('')
+  const [cost, setCost] = useState(0)
   const [discount, setDiscount] = useState(0)
-  const [total, setTotal] = useState(0)
+  const [totalCost, setTotalCost] = useState(0)
   const [note, setNote] = useState('')
+
+  useEffect (()=>{
+  if(cost ){
+    const rawNumber = cost.replace(/\./g, '');
+    const discountedRawNumber = rawNumber - (Math.round((rawNumber*discount)/100) )
+    if (/^\d*\.?\d*$/.test(discountedRawNumber)) {
+
+      const formattedNumber = Number(discountedRawNumber).toLocaleString('es-ES');
+
+      setTotalCost(formattedNumber);
+    }
+  }
+  },[cost, discount, totalCost])
+
+  const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate
 
   const handleRoomChange = (event) => {
     setRoom(event.target.value);
@@ -48,13 +63,30 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
    
     const inputValue = event.target.value;
    
-    if (/^\d*\.?\d*$/.test(inputValue)) {
-      setCost(inputValue);
-    }
+    const rawNumber = inputValue.replace(/\./g, '');
 
+    if (/^\d*\.?\d*$/.test(rawNumber)) {
+
+      const formattedNumber = Number(rawNumber).toLocaleString('es-ES');
+
+      setCost(formattedNumber);
+    }
+    
   };
 
-  const formattedCost = Number(cost).toLocaleString();
+  const handleDiscountChange = (event) => {
+   
+    const inputValue = event.target.value;
+
+    if (inputValue === '' || /^\d*\.?\d+$/.test(inputValue)) {
+      setDiscount(inputValue);
+    }
+  };
+
+  const handleNoteChange = (event) => {
+    setNote(event.target.value);
+  };
+
 
   const maxPassengersPerRoom = 10
   let numberOfPassengers = [];
@@ -92,10 +124,10 @@ return (
         <DialogContent>
 
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
-        <MobileDatePicker disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate}/>
+        <MobileDatePicker disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
 
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
-        <MobileDatePicker disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate}/>
+        <MobileDatePicker disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
 
         <InputLabel id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
         <Select required
@@ -103,7 +135,7 @@ return (
             id="customer"
             value={customer}
             variant="filled"
-            sx={{width:'100%'}}
+            fullWidth
             onChange={handleCustomerChange}
         >
             {customersOptions}
@@ -119,7 +151,7 @@ return (
             id="room"
             value={room}
             variant="filled"
-            sx={{width:'100%'}}
+            fullWidth
             onChange={handleRoomChange}
         >
             {roomOptions}
@@ -153,11 +185,53 @@ return (
           
           />
 
+        <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
+        <TextField required
+            margin="dense"
+            id="discount"
+            type="number"
+            fullWidth
+            variant="filled"
+            value={discount}
+            onChange={handleDiscountChange}     
+            InputProps={{
+              startAdornment: <InputAdornment position="start">%</InputAdornment>,
+            }}
+          />
+
+        <InputLabel id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
+        <TextField required
+            margin="dense"
+            id="totalCost"
+            type="text"
+            fullWidth
+            variant="filled"
+            value={totalCost}
+            onChange={handleCostChange}     
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              
+            }}
+          
+          />
+
+          <TextField 
+            margin="dense"
+            id="note"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            variant="filled"
+            value={note}
+            onChange={handleNoteChange}
+          />
+
         
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button >Add Todo</Button>
+          <Button disabled={!canSave}>Add Booking</Button>
         </DialogActions>
       </Dialog>
     </LocalizationProvider>

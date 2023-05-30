@@ -77,7 +77,7 @@ return (
         <DialogContent>
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Date</InputLabel>
 
-        <MobileDatePicker disablePast  onChange={(newDate) => setDate(newDate)} value={date}/>
+        <MobileDatePicker autoFocus disablePast  onChange={(newDate) => setDate(newDate)} value={date}/>
         <InputLabel id="employee-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Employee</InputLabel>                   
         <Select required
             labelId="employee-label"
@@ -91,7 +91,6 @@ return (
         </Select>
         <InputLabel id="description-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Description</InputLabel>
         <TextField required
-            autoFocus
             margin="dense"
             id="description"
             type="text"
