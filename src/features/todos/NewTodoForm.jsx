@@ -41,6 +41,13 @@ const NewTodoForm = ({open, handleClose, users}) =>{
       }
     },[isSuccess])
 
+    useEffect(()=>{
+      setDate(dayjs())
+      setEmployee('')
+      setDescription('')
+      setStatus('')
+    },[handleClose])
+
     const handleEmployeeChange = (event) => {
       setEmployee(event.target.value);
     };

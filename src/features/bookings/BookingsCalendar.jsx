@@ -6,9 +6,9 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import dayjs from "dayjs";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
+import { useMemo } from "react";
 const localizer = momentLocalizer(moment);
-const DnDCalendar = withDragAndDrop(Calendar)
+//const DnDCalendar = withDragAndDrop(Calendar)
 
 
 const onEventDrop = ({event, start, end, allDay}) => {
@@ -33,10 +33,12 @@ let state
 
 const events = bookingIds.map(bookingId=>{
   const booking = bookingEntities[bookingId]
-  const customer = customersEntities[booking.client]
+  const customer = customersEntities[booking.customer]
   const room = roomsEntities[booking.room]
-  const checkinDateJs = moment(booking.checkin, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
-  const checkoutDateJs = moment(booking.checkout, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+  //const checkinDateJs = moment(booking.checkin, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+  //const checkoutDateJs = moment(booking.checkout, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+  const checkinDateJs = booking.checkin
+  const checkoutDateJs = booking.checkout
 
   return {
     start:checkinDateJs,
@@ -46,22 +48,19 @@ const events = bookingIds.map(bookingId=>{
   }
  })
 
+
     
       
         return (
           <div >
-
-            <DnDCalendar
-            localizer={localizer}
-            events={events}
-            draggableAccessor={(event) => true}
-            defaultDate={new Date()}
-            defaultView="month"
-            style={{ height: "100vh" }}
-            onEventDrop={onEventDrop}
-            
-            
-  />
+<Calendar
+      localizer={localizer}
+      events={events}
+      startAccessor="start"
+      endAccessor="end"
+      style={{ height: "100vh" }}
+    />
+           
           </div>
         );
       

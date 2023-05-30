@@ -20,7 +20,7 @@ const Bookings = () => {
     isError,
     error
   } = useGetBookingsQuery()
- 
+
   const {data:customers} = useGetCustomersQuery()
 
   const {data:rooms} = useGetRoomsQuery()
@@ -74,8 +74,19 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
       )
 
   }else if(isError){
-      content = <p>{JSON.stringify(error)}</p>
-  }
+
+    content = (
+      <section className="bookings">
+          <h1 className="main_title">BOOKINGS</h1>
+          <div className="btn_container">
+                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Booking</Button>
+                <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms} rates={rates} bookings={bookings}/>
+                </div>
+               <h1 className="main_title">NO BOOKINGS FOUND</h1>
+              
+      </section>
+    )  
+}
 
   return content
 }

@@ -12,15 +12,16 @@ import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import moment from 'moment';
 import { useAddNewBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
 
 const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
    
-  const{ids:customersIds,entities:customersEntities} = customers
-  const{ids:roomsIds,entities:roomsEntities} = rooms
-  const{ids:ratesIds,entities:ratesEntities} = rates
-  const{ids:bookingsIds,entities:bookingsEntities} = bookings
+  const{ids:customersIds,entities:customersEntities} = customers || {} 
+  const{ids:roomsIds,entities:roomsEntities} = rooms || {}
+  const{ids:ratesIds,entities:ratesEntities} = rates || {}
+  const{ids:bookingsIds,entities:bookingsEntities} = bookings || {}
 
   const [checkinDate, setCheckinDate] = useState('')
   const [checkoutDate, setCheckoutDate] = useState('')
@@ -32,8 +33,15 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
   const [totalCost, setTotalCost] = useState(0)
   const [note, setNote] = useState('')
 
+  const [addNewBooking, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  }] = useAddNewBookingMutation()
+
   useEffect (()=>{
-  if(cost ){
+  if(cost){
     const rawNumber = cost.replace(/\./g, '');
     const discountedRawNumber = rawNumber - (Math.round((rawNumber*discount)/100) )
     if (/^\d*\.?\d*$/.test(discountedRawNumber)) {
@@ -45,7 +53,48 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
   }
   },[cost, discount, totalCost])
 
+  useEffect (()=>{
+    setCheckinDate('')
+    setCheckoutDate('')
+    setCustomer('')
+    setRoom('')
+    setPassengers('')
+    setCost(0)
+    setDiscount(0)
+    setTotalCost(0)
+    setNote('')
+  },[handleClose])
+
+  useEffect (()=>{
+
+    if(isSuccess){
+      setCheckinDate('')
+      setCheckoutDate('')
+      setCustomer('')
+      setRoom('')
+      setPassengers('')
+      setCost(0)
+      setDiscount(0)
+      setTotalCost(0)
+      handleClose()
+      setNote('')
+    }    
+  },[isSuccess])
+
   const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate
+
+  const onSaveNewBooking = async (e) =>{
+    e.preventDefault()
+    if(canSave){
+     
+      let checkin = moment(checkinDate.$d, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+      let checkout = moment(checkoutDate.$d, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+
+      console.log(checkin, checkout, customer, room, passengers, cost, discount, totalCost, note)
+
+      await addNewBooking({checkin, checkout, customer, room, passengers, value:cost, discount, totalValue:totalCost, note})
+    }
+  }
 
   const handleRoomChange = (event) => {
     setRoom(event.target.value);
@@ -78,7 +127,7 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
    
     const inputValue = event.target.value;
 
-    if (inputValue === '' || /^\d*\.?\d+$/.test(inputValue)) {
+    if (inputValue === '' || /^\d*\.?\d+$/.test(inputValue)  && inputValue <= 100) {
       setDiscount(inputValue);
     }
   };
@@ -96,11 +145,11 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
   }
   
 
-  const roomOptions = roomsIds.map(roomId => {
+  const roomOptions = roomsIds ? ( roomsIds.map(roomId => {
     return(
       <MenuItem key={roomId} value={roomId}>{roomsEntities[roomId].number} </MenuItem>
     )
-  })
+  })) : null
 
   const passengersOptions = numberOfPassengers.map(number => {
     return(
@@ -108,11 +157,11 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
     )
   })
 
-  const customersOptions = customersIds.map(customerId => {
+  const customersOptions = customersIds ? (customersIds.map(customerId => {
     return(
       <MenuItem key={customerId} value={customerId}>{customersEntities[customerId].name} {customersEntities[customerId].lastname}</MenuItem>
     )
-  })
+  })) : null
 
 
 return (
@@ -214,7 +263,7 @@ return (
             }}
           
           />
-
+        <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
           <TextField 
             margin="dense"
             id="note"
@@ -231,7 +280,7 @@ return (
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button disabled={!canSave}>Add Booking</Button>
+          <Button disabled={!canSave} onClick={onSaveNewBooking}>Add Booking</Button>
         </DialogActions>
       </Dialog>
     </LocalizationProvider>

@@ -11,7 +11,7 @@ export const customersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder =>({
     getCustomers: builder.query({
         query: ()=>({
-            url:'/clients',
+            url:'/customers',
         validateStatus: (response, result)=>{
             return response.status === 200 && !result.isError},
         }),
