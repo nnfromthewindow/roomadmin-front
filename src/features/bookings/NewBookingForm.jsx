@@ -89,10 +89,10 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
      
       let checkin = moment(checkinDate.$d, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
       let checkout = moment(checkoutDate.$d, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
+      let rawTotalCost = cost.replace(/\./g, '')
+      let rawTotalDiscountedCost = totalCost.replace(/\./g, '')
 
-      console.log(checkin, checkout, customer, room, passengers, cost, discount, totalCost, note)
-
-      await addNewBooking({checkin, checkout, customer, room, passengers, value:cost, discount, totalValue:totalCost, note})
+      await addNewBooking({checkin, checkout, customer, room, passengers, value:rawTotalCost, discount, totalValue:rawTotalDiscountedCost, note})
     }
   }
 
