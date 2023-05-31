@@ -76,8 +76,8 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
       setCost(0)
       setDiscount(0)
       setTotalCost(0)
-      handleClose()
       setNote('')
+      handleClose()
     }    
   },[isSuccess])
 
@@ -93,6 +93,7 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
       let rawTotalDiscountedCost = totalCost.replace(/\./g, '')
 
       await addNewBooking({checkin, checkout, customer, room, passengers, value:rawTotalCost, discount, totalValue:rawTotalDiscountedCost, note})
+      handleClose()
     }
   }
 
