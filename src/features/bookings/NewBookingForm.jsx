@@ -10,8 +10,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
 import moment from 'moment';
 import { useAddNewBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -81,7 +79,7 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
     }    
   },[isSuccess])
 
-  const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate
+  const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate && cost > 0
 
   const onSaveNewBooking = async (e) =>{
     e.preventDefault()

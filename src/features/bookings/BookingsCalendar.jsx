@@ -1,26 +1,25 @@
-
 import { Calendar, momentLocalizer,Views } from "react-big-calendar";
-
 import moment from "moment";
-
+import EditBookingForm from "./EditBookingForm";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useMemo, useRef, useEffect, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 
-
-const localizer = momentLocalizer(moment);
-
-const onEventDrop = ({event, start, end, allDay}) => {
- /* console.log(event)
-  console.log(start)
-  console.log(end)
-  console.log(allDay)
-*/
-}
 
 const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
 
+  const localizer = momentLocalizer(moment);
+
+  const [selectedBooking, setSelectedBooking] = useState('')
+  const [open, setOpen] = useState(false);
+
   const clickRef = useRef(null)
+
+  const handleClose = () => {
+        setOpen(false);
+      };
+  
+ 
 
   useEffect(() => {
     /**
@@ -28,6 +27,7 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
      * This is to prevent a memory leak, in the off chance that you
      * teardown your interface prior to the timed method being called.
      */
+
     return () => {
       window.clearTimeout(clickRef?.current)
     }
@@ -43,7 +43,9 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
      */
     window.clearTimeout(clickRef?.current)
     clickRef.current = window.setTimeout(() => {
-      console.log(calEvent, 'onSelectEvent')
+      setSelectedBooking(calEvent)
+      setOpen(true)
+
     }, 250)
   }, [])
 
@@ -53,9 +55,13 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
      */
     window.clearTimeout(clickRef?.current)
     clickRef.current = window.setTimeout(() => {
-      console.log(calEvent, 'onDoubleClickEvent')
+      setSelectedBooking(calEvent)
+      setOpen(true)
+
     }, 250)
   }, [])
+
+ 
 
 
   const {ids:bookingIds, entities: bookingEntities} = bookings
@@ -65,6 +71,7 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
   const {ids:roomsIds, entities: roomsEntities} = rooms
 
   const {ids:ratesIds, entities: ratesEntities} = rates  
+  
 
 let bookingEvents = bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId];
@@ -77,6 +84,7 @@ let bookingEvents = bookingIds.map((bookingId) => {
     start: new Date(checkinDateJs),
     end: new Date (checkoutDateJs),
     title: `${room.number} - ${customer.name} ${customer.lastname}`,
+    booking: booking,
     allDay: false,
     
   }
@@ -103,6 +111,7 @@ let bookingEvents = bookingIds.map((bookingId) => {
             onSelectEvent={onSelectEvent}
             style={{ height: "100vh" }}
             />
+             <EditBookingForm open={open} handleClose={handleClose} booking={selectedBooking} rooms={rooms} rates={rates} customers={customers}/>
            
           </div>
         );
