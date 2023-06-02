@@ -79,7 +79,7 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
     }    
   },[isSuccess])
 
-  const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate && cost > 0
+  const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate && cost.replace(/\./g, '') > 0
 
   const onSaveNewBooking = async (e) =>{
     e.preventDefault()

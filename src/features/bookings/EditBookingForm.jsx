@@ -4,8 +4,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, InputLabel, Select, MenuItem } from '@mui/material';
-import { AddCircleOutline } from '@mui/icons-material';
-import { lightBlue } from '@mui/material/colors';
+import { AddCircleOutline, Delete} from '@mui/icons-material';
+import { lightBlue, grey } from '@mui/material/colors';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
@@ -14,33 +14,54 @@ import moment from 'moment';
 import { useUpdateBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
+import DeleteBookingDialog from './deleteBookingDialog';
+import CustomerAddDialog from '../customers/CustomerAddDialog';
 
 const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) => {
     
     const{ids:customersIds,entities:customersEntities} = customers || {} 
     const{ids:roomsIds,entities:roomsEntities} = rooms || {}
     const{ids:ratesIds,entities:ratesEntities} = rates || {}
-
-
-    const [checkinDate, setCheckinDate] = useState(booking && dayjs(booking.booking.checkin))
-    const [checkoutDate, setCheckoutDate] = useState(booking && dayjs(booking.booking.checkout))
-    const [room, setRoom] = useState(booking && booking.booking.room)
-    const [passengers, setPassengers] = useState(booking && booking.booking.passengers)
-    const [customer, setCustomer] = useState(customers && booking && booking.booking.customer)
-    const [cost, setCost] = useState(booking && booking.booking.value.$numberDecimal)
-    const [discount, setDiscount] = useState(booking && booking.booking.discount)
-    const [totalCost, setTotalCost] = useState(booking && booking.booking.totalValue.$numberDecimal)
-    const [note, setNote] = useState(booking && booking.booking.note)
-  
+ 
+    const selectedBooking = booking
 
     
+      const [checkinDate, setCheckinDate] = useState(dayjs(booking.checkin))
+      const [checkoutDate, setCheckoutDate] = useState(dayjs(booking.checkout))
+    const [room, setRoom] = useState('')
+    const [passengers, setPassengers] = useState('')
+    const [customer, setCustomer] = useState('')
+    const [cost, setCost] = useState('')
+    const [discount, setDiscount] = useState('')
+    const [totalCost, setTotalCost] = useState('')
+    const [note, setNote] = useState('')
+    const [openDelete, setOpenDelete] = useState(false);
+    const [openCustomer, setOpenCustomer] = useState(false);
+      
     const [updateBooking, {
       isLoading,
       isSuccess,
       isError,
       error
     }] = useUpdateBookingMutation()
-  
+    
+    useEffect(() => {
+      if (booking) {
+        setCheckinDate(dayjs(booking.checkin));
+        setCheckoutDate(dayjs(booking.checkout));
+        setRoom([booking.room]);
+        setPassengers(booking.passengers);
+        setCustomer(booking.customer);
+        setCost(booking.value.$numberDecimal
+          );
+        setDiscount(booking.discount);
+        setTotalCost(booking.totalValue.$numberDecimal
+          );
+        setNote(booking.note);
+      }
+    }, [booking]);  
+
+
     useEffect (()=>{
     if(cost){
       const rawNumber = cost.replace(/\./g, '');
@@ -54,7 +75,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
     }
     },[cost, discount, totalCost])
 
-    const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate && cost >0
+    const canSave = [cost, room, passengers, customer, totalCost].every(Boolean) && checkinDate!=checkoutDate && checkinDate < checkoutDate && cost.replace(/\./g, '') >0
   
     const onUpdateBooking = async (e) =>{
       e.preventDefault()
@@ -65,7 +86,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
         let rawTotalCost = cost.replace(/\./g, '')
         let rawTotalDiscountedCost = totalCost.replace(/\./g, '')
   
-        await updateBooking({id:booking.booking.id,checkin, checkout, customer, room, passengers, value:rawTotalCost, discount, totalValue:rawTotalDiscountedCost, note})
+        await updateBooking({id:booking.id,checkin, checkout, customer, room, passengers, value:rawTotalCost, discount, totalValue:rawTotalDiscountedCost, note})
         handleClose()
       }
     }
@@ -106,11 +127,35 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
       }
     };
   
+
     const handleNoteChange = (event) => {
       setNote(event.target.value);
     };
   
+    const handleCloseDelete = () => {
+      setOpenDelete(false);
+      handleClose()
+    };
+
+    const handleCloseCancelDelete = () => {
+      setOpenDelete(false);
+    };
   
+    
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseCustomer = () => {
+    setOpenCustomer(false);
+  };
+
+  
+const handleClickOpenCustomer = () => {
+  setOpenCustomer(true);
+};
+
+
     const maxPassengersPerRoom = 10
     let numberOfPassengers = [];
   
@@ -139,7 +184,8 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
   
   
   return (
-      <form className='todo_form' >
+      <form className='todo_form' style={{zIndex:-1}}>
+      
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog open={open}  onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Booking</DialogTitle>
@@ -164,9 +210,9 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
             {customersOptions}
         </Select>
         <div style={{textAlign:'center'}}>
-        <Button variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Customer</Button>
+        <Button onClick={handleClickOpenCustomer} variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}} />Add Customer</Button>
         </div>
-       
+       <CustomerAddDialog handleClose={handleCloseCustomer} open={openCustomer}/>
 
         <InputLabel id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
         <Select required
@@ -249,7 +295,10 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
             value={note}
             onChange={handleNoteChange}
           />
-
+          <div style={{textAlign:'center'}}>
+          <Button variant="contained" color="error" sx={{width:'80%', marginTop:'1rem', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} onClick={handleClickOpenDelete}><Delete sx={{color:grey[500],}}/>Delete Booking</Button>
+          </div>
+       
   
           </DialogContent>
           <DialogActions>
@@ -258,7 +307,9 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
           </DialogActions>
         </Dialog>
       </LocalizationProvider>
-      
+
+      <DeleteBookingDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} bookingId={booking.id}/>
+
       </form>
   )
   

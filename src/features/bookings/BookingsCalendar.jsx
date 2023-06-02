@@ -43,11 +43,13 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
      */
     window.clearTimeout(clickRef?.current)
     clickRef.current = window.setTimeout(() => {
-      setSelectedBooking(calEvent)
+      //console.log(calEvent.booking)
       setOpen(true)
+      setSelectedBooking(calEvent.booking)
+      
 
     }, 250)
-  }, [])
+  }, [setSelectedBooking])
 
   const onDoubleClickEvent = useCallback((calEvent) => {
     /**
@@ -55,11 +57,12 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
      */
     window.clearTimeout(clickRef?.current)
     clickRef.current = window.setTimeout(() => {
-      setSelectedBooking(calEvent)
       setOpen(true)
+      setSelectedBooking(calEvent.booking)
+      
 
     }, 250)
-  }, [])
+  }, [setSelectedBooking])
 
  
 

@@ -296,6 +296,32 @@ text-align: center;
 margin-top: 3rem;
 }
 
+.rbc-toolbar {
+    font-family: 'Dosis';
+    font-weight: 500;
+    font-size: 1.5em !important;
+}
+.rbc-toolbar button{
+    background: #1976d2b3 !important;
+    background-color: #1976d2b3;
+    cursor: pointer;
+    font-family: 'Dosis';
+    font-weight: 500;
+    font-size: 0.7em;
+}
+
+.rbc-toolbar button:active, .rbc-toolbar button.rbc-active ,.rbc-toolbar button:active{
+    background: #b35a69b3 !important;
+}
+.rbc-toolbar button:hover{
+    background: #d29819b3 !important;
+    transition: 300ms;
+}
+.rbc-today {
+    background-color: #537c1c4d;
+}
+
+
 @media only screen and (max-width: 285px) {
     .developer{
         font-size: 0.8em ;
