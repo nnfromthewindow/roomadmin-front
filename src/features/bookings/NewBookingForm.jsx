@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { useAddNewBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
+import CustomerAddDialog from '../customers/CustomerAddDialog';
 
 const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
    
@@ -30,7 +31,8 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
   const [discount, setDiscount] = useState(0)
   const [totalCost, setTotalCost] = useState(0)
   const [note, setNote] = useState('')
-
+  const [openCustomer, setOpenCustomer] = useState(false);
+    
   const [addNewBooking, {
     isLoading,
     isSuccess,
@@ -120,7 +122,17 @@ const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
       setCost(formattedNumber);
     }
     
-  };
+  }
+
+  const handleCloseCustomer = () => {
+    setOpenCustomer(false);
+  }   
+
+  
+  const handleClickOpenCustomer = () => {
+  setOpenCustomer(true);
+}
+
 
   const handleDiscountChange = (event) => {
    
@@ -189,7 +201,8 @@ return (
             {customersOptions}
         </Select>
         <div style={{textAlign:'center'}}>
-        <Button variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Customer</Button>
+        <Button variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} onClick={handleClickOpenCustomer} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Customer</Button>
+        <CustomerAddDialog handleClose={handleCloseCustomer} open={openCustomer}/>
         </div>
        
 

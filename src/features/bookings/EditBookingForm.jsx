@@ -59,7 +59,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
           );
         setNote(booking.note);
       }
-    }, [booking]);  
+    }, [booking,handleClose]);  
 
 
     useEffect (()=>{
@@ -68,9 +68,11 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
       const discountedRawNumber = rawNumber - (Math.round((rawNumber*discount)/100) )
       if (/^\d*\.?\d*$/.test(discountedRawNumber)) {
   
-        const formattedNumber = Number(discountedRawNumber).toLocaleString('es-ES');
-  
-        setTotalCost(formattedNumber);
+        const formattedTotalCost = Number(discountedRawNumber).toLocaleString('es-ES');
+        const formattedCost = Number(rawNumber).toLocaleString('es-ES');
+        
+        setCost(formattedCost)
+        setTotalCost(formattedTotalCost);
       }
     }
     },[cost, discount, totalCost])
