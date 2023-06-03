@@ -33,6 +33,15 @@ const CustomerAddDialog = ({open, handleClose}) => {
     error
   }] = useAddNewCustomerMutation()
 
+  useEffect(()=>{
+    setName('')
+    setLastname('')
+    setIdNumber('')
+    setAdress('')
+    setEmail('')
+    setPhone('')
+  },[handleClose])
+
   const onSaveNewCustomer = async(e) =>{
     e.preventDefault()
     if(canSave){
