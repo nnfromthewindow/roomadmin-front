@@ -1,6 +1,11 @@
 import { useGetCustomersQuery } from "./customersApiSlice"
-import { Link } from "react-router-dom"
+import { AddCircleOutline } from "@mui/icons-material"
 import { ColorRing } from "react-loader-spinner"
+import CustomersTable from "./CustomersTable"
+import { Button } from "@mui/material"
+import { lightBlue } from "@mui/material/colors"
+import CustomerAddDialog from "./CustomerAddDialog"
+import { useState } from "react"
 
 const CustomersList = () => {
     const{data:customers,
@@ -9,7 +14,18 @@ const CustomersList = () => {
     isError,
     error} = useGetCustomersQuery()
 
+    const [open, setOpen] = useState(false)
+
 let content
+
+const handleClose = () => {
+    setOpen(false);
+  };
+
+  
+const handleClickOpen = () => {
+  setOpen(true);
+};
 
 if(isLoading){
     content = <div className="spinner">
@@ -30,15 +46,11 @@ const {ids, entities} = customers
 content = (
     <section className="customers">
         <h1 className="main_title">CUSTOMERS</h1>
-        <ul>
-            {ids.map(customerId =>{
-            return <li key={customerId}>
-                <h2>NAME: {entities[customerId].name}</h2>
-                <h2>LAST NAME:{entities[customerId].lastname}</h2>
-            </li>
-            })}
-        </ul>
-        <Link to="/welcome">Back to Welcome</Link>
+        <div className="btn_container">
+        <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Customer</Button>
+        </div>
+     <CustomerAddDialog open={open} handleClose={handleClose}/>
+    <CustomersTable customers={customers} />
     </section>
     )
 }else if(isError){
