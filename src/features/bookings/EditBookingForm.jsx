@@ -37,13 +37,24 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
     const [note, setNote] = useState('')
     const [openDelete, setOpenDelete] = useState(false);
     const [openCustomer, setOpenCustomer] = useState(false);
-      
+    
+    const selectedCustomer = customersIds.includes(customer) && customer || ''
+    
     const [updateBooking, {
       isLoading,
       isSuccess,
       isError,
       error
     }] = useUpdateBookingMutation()
+
+    useEffect(()=>{
+      if(customersIds.includes(customer)){
+        setCustomer(booking.id)
+      }else{
+        setCustomer('')
+      }
+    },[])
+    
     
     useEffect(() => {
       if (booking) {
@@ -59,7 +70,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
           );
         setNote(booking.note);
       }
-    }, [booking,handleClose]);  
+    }, [handleClose]);  
 
 
     useEffect (()=>{
@@ -101,7 +112,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
       setPassengers(event.target.value);
     };
   
-    const handleCustomerChange = (event) => {
+    const                                             handleCustomerChange = (event) => {
       setCustomer(event.target.value);
     };
   
@@ -204,7 +215,7 @@ const handleClickOpenCustomer = () => {
         <Select required
             labelId="customer-label"
             id="customer"
-            value={customer}
+            value={selectedCustomer}
             variant="filled"
             fullWidth
             onChange={handleCustomerChange}

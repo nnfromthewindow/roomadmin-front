@@ -19,7 +19,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
 
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
-  const [idNumber, setIdNumber] = useState('')
+  const [idnumber, setIdnumber] = useState('')
   const [adress, setAdress] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -36,7 +36,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
   useEffect(()=>{
     setName('')
     setLastname('')
-    setIdNumber('')
+    setIdnumber('')
     setAdress('')
     setEmail('')
     setPhone('')
@@ -45,7 +45,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
   const onSaveNewCustomer = async(e) =>{
     e.preventDefault()
     if(canSave){
-      await addNewCustomer({name, lastname, idNumber,adress, email, phone})
+      await addNewCustomer({name, lastname, idnumber,adress, email, phone})
       handleClose()
     }
   
@@ -60,7 +60,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
   };
   
   const handleIdNumberChange = (event) => {
-    setIdNumber(event.target.value);
+    setIdnumber(event.target.value);
   };
   
   const handleAdressChange = (event) => {
@@ -78,7 +78,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
     }
   }
 
-  const canSave = [name, lastname, idNumber, adress,phone].every(Boolean)
+  const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
 
     return (
         <form className='todo_form' >
@@ -121,7 +121,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleIdNumberChange}
-                value={idNumber}             
+                value={idnumber}             
               />
 
             <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>

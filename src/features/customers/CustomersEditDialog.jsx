@@ -13,41 +13,41 @@ import { useState, useEffect } from 'react';
 import moment from 'moment';
 import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
-import { useAddNewCustomerMutation } from './customersApiSlice';
+import { useUpdateCustomerMutation } from './customersApiSlice';
 import { memo } from 'react';
 
 const CustomerEditDialog = ({open, handleClose, customer}) => {
 
   const [name, setName] = useState(customer.name)
-  const [lastname, setLastname] = useState(customer.lastname)
-  const [idNumber, setIdNumber] = useState(customer.idnumber)
-  const [adress, setAdress] = useState(customer.adress)
-  const [email, setEmail] = useState(customer.email)
-  const [phone, setPhone] = useState(customer.phone)
+  const [lastname, setLastname] = useState(customer.lastname || '')
+  const [idnumber, setIdNumber] = useState(customer.idnumber || '')
+  const [adress, setAdress] = useState(customer.adress || '')
+  const [email, setEmail] = useState(customer.email || '')
+  const [phone, setPhone] = useState(customer.phone || '')
  
   const phoneRegex = /^[\d+ ]*$/
  
-  const [addNewCustomer, {
+  const [updateCustomer, {
     isLoading,
     isSuccess,
     isError,
     error
-  }] = useAddNewCustomerMutation()
+  }] = useUpdateCustomerMutation()
   
   useEffect(()=>{
-    setName(customer.name)
-    setLastname(customer.lastname)
-    setIdNumber(customer.idnumber)
-    setAdress(customer.adress)
-    setEmail(customer.email)
-    setPhone(customer.phone)
+    setName(customer.name  || '')
+    setLastname(customer.lastname || '')
+    setIdNumber(customer.idnumber || '')
+    setAdress(customer.adress || '')
+    setEmail(customer.email || '' )
+    setPhone(customer.phone || '')
   },[open])
  
 
   const onUpdateCustomer = async(e) =>{
     e.preventDefault()
     if(canSave){
-      await addNewCustomer({name, lastname, idNumber,adress, email, phone})
+      await updateCustomer({id:customer.id, name, lastname, idnumber,adress, email, phone})
       handleClose()
     }
   
@@ -80,7 +80,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
     }
   }
 
-  const canSave = [name, lastname, idNumber, adress,phone].every(Boolean)
+  const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
 
     return (
         <form className='todo_form' >
@@ -123,7 +123,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleIdNumberChange}
-                value={idNumber}             
+                value={idnumber}             
               />
 
             <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>

@@ -69,7 +69,7 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
 
   const {ids:bookingIds, entities: bookingEntities} = bookings
 
-  const {ids:customersIds, entities: customersEntities} = customers
+  const {ids:customersIds, entities: customersEntities} = customers || null
 
   const {ids:roomsIds, entities: roomsEntities} = rooms
 
@@ -77,8 +77,8 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
   
 
 let bookingEvents = bookingIds.map((bookingId) => {
-  const booking = bookingEntities[bookingId];
-  const customer = customersEntities[booking.customer];
+  const booking = bookingEntities[bookingId] || '';
+  const customer = customersEntities[booking.customer] || '';
   const room = roomsEntities[booking.room];
   const checkinDateJs = booking.checkin;
   const checkoutDateJs = booking.checkout;
@@ -86,7 +86,7 @@ let bookingEvents = bookingIds.map((bookingId) => {
   return {
     start: new Date(checkinDateJs),
     end: new Date (checkoutDateJs),
-    title: `${room.number} - ${customer.name} ${customer.lastname}`,
+    title: `${room.number ||''} - ${customer.name || 'CUSTOMER DELETED'} ${customer.lastname || ''}`,
     booking: booking,
     allDay: false,
     

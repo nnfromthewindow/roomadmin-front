@@ -2,10 +2,11 @@ import { useGetCustomersQuery } from "./customersApiSlice"
 import { AddCircleOutline } from "@mui/icons-material"
 import { ColorRing } from "react-loader-spinner"
 import CustomersTable from "./CustomersTable"
-import { Button } from "@mui/material"
+import { Button, TextField } from "@mui/material"
 import { lightBlue } from "@mui/material/colors"
 import CustomerAddDialog from "./CustomerAddDialog"
 import { useState } from "react"
+
 
 const CustomersList = () => {
     const{data:customers,
@@ -14,18 +15,26 @@ const CustomersList = () => {
     isError,
     error} = useGetCustomersQuery()
 
+   
     const [open, setOpen] = useState(false)
-
+    const [filter, setFilter] = useState("")
+    
 let content
 
 const handleClose = () => {
     setOpen(false);
-  };
+  }
 
   
 const handleClickOpen = () => {
   setOpen(true);
-};
+}
+
+const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+}
+
+
 
 if(isLoading){
     content = <div className="spinner">
@@ -41,7 +50,18 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
 </div>
 } else if (isSuccess){
 
-const {ids, entities} = customers
+    const {ids, entities} = customers
+
+    const filteredIds = ids.filter((customerId) => {
+        const customer = entities[customerId];
+    
+        return (
+          customer &&
+          customer.name.toLowerCase().includes(filter.toLowerCase()) ||
+          customer.lastname.toLowerCase().includes(filter.toLowerCase()) 
+        );
+      });
+        
 
 content = (
     <section className="customers">
@@ -49,6 +69,15 @@ content = (
         <div className="btn_container">
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Customer</Button>
         </div>
+        <div className="filter_container">
+                    <TextField
+                    label="Filter"
+                    variant="outlined"
+                    value={filter}
+                    onChange={handleFilterChange}
+                    sx={{marginTop:'2rem', width: "80%" }}
+                    />
+                </div>
      <CustomerAddDialog open={open} handleClose={handleClose}/>
     <CustomersTable customers={customers} />
     </section>

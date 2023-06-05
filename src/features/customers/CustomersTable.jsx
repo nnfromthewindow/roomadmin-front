@@ -9,6 +9,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import CustomerEditDialog from './CustomersEditDialog';
+import CustomerDeleteDialog from './CustomerDeleteDialog';
 import { memo } from 'react';
 
 const CustomersTable = ({customers}) => {
@@ -16,6 +17,7 @@ const CustomersTable = ({customers}) => {
   const [openEdit, setOpenEdit] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
   const [selectedCustomer, setSelectedCustomer] = useState(null)
+  const [customerId, setCustomerId] = useState(null)
 
   const {ids, entities} = customers
 
@@ -31,10 +33,16 @@ const handleClickOpenEdit = (customer) => {
 
 const handleCloseDelete = () => {
   setOpenDelete(false);
+
+};
+
+const handleCloseCancelDelete = () => {
+  setOpenDelete(false);
 };
 
 
-const handleClickOpenDelete = () => {
+const handleClickOpenDelete = (customerId) => {
+setCustomerId(customerId)  
 setOpenDelete(true);
 };
 
@@ -54,25 +62,25 @@ setOpenDelete(true);
           </TableRow>
         </TableHead>
         <TableBody>
-          {ids.map((customerId) => (
+          {ids.map((id) => (
             <TableRow
-              key={entities[customerId].id}
+              key={entities[id].id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {entities[customerId].name}
+                {entities[id].name}
               </TableCell>
-              <TableCell align="right">{entities[customerId].lastname}</TableCell>
-              <TableCell align="right">{entities[customerId].idnumber}</TableCell>
-              <TableCell align="right">{entities[customerId].adress}</TableCell>
-              <TableCell align="right">{entities[customerId].email}</TableCell>
-              <TableCell align="right">{entities[customerId].phone}</TableCell>
+              <TableCell align="right">{entities[id].lastname}</TableCell>
+              <TableCell align="right">{entities[id].idnumber}</TableCell>
+              <TableCell align="right">{entities[id].adress}</TableCell>
+              <TableCell align="right">{entities[id].email}</TableCell>
+              <TableCell align="right">{entities[id].phone}</TableCell>
               <TableCell align="right">
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
-                <Button onClick={() => handleClickOpenEdit(entities[customerId])}>
+                <Button onClick={() => handleClickOpenEdit(entities[id])}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
                 </Button>
-                <Button onClick={handleClickOpenDelete}>
+                <Button onClick={()=> handleClickOpenDelete(id)}>
                 <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
                 </Button>
              
@@ -83,7 +91,9 @@ setOpenDelete(true);
         </TableBody>
       </Table>
     </TableContainer>
-       {selectedCustomer && <CustomerEditDialog open={openEdit} handleClose={handleCloseEdit} customer={selectedCustomer}/>  }
+       {selectedCustomer && <CustomerEditDialog open={openEdit} handleClose={handleCloseEdit} customer={selectedCustomer}/>  
+       }
+       {customerId && <CustomerDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} customerId={customerId}/>}
   </>
   );
 }

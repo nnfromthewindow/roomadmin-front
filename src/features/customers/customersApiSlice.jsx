@@ -25,7 +25,7 @@ export const customersApiSlice = apiSlice.injectEndpoints({
             if(result?.ids){
                 return [
                     {type: 'Customer', id:'LIST'},
-                    ...result.ids.map(id => ({type:'Note', id}))
+                    ...result.ids.map(id => ({type:'Customer', id}))
                 ]
             }else return [{type:'Customer', id:'LIST'}]
         }
