@@ -14,9 +14,10 @@ import moment from 'moment';
 import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
 import { useAddNewCustomerMutation } from './customersApiSlice';
+import { memo } from 'react';
 
-const CustomerEditDialog = ({open, handleClose}) => {
-
+const CustomerEditDialog = ({open, handleClose, customer}) => {
+console.log(customer)
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
   const [idNumber, setIdNumber] = useState('')
@@ -42,7 +43,7 @@ const CustomerEditDialog = ({open, handleClose}) => {
     setPhone('')
   },[handleClose])
 
-  const onSaveNewCustomer = async(e) =>{
+  const onUpdateCustomer = async(e) =>{
     e.preventDefault()
     if(canSave){
       await addNewCustomer({name, lastname, idNumber,adress, email, phone})
@@ -84,7 +85,7 @@ const CustomerEditDialog = ({open, handleClose}) => {
         <form className='todo_form' >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Dialog open={open}  onClose={handleClose}>
-            <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Customer</DialogTitle>
+            <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Customer</DialogTitle>
     
             <DialogContent>
     
@@ -163,7 +164,7 @@ const CustomerEditDialog = ({open, handleClose}) => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button disabled={!canSave} onClick={onSaveNewCustomer}>Add Customer</Button>
+              <Button disabled={!canSave} onClick={onUpdateCustomer}>Edit Customer</Button>
             </DialogActions>
           </Dialog>
         </LocalizationProvider>
@@ -171,5 +172,6 @@ const CustomerEditDialog = ({open, handleClose}) => {
         </form>
     )
 }
+
 
 export default CustomerEditDialog

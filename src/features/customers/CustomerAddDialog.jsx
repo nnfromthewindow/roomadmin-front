@@ -83,7 +83,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
     return (
         <form className='todo_form' >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Dialog open={open}  onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Customer</DialogTitle>
     
             <DialogContent>

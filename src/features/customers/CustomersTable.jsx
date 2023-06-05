@@ -9,11 +9,13 @@ import { Delete, Edit } from '@mui/icons-material';
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import CustomerEditDialog from './CustomersEditDialog';
+import { memo } from 'react';
 
 const CustomersTable = ({customers}) => {
 
   const [openEdit, setOpenEdit] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
+  const [selectedCustomer, setSelectedCustomer] = useState(null)
 
   const {ids, entities} = customers
 
@@ -22,7 +24,8 @@ const CustomersTable = ({customers}) => {
   };
 
   
-const handleClickOpenEdit = () => {
+const handleClickOpenEdit = (customer) => {
+  setSelectedCustomer(customer)
   setOpenEdit(true);
 };
 
@@ -31,12 +34,13 @@ const handleCloseDelete = () => {
 };
 
 
-const handleClickOpeDelete = () => {
+const handleClickOpenDelete = () => {
 setOpenDelete(true);
 };
 
 
   return (
+    <>
     <TableContainer component={Paper} sx={{marginTop:'3rem'}}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -65,13 +69,13 @@ setOpenDelete(true);
               <TableCell align="right">{entities[customerId].phone}</TableCell>
               <TableCell align="right">
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
-                <Button onClick={handleClickOpenEdit}>
+                <Button onClick={() => handleClickOpenEdit(entities[customerId])}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
                 </Button>
-                <Button onClick={handleClickOpeDelete}>
+                <Button onClick={handleClickOpenDelete}>
                 <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
                 </Button>
-                <CustomerEditDialog open={openEdit} handleClose={handleCloseEdit}/>
+             
                 </div>
                 </TableCell>
             </TableRow>
@@ -79,7 +83,9 @@ setOpenDelete(true);
         </TableBody>
       </Table>
     </TableContainer>
+       {selectedCustomer && <CustomerEditDialog open={openEdit} handleClose={handleCloseEdit} customer={selectedCustomer}/>  }
+  </>
   );
 }
-
-export default CustomersTable
+const memoizedCustomersTable = memo(CustomersTable)
+export default memoizedCustomersTable

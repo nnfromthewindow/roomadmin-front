@@ -26,8 +26,8 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
     const selectedBooking = booking
 
     
-      const [checkinDate, setCheckinDate] = useState(dayjs(booking.checkin))
-      const [checkoutDate, setCheckoutDate] = useState(dayjs(booking.checkout))
+    const [checkinDate, setCheckinDate] = useState(dayjs(booking.checkin))
+    const [checkoutDate, setCheckoutDate] = useState(dayjs(booking.checkout))
     const [room, setRoom] = useState('')
     const [passengers, setPassengers] = useState('')
     const [customer, setCustomer] = useState('')
