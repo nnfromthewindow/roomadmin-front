@@ -17,13 +17,13 @@ import { useAddNewCustomerMutation } from './customersApiSlice';
 import { memo } from 'react';
 
 const CustomerEditDialog = ({open, handleClose, customer}) => {
-console.log(customer)
-  const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [idNumber, setIdNumber] = useState('')
-  const [adress, setAdress] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+
+  const [name, setName] = useState(customer.name)
+  const [lastname, setLastname] = useState(customer.lastname)
+  const [idNumber, setIdNumber] = useState(customer.idnumber)
+  const [adress, setAdress] = useState(customer.adress)
+  const [email, setEmail] = useState(customer.email)
+  const [phone, setPhone] = useState(customer.phone)
  
   const phoneRegex = /^[\d+ ]*$/
  
@@ -33,15 +33,16 @@ console.log(customer)
     isError,
     error
   }] = useAddNewCustomerMutation()
-
+  
   useEffect(()=>{
-    setName('')
-    setLastname('')
-    setIdNumber('')
-    setAdress('')
-    setEmail('')
-    setPhone('')
-  },[handleClose])
+    setName(customer.name)
+    setLastname(customer.lastname)
+    setIdNumber(customer.idnumber)
+    setAdress(customer.adress)
+    setEmail(customer.email)
+    setPhone(customer.phone)
+  },[open])
+ 
 
   const onUpdateCustomer = async(e) =>{
     e.preventDefault()
