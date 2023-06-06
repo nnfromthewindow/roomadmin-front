@@ -58,9 +58,13 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
         return (
           customer &&
           customer.name.toLowerCase().includes(filter.toLowerCase()) ||
-          customer.lastname.toLowerCase().includes(filter.toLowerCase()) 
+          customer.lastname.toLowerCase().includes(filter.toLowerCase()) ||customer.idnumber && customer.idnumber.toString().includes(filter.toString()) 
         );
       });
+
+      const filteredCustomers = filteredIds.map((id)=>entities[id])
+    
+
         
 
 content = (
@@ -74,12 +78,13 @@ content = (
                     label="Filter"
                     variant="outlined"
                     value={filter}
+                    placeholder="Name, lastname or ID°"
                     onChange={handleFilterChange}
                     sx={{marginTop:'2rem', width: "80%" }}
                     />
                 </div>
      <CustomerAddDialog open={open} handleClose={handleClose}/>
-    <CustomersTable customers={customers} />
+    <CustomersTable customers={filteredCustomers} />
     </section>
     )
 }else if(isError){

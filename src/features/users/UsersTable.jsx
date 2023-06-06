@@ -8,26 +8,26 @@ import Paper from '@mui/material/Paper';
 import { Delete, Edit } from '@mui/icons-material';
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import CustomerEditDialog from './CustomersEditDialog';
-import CustomerDeleteDialog from './CustomerDeleteDialog';
+import UserEditDialog from './UserEditDialog';
+import UserDeleteDialog from './UserDeleteDialog';
 import { memo } from 'react';
 
-const CustomersTable = ({customers}) => {
+const UsersTable = ({users}) => {
 
   const [openEdit, setOpenEdit] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
-  const [selectedCustomer, setSelectedCustomer] = useState(null)
-  const [customerId, setCustomerId] = useState(null)
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [userId, setUserId] = useState(null)
 
-  const {ids, entities} = customers
+  const {ids, entities} = users
 
   const handleCloseEdit = () => {
     setOpenEdit(false);
   };
 
   
-const handleClickOpenEdit = (customer) => {
-  setSelectedCustomer(customer)
+const handleClickOpenEdit = (user) => {
+  setSelectedUser(user)
   setOpenEdit(true);
 };
 
@@ -41,8 +41,8 @@ const handleCloseCancelDelete = () => {
 };
 
 
-const handleClickOpenDelete = (customerId) => {
-setCustomerId(customerId)  
+const handleClickOpenDelete = (userId) => {
+setUserId(userId)  
 setOpenDelete(true);
 };
 
@@ -62,22 +62,22 @@ setOpenDelete(true);
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers && customers.map((customer) => (
+          {users && users.map((user) => (
             <TableRow
-              key={customer.id}
+              key={user.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {customer.name}
+                {user.name}
               </TableCell>
-              <TableCell align="right">{customer.lastname}</TableCell>
-              <TableCell align="right">{customer.idnumber}</TableCell>
-              <TableCell align="right">{customer.adress}</TableCell>
-              <TableCell align="right">{customer.email}</TableCell>
-              <TableCell align="right">{customer.phone}</TableCell>
+              <TableCell align="right">{user.lastname}</TableCell>
+              <TableCell align="right">{user.idnumber}</TableCell>
+              <TableCell align="right">{user.adress}</TableCell>
+              <TableCell align="right">{user.email}</TableCell>
+              <TableCell align="right">{user.phone}</TableCell>
               <TableCell align="right">
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
-                <Button onClick={() => handleClickOpenEdit(customer)}>
+                <Button onClick={() => handleClickOpenEdit(user)}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
                 </Button>
                 <Button onClick={()=> handleClickOpenDelete(id)}>
@@ -91,11 +91,11 @@ setOpenDelete(true);
         </TableBody>
       </Table>
     </TableContainer>
-       {selectedCustomer && <CustomerEditDialog open={openEdit} handleClose={handleCloseEdit} customer={selectedCustomer}/>  
+       {selectedUser && <UserEditDialog open={openEdit} handleClose={handleCloseEdit} user={selectedUser}/>  
        }
-       {customerId && <CustomerDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} customerId={customerId}/>}
+       {userId && <UserDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} userId={userId}/>}
   </>
   );
 }
-const memoizedCustomersTable = memo(CustomersTable)
-export default memoizedCustomersTable
+const memoizedUsersTable = memo(UsersTable)
+export default memoizedUsersTable
