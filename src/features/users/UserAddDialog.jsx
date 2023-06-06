@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, InputLabel, Select, MenuItem , OutlinedInput} from '@mui/material';
 import { AddCircleOutline, Delete} from '@mui/icons-material';
 import { lightBlue, grey } from '@mui/material/colors';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,7 +26,7 @@ const UserAddDialog = ({open, handleClose}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [avatar, setAvatar] = useState('')
-  const [role, setRole] = useState('Employee')
+  const [roles, setRoles] = useState([])
  
   const phoneRegex = /^[\d+ ]*$/
  
@@ -47,13 +47,14 @@ const UserAddDialog = ({open, handleClose}) => {
     setAvatar('')
     setUsername('')
     setPassword('')
-    setRole('')
+    setRoles([])
   },[handleClose])
 
   const onSaveNewUser = async(e) =>{
     e.preventDefault()
     if(canSave){
-      await addNewUser({name, lastname, idnumber,adress, email, phone, avatar, username, password, role})
+      //console.log(Object.values(role))
+      await addNewUser({name, lastname, idnumber,adress, email, phone, avatar, username, password, roles})
       handleClose()
     }
   
@@ -86,7 +87,39 @@ const UserAddDialog = ({open, handleClose}) => {
     }
   }
 
-  const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
+  const handleAvatarChange = (event) => {
+    setAvatar(event.target.value);
+  }
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
+
+  const handleRoleChange = (event) => {
+    
+    //setRoles(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setRoles(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  }
+
+  const rolesArray = [{Employee:"Employee"},{Admin:"Admin"}]
+
+  const rolesOptions = rolesArray.map((role) => {
+    return(
+      <MenuItem key={Object.values(role)} value={role}>{Object.values(role)} </MenuItem>
+    )
+  })
+
+  const canSave = [name, lastname, idnumber, adress, phone, avatar, username,  password, roles].every(Boolean)
 
     return (
         <form className='todo_form' >
@@ -167,7 +200,58 @@ const UserAddDialog = ({open, handleClose}) => {
                 onChange={handlePhoneChange}
                 value={phone}             
               />
+
+            <InputLabel id="avatar-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
+            
+
+            <TextField required
+                margin="dense"
+                id="avatar"
+                type="text"
+                fullWidth
+                variant="filled"
+                onChange={handleAvatarChange}
+                value={avatar}             
+            />
+
+            <InputLabel id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
+            
+
+            <TextField required
+                margin="dense"
+                id="username"
+                type="text"
+                fullWidth
+                variant="filled"
+                onChange={handleUsernameChange}
+                value={username}             
+              />
+
+            <InputLabel id="password-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Password</InputLabel>
+            
+            <TextField required
+                margin="dense"
+                id="password"
+                type="password"
+                fullWidth
+                variant="filled"
+                onChange={handlePasswordChange}
+                value={password}             
+              />
         
+            <InputLabel id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
+
+            <Select required
+                labelId="role-label"
+                id="role"
+                value={[roles]}
+                variant="filled"
+                sx={{width:'100%'}}
+                multiple
+                onChange={handleRoleChange}
+            >
+                {rolesOptions}
+            </Select>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>

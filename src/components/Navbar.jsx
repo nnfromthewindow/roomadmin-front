@@ -19,7 +19,7 @@ import { AddTask, MenuBook, Group, SupervisedUserCircle,CurrencyExchange, Settin
 import { pink,deepOrange,teal,red,lightGreen,brown,lightBlue } from '@mui/material/colors';
 import { Logout, ManageAccounts } from '@mui/icons-material';
 
-function ResponsiveAppBar() {
+const Navbar = () => {
 
   const { username, isAdmin } = useAuth()
 
@@ -243,4 +243,4 @@ pages = pagesEmployee
 
   return content;
 }
-export default ResponsiveAppBar;
+export default Navbar;

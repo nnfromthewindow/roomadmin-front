@@ -59,6 +59,9 @@ setOpenDelete(true);
             <TableCell align="right">Adress</TableCell>
             <TableCell align="right">Email</TableCell>
             <TableCell align="right">Phone</TableCell>
+            <TableCell align="right">Avatar</TableCell>
+            <TableCell align="right">Username</TableCell>
+            <TableCell align="right">Roles</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -75,6 +78,9 @@ setOpenDelete(true);
               <TableCell align="right">{user.adress}</TableCell>
               <TableCell align="right">{user.email}</TableCell>
               <TableCell align="right">{user.phone}</TableCell>
+              <TableCell align="right">{`${user.avatar.substring(0,30)} ...`}</TableCell>
+              <TableCell align="right">{user.username}</TableCell>
+              <TableCell align="right">{Object.values(user.roles).join(', ')}</TableCell>
               <TableCell align="right">
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
                 <Button onClick={() => handleClickOpenEdit(user)}>
