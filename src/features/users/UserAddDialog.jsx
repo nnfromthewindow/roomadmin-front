@@ -105,17 +105,24 @@ const UserAddDialog = ({open, handleClose}) => {
     const {
       target: { value },
     } = event;
+    console.log(value)
+    const rolesObject = value.map((role)=>{
+     role === 'Employee' && {Employee:'Employee'}
+    role === 'Admin' && {Admin:'Admin'}})
     setRoles(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
-    );
+     // Object.values(value)
+      );
+   
   }
 
   const rolesArray = [{Employee:"Employee"},{Admin:"Admin"}]
 
   const rolesOptions = rolesArray.map((role) => {
+   // console.log(Object.keys(role))
     return(
-      <MenuItem key={Object.values(role)} value={role}>{Object.values(role)} </MenuItem>
+      <MenuItem key={Object.keys(role)[0]} value={Object.values(role)[0]}>{Object.keys(role)[0]} </MenuItem>
     )
   })
 
@@ -244,7 +251,7 @@ const UserAddDialog = ({open, handleClose}) => {
             <Select required
                 labelId="role-label"
                 id="role"
-                value={[roles]}
+                value={roles}
                 variant="filled"
                 sx={{width:'100%'}}
                 multiple
