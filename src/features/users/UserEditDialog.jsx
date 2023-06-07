@@ -24,6 +24,10 @@ const UserEditDialog = ({open, handleClose, user}) => {
   const [adress, setAdress] = useState(user.adress || '')
   const [email, setEmail] = useState(user.email || '')
   const [phone, setPhone] = useState(user.phone || '')
+  const [avatar, setAvatar] = useState(user.avatar || '')
+  const [username, setUsername] = useState(user.username || '')
+  const [password, setPassword] = useState(user.password || '')
+  const [roles, setRoles] = useState(user.roles || [])
  
   const phoneRegex = /^[\d+ ]*$/
  

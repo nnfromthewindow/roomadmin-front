@@ -53,10 +53,10 @@ const UserAddDialog = ({open, handleClose}) => {
   const onSaveNewUser = async(e) =>{
     e.preventDefault()
     if(canSave){
-      //console.log(Object.values(role))
+          
       await addNewUser({name, lastname, idnumber,adress, email, phone, avatar, username, password, roles})
       handleClose()
-    }
+        }
   
   }
 
@@ -105,10 +105,7 @@ const UserAddDialog = ({open, handleClose}) => {
     const {
       target: { value },
     } = event;
-    console.log(value)
-    const rolesObject = value.map((role)=>{
-     role === 'Employee' && {Employee:'Employee'}
-    role === 'Admin' && {Admin:'Admin'}})
+   
     setRoles(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
@@ -117,12 +114,12 @@ const UserAddDialog = ({open, handleClose}) => {
    
   }
 
-  const rolesArray = [{Employee:"Employee"},{Admin:"Admin"}]
+  const rolesArray = ["Employee","Admin"]
 
   const rolesOptions = rolesArray.map((role) => {
    // console.log(Object.keys(role))
     return(
-      <MenuItem key={Object.keys(role)[0]} value={Object.values(role)[0]}>{Object.keys(role)[0]} </MenuItem>
+      <MenuItem key={role} value={role}>{role} </MenuItem>
     )
   })
 
@@ -132,7 +129,7 @@ const UserAddDialog = ({open, handleClose}) => {
         <form className='todo_form' >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Customer</DialogTitle>
+            <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add User</DialogTitle>
     
             <DialogContent>
     
@@ -262,7 +259,7 @@ const UserAddDialog = ({open, handleClose}) => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button disabled={!canSave} onClick={onSaveNewUser}>Add Customer</Button>
+              <Button disabled={!canSave} onClick={onSaveNewUser}>Add User</Button>
             </DialogActions>
           </Dialog>
         </LocalizationProvider>
