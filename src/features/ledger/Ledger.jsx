@@ -4,6 +4,9 @@ import { ColorRing } from "react-loader-spinner"
 import { Button } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
+import { Spreadsheet } from "react-spreadsheet"
+import { useState, useEffect } from "react"
+
 
 const Ledger = () => {
     const {
@@ -13,9 +16,37 @@ const Ledger = () => {
         isError,
         error
         } = useGetLedgerQuery()
-
+       
+       
+        const [data, setData] = useState([]);
+        
+        const OPTIONS = [
+            { value: "INCOME", label: "Income" },
+            { value: "EXPENSES", label: "Expenses"}
+          ];
+        
+        
+        useEffect(() => {
+            if (isSuccess) {
+              const { ids, entities } = ledger;
+              let table =ledger.ids && ledger.ids.map(id=>{
+                return[{
+                value:ledger.entities[id].date},
+                {
+                value:ledger.entities[id].description},
+                {
+                value:JSON.stringify(ledger.entities[id].type)},
+                {
+                value:ledger.entities[id].value}]
+            })
+            
+              setData(table);
+            }
+          }, [isSuccess, ledger]);
+          
+        
         let content
-
+          
         if(isLoading){
             content = <div className="spinner">
             <ColorRing
@@ -31,12 +62,17 @@ const Ledger = () => {
         } else if (isSuccess){
     
             const{ids, entities} = ledger
-    
-        content = (
+            
+
+        content = (     
             <section className="ledger">
                 <h1 className="main_title">LEDGER</h1>
                 <div className="btn_container">
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
+        </div>
+        <div style={{marginTop:'2rem' ,overflowX:'auto'}}>
+        <Spreadsheet data={data} onChange={setData} columnLabels={["Date","Description","Type","Value"]}/>
+            
         </div>
                 <ul>
                     {ids.map(ledgerItemId =>{
