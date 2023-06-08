@@ -34,7 +34,7 @@ const UserDeleteDialog = ({openDelete, handleCloseDelete, handleCloseCancelDelet
         onClose={handleCloseDelete}
         aria-describedby="alert-dialog-slide-description" sx={{zIndex:1301}}
       >
-        <DialogTitle>{"Are you sure you want to delete the booking?"}</DialogTitle>
+        <DialogTitle>{"Are you sure you want to delete the user?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
           This action will permanently delete the user. Are you sure you want to proceed?

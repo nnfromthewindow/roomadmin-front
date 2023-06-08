@@ -32,12 +32,49 @@ export const ledgerApiSlice = apiSlice.injectEndpoints({
                     ]
                 } else return [{type:'LedgerItem', id:'LIST'}]
             } 
-        })
+        }),
+        addNewLedgerItem: builder.mutation({
+            query: initialLedgerItem => ({
+                url: '/ledger',
+                method: 'POST',
+                body: {
+                    ...initialLedgerItem,
+                }
+            }),
+            invalidatesTags: [
+                { type: 'LedgerItem', id: "LIST" }
+            ]
+        }),
+        updateLedgerItem: builder.mutation({
+            query: initialLedgerItem => ({
+                url: '/ledger',
+                method: 'PATCH',
+                body: {
+                    ...initialLedgerItem,
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'LedgerItem', id: arg.id }
+            ]
+        }),
+        deleteLedgerItem: builder.mutation({
+            query: ({ id }) => ({
+                url: `/ledger`,
+                method: 'DELETE',
+                body: { id }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'LedgerItem', id: arg.id }
+            ]
+        }),
     })
 })
 
 export const {
-    useGetLedgerQuery
+    useGetLedgerQuery,
+    useAddNewLedgerItemMutation,
+    useUpdateLedgerItemMutation,
+    useDeleteLedgerItemMutation
 } = ledgerApiSlice
 
 export const selectLedgerResult = ledgerApiSlice.endpoints.getLedger.select()

@@ -32,13 +32,12 @@ const NewTodoForm = ({open, handleClose, users}) =>{
     const [status, setStatus] = useState('');  
 
     useEffect(()=>{
-      if(isSuccess){
         setDate(dayjs())
         setEmployee('')
         setDescription('')
         setStatus('')
         handleClose()
-      }
+      
     },[isSuccess])
 
     useEffect(()=>{

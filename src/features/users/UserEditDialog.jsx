@@ -4,17 +4,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, InputLabel, Select, MenuItem } from '@mui/material';
-import { AddCircleOutline, Delete} from '@mui/icons-material';
-import { lightBlue, grey } from '@mui/material/colors';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
-import moment from 'moment';
-import InputAdornment from '@mui/material/InputAdornment';
-import dayjs from 'dayjs';
 import { useUpdateUserMutation } from './usersApiSlice';
-import { memo } from 'react';
 
 const UserEditDialog = ({open, handleClose, user}) => {
 
@@ -25,9 +18,9 @@ const UserEditDialog = ({open, handleClose, user}) => {
   const [email, setEmail] = useState(user.email || '')
   const [phone, setPhone] = useState(user.phone || '')
   const [avatar, setAvatar] = useState(user.avatar || '')
-  const [username, setUsername] = useState(user.username || '')
-  const [password, setPassword] = useState(user.password || '')
-  const [roles, setRoles] = useState(user.roles || [])
+  const [roles, setRoles] = useState([user.roles] || [])
+  const [openDelete, setOpenDelete] = useState(false)
+  const [userId, setUserId] = useState(null)
  
   const phoneRegex = /^[\d+ ]*$/
  
@@ -45,13 +38,15 @@ const UserEditDialog = ({open, handleClose, user}) => {
     setAdress(user.adress || '')
     setEmail(user.email || '' )
     setPhone(user.phone || '')
+    setAvatar(user.avatar || '')
+    setRoles(user.roles || [])
   },[open])
  
 
   const onUpdateUser = async(e) =>{
     e.preventDefault()
     if(canSave){
-      await updateUser({id:user.id, name, lastname, idnumber,adress, email, phone})
+      await updateUser({id:user.id, name, lastname, idnumber,adress, email, phone, avatar, username, password, roles})
       handleClose()
     }
   
@@ -83,8 +78,48 @@ const UserEditDialog = ({open, handleClose, user}) => {
       setPhone(newPhone);
     }
   }
+  const handleAvatarChange = (event) => {
+    setAvatar(event.target.value);
+  };
 
-  const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
+  const handleRolesChange = (event) => {
+
+    const {
+      target: { value },
+    } = event;
+   
+    setRoles(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+      );
+  }
+
+  const handleCloseDelete = () => {
+  setOpenDelete(false);
+
+  };
+
+  const handleCloseCancelDelete = () => {
+    setOpenDelete(false);
+  };
+
+
+  const handleClickOpenDelete = (userId) => {
+  setUserId(userId)  
+  setOpenDelete(true);
+  };
+
+
+  const rolesArray = ["Employee","Admin"]
+
+  const rolesOptions = rolesArray.map((role) => {
+
+    return(
+      <MenuItem key={role} value={role}>{role} </MenuItem>
+    )
+  })
+
+  const canSave = [name, lastname, idnumber, adress,phone,roles].every(Boolean)
 
     return (
         <form className='todo_form' >
@@ -165,6 +200,31 @@ const UserEditDialog = ({open, handleClose, user}) => {
                 onChange={handlePhoneChange}
                 value={phone}             
               />
+
+              <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
+            
+            <TextField required
+                margin="dense"
+                id="email"
+                type="email"
+                fullWidth
+                variant="filled"
+                onChange={handleAvatarChange}
+                value={avatar}             
+              />
+              <InputLabel id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
+
+            <Select required
+                labelId="role-label"
+                id="role"
+                value={roles}
+                variant="filled"
+                sx={{width:'100%'}}
+                multiple
+                onChange={handleRolesChange}
+            >
+                {rolesOptions}
+            </Select>
         
             </DialogContent>
             <DialogActions>
@@ -173,6 +233,7 @@ const UserEditDialog = ({open, handleClose, user}) => {
             </DialogActions>
           </Dialog>
         </LocalizationProvider>
+        {userId && <UserDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} userId={userId}/>}
         
         </form>
     )

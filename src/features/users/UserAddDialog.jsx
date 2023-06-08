@@ -99,9 +99,8 @@ const UserAddDialog = ({open, handleClose}) => {
     setPassword(event.target.value);
   }
 
-  const handleRoleChange = (event) => {
-    
-    //setRoles(event.target.value);
+  const handleRolesChange = (event) => {
+
     const {
       target: { value },
     } = event;
@@ -109,21 +108,19 @@ const UserAddDialog = ({open, handleClose}) => {
     setRoles(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
-     // Object.values(value)
       );
-   
   }
 
   const rolesArray = ["Employee","Admin"]
 
   const rolesOptions = rolesArray.map((role) => {
-   // console.log(Object.keys(role))
+
     return(
       <MenuItem key={role} value={role}>{role} </MenuItem>
     )
   })
 
-  const canSave = [name, lastname, idnumber, adress, phone, avatar, username,  password, roles].every(Boolean)
+  const canSave = [name, lastname, idnumber, adress, phone, username,  password, roles].every(Boolean)
 
     return (
         <form className='todo_form' >
@@ -252,7 +249,7 @@ const UserAddDialog = ({open, handleClose}) => {
                 variant="filled"
                 sx={{width:'100%'}}
                 multiple
-                onChange={handleRoleChange}
+                onChange={handleRolesChange}
             >
                 {rolesOptions}
             </Select>

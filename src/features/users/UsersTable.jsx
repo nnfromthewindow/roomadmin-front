@@ -86,7 +86,7 @@ setOpenDelete(true);
                 <Button onClick={() => handleClickOpenEdit(user)}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
                 </Button>
-                <Button onClick={()=> handleClickOpenDelete(id)}>
+                <Button onClick={()=> handleClickOpenDelete(user.id)}>
                 <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
                 </Button>
              

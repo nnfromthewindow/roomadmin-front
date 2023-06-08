@@ -1,6 +1,9 @@
 import { useGetLedgerQuery } from "./ledgerApiSlice"
 import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
+import { Button } from "@mui/material"
+import { AddCircleOutline } from "@mui/icons-material"
+import { lightBlue } from "@mui/material/colors"
 
 const Ledger = () => {
     const {
@@ -32,6 +35,9 @@ const Ledger = () => {
         content = (
             <section className="ledger">
                 <h1 className="main_title">LEDGER</h1>
+                <div className="btn_container">
+        <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
+        </div>
                 <ul>
                     {ids.map(ledgerItemId =>{
                     return <li key={ledgerItemId}>

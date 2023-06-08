@@ -1,10 +1,10 @@
-import { useGetTodosQuery, useDeleteTodoMutation } from "./todosApiSlice";
+import { useGetTodosQuery } from "./todosApiSlice";
 import { ColorRing } from "react-loader-spinner";
 import Todo from "./Todo";
 import { Button, TextField } from "@mui/material";
 import { AddCircleOutline} from "@mui/icons-material";
 import { lightBlue } from "@mui/material/colors";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NewTodoForm from "./NewTodoForm";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 
@@ -17,7 +17,7 @@ const TodosList = () =>{
     isError,
     error
     } = useGetTodosQuery('todosList', {
-        pollingInterval: 15000,
+        //pollingInterval: 15000,
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
@@ -57,18 +57,20 @@ const TodosList = () =>{
     </div>
     } else if (isSuccess){
 
-        const{ids, entities} = todos
-        const{ entities:usersEntities} = users
+        const{ids, entities} = todos || ''
+        const{ entities:usersEntities} = users || ''
+
+        
 
         const filteredIds = ids.filter((todoId) => {
-            const todo = entities[todoId];
-            const user = usersEntities[todo.employee];
+            const todo = entities[todoId] || '';
+            const user = usersEntities[todo.employee] || '';
             return (
               todo &&
               user &&
-              user.name.toLowerCase().includes(filter.toLowerCase()) ||
-              user.lastname.toLowerCase().includes(filter.toLowerCase()) ||
-              todo.date.includes(filter)
+              user.name?.toLowerCase().includes(filter.toLowerCase()) ||
+              user.lastname?.toLowerCase().includes(filter.toLowerCase()) ||
+              todo.date?.includes(filter)
             );
           });
         content = (
@@ -78,7 +80,6 @@ const TodosList = () =>{
                 <div className="btn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
                 <NewTodoForm open={open} handleClose={handleClose} users={users}/>
-               
                 </div>
                 <div className="filter_container">
                     <TextField
@@ -90,13 +91,20 @@ const TodosList = () =>{
                     />
                 </div>
                 
-                {filteredIds.map((todoId)=>{
+                {filteredIds && filteredIds.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}
             </section>
             
             )
     }else if(isError){
-        content = <p>{JSON.stringify(error)}</p>
+        content = <>
+                  <h1 className="main_title">NO TODOS</h1>
+                  <div className="btn_container">
+                <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Todo</Button>
+                <NewTodoForm open={open} handleClose={handleClose} users={users}/>
+               
+                </div>
+                  </>
     }
     return content
 }
