@@ -1,11 +1,12 @@
 import { useGetLedgerQuery } from "./ledgerApiSlice"
 import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
-import { Button } from "@mui/material"
-import { AddCircleOutline } from "@mui/icons-material"
+import { Button, Select,MenuItem } from "@mui/material"
+import { AddCircleOutline,Delete } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
 import { Spreadsheet } from "react-spreadsheet"
 import { useState, useEffect } from "react"
+
 
 
 const Ledger = () => {
@@ -24,6 +25,12 @@ const Ledger = () => {
             { value: "INCOME", label: "Income" },
             { value: "EXPENSES", label: "Expenses"}
           ];
+
+          const typeOptions = OPTIONS.map(option => {
+            return(
+              <MenuItem key={option.value} value={option.value}>{option.label} </MenuItem>
+            )
+          }) 
         
         
         useEffect(() => {
@@ -71,20 +78,29 @@ const Ledger = () => {
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
         </div>
         <div style={{marginTop:'2rem' ,overflowX:'auto'}}>
-        <Spreadsheet data={data} onChange={setData} columnLabels={["Date","Description","Type","Value"]} DataViewer={(table)=>{if(table.column == 2){return <AddCircleOutline/>}else{return table.cell.value}}}/>
+        <Spreadsheet data={data}
+
+        onChange={setData} 
+        columnLabels={["Date","Description","Type","Value","Delete"]} 
+        DataViewer={(table)=>{
+            
+            if(table.column == 2){return  <Select defaultValue={''} sx={{width:'100%'}}>
+            {typeOptions}
+            </Select>
+            }
+            
+            if(table.column == 3){
+                return [table.cell?.value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''),]
+            }
+            
+            if(table.column == 4){
+                
+                return  <Button sx={{marginLeft:'1rem'}}><Delete sx={{color:'red'}}/></Button>}
+
+            else{return table.cell?.value}}}/>
             
         </div>
-                <ul>
-                    {ids.map(ledgerItemId =>{
-                    return <li key={ledgerItemId}>
-                        <h2>FECHA: {entities[ledgerItemId].date}</h2>
-                        <h2>DESCRIPCION: {entities[ledgerItemId].description}</h2>
-                        <h2>TIPO: {JSON.stringify(entities[ledgerItemId].type)}</h2>
-                        <h2>VALOR: {entities[ledgerItemId].value}</h2>
-                    </li>
-                    })}
-                </ul>
-                <Link to="/welcome">Back to Welcome</Link>
+                
             </section>
             )
         }else if(isError){

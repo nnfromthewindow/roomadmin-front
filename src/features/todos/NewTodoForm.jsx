@@ -15,7 +15,7 @@ import { useAddNewTodoMutation } from './todosApiSlice';
 
 const NewTodoForm = ({open, handleClose, users}) =>{
 
-    const{ids,entities}=users
+    const{ids,entities}= users || {}
   
     const [addNewTodo, {
       isLoading,
@@ -68,7 +68,7 @@ const NewTodoForm = ({open, handleClose, users}) =>{
       }
     }
 
-    const employeeOptions = ids.map(userId => {
+    const employeeOptions = employee && ids.map(userId => {
       return(
         <MenuItem key={userId} value={userId}>{entities[userId].name} {entities[userId].lastname}</MenuItem>
       )
