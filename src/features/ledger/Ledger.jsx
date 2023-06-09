@@ -71,7 +71,7 @@ const Ledger = () => {
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
         </div>
         <div style={{marginTop:'2rem' ,overflowX:'auto'}}>
-        <Spreadsheet data={data} onChange={setData} columnLabels={["Date","Description","Type","Value"]}/>
+        <Spreadsheet data={data} onChange={setData} columnLabels={["Date","Description","Type","Value"]} DataViewer={(table)=>{if(table.column == 2){return <AddCircleOutline/>}else{return table.cell.value}}}/>
             
         </div>
                 <ul>
