@@ -1,11 +1,110 @@
 import { useGetLedgerQuery } from "./ledgerApiSlice"
-import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
-import { Button, Select,MenuItem } from "@mui/material"
-import { AddCircleOutline,Delete } from "@mui/icons-material"
+import { Button,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper } from "@mui/material"
+import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
-import { Spreadsheet } from "react-spreadsheet"
-import { useState, useEffect } from "react"
+import { useState, useEffect,forwardRef } from "react"
+import LedgerTable from "./LedgerTable"
+
+import { TableVirtuoso } from 'react-virtuoso';
+
+const sample = [
+  ['Frozen yoghurt', 159, 6.0, 24, 4.0],
+  ['Ice cream sandwich', 237, 9.0, 37, 4.3],
+  ['Eclair', 262, 16.0, 24, 6.0],
+  ['Cupcake', 305, 3.7, 67, 4.3],
+  ['Gingerbread', 356, 16.0, 49, 3.9],
+];
+
+function createData(id, dessert, calories, fat, carbs, protein) {
+  return { id, dessert, calories, fat, carbs, protein };
+}
+
+const columns = [
+  {
+    width: 200,
+    label: 'Date',
+    dataKey: 'date',
+  },
+  {
+    width: 120,
+    label: 'Description',
+    dataKey: 'description',
+
+  },
+  {
+    width: 60,
+    label: 'Type',
+    dataKey: 'type',
+  
+  },
+  
+  {
+    width: 120,
+    label: 'Value',
+    dataKey: 'value',
+    numeric: true,
+  },
+
+  {
+    width: 120,
+    label: 'Delete',
+    dataKey: 'delete',
+  
+  },
+];
+
+const rows = Array.from({ length: 200 }, (_, index) => {
+  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
+  return createData(index, ...randomSelection);
+});
+
+const VirtuosoTableComponents = {
+  Scroller:forwardRef((props, ref) => (
+    <TableContainer component={Paper} {...props} ref={ref} />
+  )),
+  Table: (props) => (
+    <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
+  ),
+  TableHead,
+  TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
+  TableBody:forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
+};
+
+function fixedHeaderContent() {
+  return (
+    <TableRow>
+      {columns.map((column) => (
+        <TableCell
+          key={column.dataKey}
+          variant="head"
+          align={column.numeric || false ? 'right' : 'left'}
+          style={{ width: column.width }}
+          sx={{
+            backgroundColor: 'background.paper',
+          }}
+        >
+          {column.label}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+}
+
+function rowContent(_index, row) {
+  return (
+    <>
+      {columns.map((column) => (
+        <TableCell
+          key={column.dataKey}
+          align={column.numeric || false ? 'right' : 'left'}
+        >
+          {row[column.dataKey]}
+        </TableCell>
+      ))}
+    </>
+  );
+}
 
 
 
@@ -18,7 +117,7 @@ const Ledger = () => {
         error
         } = useGetLedgerQuery()
        
-       
+       /*
         const [data, setData] = useState([]);
         
         const OPTIONS = [
@@ -51,7 +150,7 @@ const Ledger = () => {
             }
           }, [isSuccess, ledger]);
           
-        
+        */
         let content
           
         if(isLoading){
@@ -77,29 +176,19 @@ const Ledger = () => {
                 <div className="btn_container">
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
         </div>
-        <div style={{marginTop:'2rem' ,overflowX:'auto'}}>
-        <Spreadsheet data={data}
-
-        onChange={setData} 
-        columnLabels={["Date","Description","Type","Value","Delete"]} 
-        DataViewer={(table)=>{
-            
-            if(table.column == 2){return  <Select defaultValue={''} sx={{width:'100%'}}>
-            {typeOptions}
-            </Select>
-            }
-            
-            if(table.column == 3){
-                return [table.cell?.value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''),]
-            }
-            
-            if(table.column == 4){
-                
-                return  <Button sx={{marginLeft:'1rem'}}><Delete sx={{color:'red'}}/></Button>}
-
-            else{return table.cell?.value}}}/>
+        <div className="spreadsheet_container">
+        <LedgerTable ledger={ledger}/>
+        
             
         </div>
+        <Paper style={{ height: 400, width: '100%' }}>
+      <TableVirtuoso
+        data={rows}
+        components={VirtuosoTableComponents}
+        fixedHeaderContent={fixedHeaderContent}
+        itemContent={rowContent}
+      />
+    </Paper>
                 
             </section>
             )
