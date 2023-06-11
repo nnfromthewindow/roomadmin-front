@@ -4,25 +4,13 @@ import { Button,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Pape
 import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
 import { useState, useEffect,forwardRef } from "react"
-import LedgerTable from "./LedgerTable"
-
 import { TableVirtuoso } from 'react-virtuoso';
+import { SheetsDirective, SheetDirective, RangesDirective, RangeDirective, SpreadsheetComponent } from '@syncfusion/ej2-react-spreadsheet';
 
-const sample = [
-  ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-  ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-  ['Eclair', 262, 16.0, 24, 6.0],
-  ['Cupcake', 305, 3.7, 67, 4.3],
-  ['Gingerbread', 356, 16.0, 49, 3.9],
-];
-
-function createData(id, dessert, calories, fat, carbs, protein) {
-  return { id, dessert, calories, fat, carbs, protein };
-}
 
 const columns = [
   {
-    width: 200,
+    width: 10,
     label: 'Date',
     dataKey: 'date',
   },
@@ -33,31 +21,28 @@ const columns = [
 
   },
   {
-    width: 60,
+    width: 10,
     label: 'Type',
     dataKey: 'type',
   
   },
   
   {
-    width: 120,
+    width: 10,
     label: 'Value',
     dataKey: 'value',
     numeric: true,
   },
 
   {
-    width: 120,
-    label: 'Delete',
+    width: 10,
+    label: '',
     dataKey: 'delete',
   
   },
 ];
 
-const rows = Array.from({ length: 200 }, (_, index) => {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  return createData(index, ...randomSelection);
-});
+
 
 const VirtuosoTableComponents = {
   Scroller:forwardRef((props, ref) => (
@@ -109,6 +94,8 @@ function rowContent(_index, row) {
 
 
 const Ledger = () => {
+
+
     const {
         data: ledger,
         isLoading,
@@ -117,40 +104,15 @@ const Ledger = () => {
         error
         } = useGetLedgerQuery()
        
-       /*
-        const [data, setData] = useState([]);
-        
-        const OPTIONS = [
-            { value: "INCOME", label: "Income" },
-            { value: "EXPENSES", label: "Expenses"}
-          ];
-
-          const typeOptions = OPTIONS.map(option => {
-            return(
-              <MenuItem key={option.value} value={option.value}>{option.label} </MenuItem>
-            )
-          }) 
-        
-        
-        useEffect(() => {
-            if (isSuccess) {
-              const { ids, entities } = ledger;
-              let table =ledger.ids && ledger.ids.map(id=>{
-                return[{
-                value:ledger.entities[id].date},
-                {
-                value:ledger.entities[id].description},
-                {
-                value:JSON.stringify(ledger.entities[id].type)},
-                {
-                value:ledger.entities[id].value}]
-            })
-            
-              setData(table);
+        const{ids,entities}=ledger || {}
+     
+          const rows = ids && ids.map((id)=>{
+            return{date:entities[id].date.split('T')[0],
+              description:entities[id].description,
+              type:JSON.stringify(entities[id].type),
+              value:entities[id].value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, '')
             }
-          }, [isSuccess, ledger]);
-          
-        */
+          })
         let content
           
         if(isLoading){
@@ -177,18 +139,17 @@ const Ledger = () => {
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
         </div>
         <div className="spreadsheet_container">
-        <LedgerTable ledger={ledger}/>
-        
-            
+        <SpreadsheetComponent >
+               <SheetsDirective>
+                   <SheetDirective >
+                       <RangesDirective >
+                            <RangeDirective  dataSource={rows} ></RangeDirective>
+                        </RangesDirective>
+                    </SheetDirective>
+                </SheetsDirective>
+           </SpreadsheetComponent>      
         </div>
-        <Paper style={{ height: 400, width: '100%' }}>
-      <TableVirtuoso
-        data={rows}
-        components={VirtuosoTableComponents}
-        fixedHeaderContent={fixedHeaderContent}
-        itemContent={rowContent}
-      />
-    </Paper>
+        
                 
             </section>
             )
