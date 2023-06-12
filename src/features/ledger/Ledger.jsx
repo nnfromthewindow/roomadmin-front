@@ -3,94 +3,10 @@ import { ColorRing } from "react-loader-spinner"
 import { Button,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
-import { useState, useEffect,forwardRef } from "react"
+import { useState, useEffect,forwardRef,useRef } from "react"
 import { TableVirtuoso } from 'react-virtuoso';
-import { SheetsDirective, SheetDirective, RangesDirective, RangeDirective, SpreadsheetComponent } from '@syncfusion/ej2-react-spreadsheet';
-
-
-const columns = [
-  {
-    width: 10,
-    label: 'Date',
-    dataKey: 'date',
-  },
-  {
-    width: 120,
-    label: 'Description',
-    dataKey: 'description',
-
-  },
-  {
-    width: 10,
-    label: 'Type',
-    dataKey: 'type',
-  
-  },
-  
-  {
-    width: 10,
-    label: 'Value',
-    dataKey: 'value',
-    numeric: true,
-  },
-
-  {
-    width: 10,
-    label: '',
-    dataKey: 'delete',
-  
-  },
-];
-
-
-
-const VirtuosoTableComponents = {
-  Scroller:forwardRef((props, ref) => (
-    <TableContainer component={Paper} {...props} ref={ref} />
-  )),
-  Table: (props) => (
-    <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
-  ),
-  TableHead,
-  TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
-  TableBody:forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
-};
-
-function fixedHeaderContent() {
-  return (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          variant="head"
-          align={column.numeric || false ? 'right' : 'left'}
-          style={{ width: column.width }}
-          sx={{
-            backgroundColor: 'background.paper',
-          }}
-        >
-          {column.label}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
-
-function rowContent(_index, row) {
-  return (
-    <>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          align={column.numeric || false ? 'right' : 'left'}
-        >
-          {row[column.dataKey]}
-        </TableCell>
-      ))}
-    </>
-  );
-}
-
+import { SpreadsheetComponent, SheetsDirective, SheetDirective, RangesDirective, RowsDirective, RowDirective } from '@syncfusion/ej2-react-spreadsheet';
+import { RangeDirective, ColumnsDirective, ColumnDirective } from '@syncfusion/ej2-react-spreadsheet';
 
 
 const Ledger = () => {
@@ -105,7 +21,11 @@ const Ledger = () => {
         } = useGetLedgerQuery()
        
         const{ids,entities}=ledger || {}
-     
+       
+        const spreadsheetRef = useRef(null);
+        const [rowData, setRowData] = useState([]) 
+        
+        useEffect(() => {
           const rows = ids && ids.map((id)=>{
             return{date:entities[id].date.split('T')[0],
               description:entities[id].description,
@@ -113,6 +33,21 @@ const Ledger = () => {
               value:entities[id].value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, '')
             }
           })
+     
+          setRowData(rows)
+
+          let spreadsheet = spreadsheetRef.current;
+
+          setRowData(rows)
+
+          if (spreadsheet ) {
+            
+              spreadsheet.cellFormat({ fontWeight: 'bold', textAlign: 'center' }, 'A1:H1');
+           
+          }
+      }, []);
+
+        
         let content
           
         if(isLoading){
@@ -139,12 +74,26 @@ const Ledger = () => {
         <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Item</Button>
         </div>
         <div className="spreadsheet_container">
-        <SpreadsheetComponent >
+        <SpreadsheetComponent ref={spreadsheetRef} showSheetTabs={true} showRibbon={false} showFormulaBar={false}>
                <SheetsDirective>
                    <SheetDirective >
                        <RangesDirective >
-                            <RangeDirective  dataSource={rows} ></RangeDirective>
+                            <RangeDirective  dataSource={rowData} ></RangeDirective>
                         </RangesDirective>
+                        <RowsDirective>
+                            <RowDirective index={0}></RowDirective>
+                            <RowDirective hidden={true}></RowDirective>
+                        </RowsDirective>
+                        <ColumnsDirective>
+                            <ColumnDirective width={100}></ColumnDirective>
+                            <ColumnDirective width={500}></ColumnDirective>
+                            <ColumnDirective width={100}></ColumnDirective>
+                            <ColumnDirective width={80}></ColumnDirective>
+                            <ColumnDirective width={80}></ColumnDirective>
+                            <ColumnDirective width={80}></ColumnDirective>
+                            <ColumnDirective width={80}></ColumnDirective>
+                            <ColumnDirective width={80}></ColumnDirective>
+                        </ColumnsDirective>
                     </SheetDirective>
                 </SheetsDirective>
            </SpreadsheetComponent>      
