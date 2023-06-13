@@ -20,7 +20,8 @@ const Ledger = () => {
        
         const{ids,entities}=ledger || {}
         const rows = entities && ids && ids.map((id)=>{
-            return{date:entities[id].date.split('T')[0],
+            return{id:id,
+                date:entities[id].date.split('T')[0],
               description:entities[id].description,
               expenses:entities[id].expenses,
               income:entities[id].income.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, '')

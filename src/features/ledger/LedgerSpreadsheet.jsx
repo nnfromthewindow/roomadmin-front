@@ -1,83 +1,129 @@
-import { SpreadsheetComponent, SheetsDirective, SheetDirective, ColumnsDirective, RangesDirective, RangeDirective, RowsDirective, RowDirective, CellsDirective, CellDirective, ColumnDirective } from '@syncfusion/ej2-react-spreadsheet';
-import { useEffect, useRef,useState } from 'react';
-import { useAddNewLedgerItemMutation } from './ledgerApiSlice';
-
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { useState, useEffect } from 'react';
 
 const LedgerSpreadsheet = ({rows}) => {
 
-    const [rowData, setRowData] = useState(rows) || []
-    const [json, setJson] = useState([]) || []
-    const spreadsheetRef = useRef(null);
+    const columns = [
+        { id: 'date', label: 'Date', minWidth: 170 },
+        { id: 'description', label: 'Description', minWidth: 300 },
+        {
+          id: 'expenses',
+          label: 'Expenses',
+          minWidth: 170,
+          align: 'right',
+          format: (value) => value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''),
+        },
+        {
+          id: 'income',
+          label: 'Income',
+          minWidth: 170,
+          align: 'right',
+          format: (value) => value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''),
+        },
+      
+      ];
+     
 
-    const [addNewItem, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
-      }] = useAddNewLedgerItemMutation()
+    //console.log(rows)
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const[total, setTotal] = useState(0)
 
     useEffect(()=>{
-        let spreadsheet = spreadsheetRef.current;
-          
-        if (spreadsheet) {
-    
-          //spreadsheet.insertRow(rows.length, rows);
-          spreadsheet.cellFormat({ fontWeight: 'bold', textAlign: 'center' }, 'A1:D1');
+        let sumIncome = 0
+        let sumExpenses = 0
+      rows &&  rows.forEach((obj) => {
+        
+            const income = Number(obj.income);
+            const expenses = Number(obj.expenses);
             
-        }
-    },[])
-
-    const onSaveNewItem= async(e) =>{
-        e.preventDefault()
-        if(canSave){
-              
-          await addNewItem({name, lastname, idnumber,adress, email, phone, avatar, username, password, roles})
-          handleClose()
+            if (!isNaN(income) ) {
+              sumIncome += income;
             }
-      
-      }
+            if (!isNaN(expenses) ) {
+                sumExpenses += expenses;
+              }
+          })  
+        setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
     
-   const saveItem = async() =>{
-    let spreadsheet = spreadsheetRef.current;
-    let jsonObj = await spreadsheet.saveAsJson().then(resp=>{return resp.jsonObject.Workbook.sheets[0].rows})
+    },[])
   
-    const rows = jsonObj.map(row=>{return {
-        date:row.cells[0].value,
-        description:row.cells[1].value,
-        expenses:row.cells[2].value,
-        income:row.cells[3].value
-}
-    })
-    console.log(rows)
-   }     
+    
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
+
 
   return (
-    <div className="spreadsheet_container">
-        <button onClick={saveItem}>Save</button>
-        <SpreadsheetComponent ref={spreadsheetRef} showSheetTabs={true} showRibbon={false} showFormulaBar={false}>
-               <SheetsDirective >
-                   <SheetDirective >
-                       <RangesDirective >
-                            <RangeDirective  dataSource={rowData} ></RangeDirective>
-                        </RangesDirective>
-                        <RowsDirective >
-                            <CellsDirective>
-                                <CellDirective></CellDirective>
-                                <CellDirective></CellDirective>
-                                <CellDirective></CellDirective>
-                                <CellDirective></CellDirective>
-                            </CellsDirective>
-                        </RowsDirective>
-                        <ColumnsDirective>
-                        <ColumnDirective width={100}></ColumnDirective>
-                        <ColumnDirective width={500}></ColumnDirective>
-                        <ColumnDirective width={100}></ColumnDirective>
-                        <ColumnDirective width={180}></ColumnDirective>
-                        </ColumnsDirective>
-                    </SheetDirective>
-                </SheetsDirective>
-           </SpreadsheetComponent>      
-        </div>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                     
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+              <TableRow >
+              <TableCell align="right" colSpan={3}>TOTAL BALANCE</TableCell>
+            <TableCell align="right" colSpan={4}>{total}</TableCell>
+          </TableRow>
+             
+              
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
+        
   )
 }
 
