@@ -8,7 +8,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState, useEffect } from 'react';
 
-const LedgerSpreadsheet = ({rows}) => {
+const LedgerTable = ({rows}) => {
 
     const columns = [
         { id: 'date', label: 'Date', minWidth: 170 },
@@ -54,7 +54,9 @@ const LedgerSpreadsheet = ({rows}) => {
           })  
         setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
     
-    },[])
+    },[rows])
+
+   
   
     
     const handleChangePage = (event, newPage) => {
@@ -96,8 +98,10 @@ const LedgerSpreadsheet = ({rows}) => {
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
+                          ? value === 0
+                            ? ""
+                            : column.format(value)
+                          : value}
                         </TableCell>
                       );
                     })}
@@ -105,8 +109,8 @@ const LedgerSpreadsheet = ({rows}) => {
                 );
               })}
               <TableRow >
-              <TableCell align="right" colSpan={3}>TOTAL BALANCE</TableCell>
-            <TableCell align="right" colSpan={4}>{total}</TableCell>
+              <TableCell align="right" colSpan={3} sx={{fontWeight:'bold'}}>TOTAL BALANCE</TableCell>
+            <TableCell align="right" colSpan={4} sx={{fontWeight:'bold'}} >{total}</TableCell>
           </TableRow>
              
               
@@ -127,4 +131,4 @@ const LedgerSpreadsheet = ({rows}) => {
   )
 }
 
-export default LedgerSpreadsheet
+export default LedgerTable
