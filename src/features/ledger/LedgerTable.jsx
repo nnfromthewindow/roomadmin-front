@@ -26,6 +26,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { Button } from '@mui/material';
 
 const columns = [
   { id: 'date', label: 'Date', minWidth: 170 },
@@ -132,11 +133,11 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, selected } = props;
 
   return (
     <Toolbar
@@ -171,13 +172,13 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
+          <IconButton onClick={()=>{console.log(selected)}}>
+            <DeleteIcon  />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton>
+          <IconButton onClick={()=>{console.log(selected)}}>
             <FilterListIcon />
           </IconButton>
         </Tooltip>
@@ -188,6 +189,7 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selected: PropTypes.array.isRequired
 };
 
 
@@ -219,11 +221,14 @@ const LedgerTable = ({rows}) => {
   };
 
   const handleClick = (event, name) => {
+    
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
-console.log(newSelected)
+
     if (selectedIndex === -1) {
+      
       newSelected = newSelected.concat(selected, name);
+      
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -234,8 +239,10 @@ console.log(newSelected)
         selected.slice(selectedIndex + 1),
       );
     }
-
+  
+    
     setSelected(newSelected);
+
   };
 
   const handleChangeDense = (event) => {
@@ -304,7 +311,8 @@ console.log(newSelected)
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <EnhancedTableToolbar numSelected={selected.length} />
+      <Button onClick={()=>{console.log(selected)}}>CLICK</Button>
+      <EnhancedTableToolbar numSelected={selected.length} selected={selected}/>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
         <EnhancedTableHead
