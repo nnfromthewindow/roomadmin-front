@@ -58,13 +58,13 @@ export const ledgerApiSlice = apiSlice.injectEndpoints({
             ]
         }),
         deleteLedgerItem: builder.mutation({
-            query: ({ id }) => ({
+            query: ({ ids }) => ({
                 url: `/ledger`,
                 method: 'DELETE',
-                body: { id }
+                body: { ids }
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'LedgerItem', id: arg.id }
+            invalidatesTags: (result, error, arg) => [console.log(arg),
+                { type: 'LedgerItem', ids: 'LIST' }
             ]
         }),
     })

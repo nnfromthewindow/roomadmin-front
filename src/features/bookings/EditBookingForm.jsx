@@ -112,7 +112,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) 
       setPassengers(event.target.value);
     };
   
-    const                                             handleCustomerChange = (event) => {
+    const handleCustomerChange = (event) => {
       setCustomer(event.target.value);
     };
   

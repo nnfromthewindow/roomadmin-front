@@ -1,32 +1,10 @@
-
 import { useState, useEffect,useMemo } from 'react';
-
-
-//=======================
-
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import {Box, Table, TableBody,TableCell,TableContainer,TableHead,TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox, IconButton,Tooltip, Button} from '@mui/material';
+import {Delete, FilterList} from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
-import { Button } from '@mui/material';
+import LedgerDeleteDialog from './LedgerDeleteDialog';
 
 const columns = [
   { id: 'date', label: 'Date', minWidth: 170 },
@@ -137,7 +115,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, selected } = props;
+  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete} = props;
 
   return (
     <Toolbar
@@ -171,15 +149,22 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
+        <>
         <Tooltip title="Delete">
-          <IconButton onClick={()=>{console.log(selected)}}>
-            <DeleteIcon  />
+          <IconButton onClick={handleClickOpenDelete}>
+            <Delete  />
           </IconButton>
+          
         </Tooltip>
+        <LedgerDeleteDialog handleCloseCancelDelete={handleCloseCancelDelete}
+          handleCloseDelete={handleCloseDelete}
+          openDelete={openDelete}
+          numSelected={numSelected} selectedIds={selected}/>
+        </>
       ) : (
         <Tooltip title="Filter list">
           <IconButton onClick={()=>{console.log(selected)}}>
-            <FilterListIcon />
+            <FilterList />
           </IconButton>
         </Tooltip>
       )}
@@ -189,21 +174,49 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  selected: PropTypes.array.isRequired
+  selected: PropTypes.array.isRequired,
+  openDelete:PropTypes.bool.isRequired,
+  handleCloseDelete:PropTypes.func.isRequired,
+  handleCloseCancelDelete:PropTypes.func.isRequired,
+  handleClickOpenDelete:PropTypes.func.isRequired
 };
 
 
 const LedgerTable = ({rows}) => {
  
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
   const [dense, setDense] = useState(false);
-
+  const [openDelete, setOpenDelete] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
   const[total, setTotal] = useState(0)
+
+  useEffect(()=>{
+
+    let sumIncome = 0
+    let sumExpenses = 0
+    rows &&  rows.forEach((obj) => {
+    
+      const income = Number(obj.income);
+      const expenses = Number(obj.expenses);
+        
+      if (!isNaN(income) ) {
+          sumIncome += income;
+          }
+      if (!isNaN(expenses) ) {
+            sumExpenses += expenses;
+     
+          }
+    })  
+
+    setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
+
+  },[rows])
+
+
+  //=== MUI TABLE CODE ===
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -240,9 +253,7 @@ const LedgerTable = ({rows}) => {
       );
     }
   
-    
     setSelected(newSelected);
-
   };
 
   const handleChangeDense = (event) => {
@@ -268,53 +279,41 @@ const LedgerTable = ({rows}) => {
 
 
 
-    
-     
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+    //handleClose()
+  };
 
-    //console.log(rows)
-    //const [page, setPage] = useState(0);
-    //const [rowsPerPage, setRowsPerPage] = useState(10);
+  const handleCloseCancelDelete = () => {
+    setOpenDelete(false);
+  };
 
-    //const[total, setTotal] = useState(0)
-
-    useEffect(()=>{
-        let sumIncome = 0
-        let sumExpenses = 0
-      rows &&  rows.forEach((obj) => {
-        
-            const income = Number(obj.income);
-            const expenses = Number(obj.expenses);
-            
-            if (!isNaN(income) ) {
-              sumIncome += income;
-            }
-            if (!isNaN(expenses) ) {
-                sumExpenses += expenses;
-              }
-          })  
-        setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
-    
-    },[rows])
-
-   
   
-    
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
-    };
+const handleClickOpenDelete = () => {
+  setOpenDelete(true);
+};
+
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(+event.target.value);
+  setPage(0);
+};
+
+
+
 
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <Button onClick={()=>{console.log(selected)}}>CLICK</Button>
-      <EnhancedTableToolbar numSelected={selected.length} selected={selected}/>
+      
+      <EnhancedTableToolbar numSelected={selected.length} selected={selected} openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} handleClickOpenDelete={handleClickOpenDelete}/>
+
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
+        
         <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -323,9 +322,7 @@ const LedgerTable = ({rows}) => {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
-          <TableHead>
-            
-          </TableHead>
+
           <TableBody >
             {visibleRows.map((row, index) => {
 
