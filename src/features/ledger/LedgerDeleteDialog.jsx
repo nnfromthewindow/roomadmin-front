@@ -13,7 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const LedgerDeleteDialog = ({openDelete, handleCloseDelete, handleCloseCancelDelete, selectedIds, numSelected}) => {
- console.log(selectedIds)
+  
     const [deleteLedgerSelectedItem,
     isLoading,
     isSuccess,

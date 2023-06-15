@@ -112,18 +112,16 @@ const Ledger = () => {
       colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
     />
         </div>
-        } else if (isSuccess){
+        } else if (isSuccess || isError){
     
-            const{ids, entities} = ledger
-            
-
-        content = rows && (     
+     
+        return (     
             <section className="ledger">
                 <h1 className="main_title">LEDGER</h1>
                 <div className="ledger_add">
+               
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                
-
+               
                 
                 <MobileDatePicker onChange={(newDate) => setDate(newDate)}  value={date} sx={{width:'12rem'}}/>
 
@@ -155,15 +153,13 @@ const Ledger = () => {
                 </LocalizationProvider>
                 
         </div>
-        <LedgerTable rows={rows}/>
+        {isSuccess && <LedgerTable rows={rows}/>}
         
                 
             </section>
             )
-        }else if(isError){
-            content = <LedgerTable rows={rows}/>
+
         }
-        return content
 }
 
 export default Ledger

@@ -5,6 +5,12 @@ import {Box, Table, TableBody,TableCell,TableContainer,TableHead,TablePagination
 import {Delete, FilterList} from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import LedgerDeleteDialog from './LedgerDeleteDialog';
+import dayjs from 'dayjs';
+import moment from 'moment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDatePicker } from '@mui/x-date-pickers';
+
 
 const columns = [
   { id: 'date', label: 'Date', minWidth: 170 },
@@ -47,15 +53,18 @@ function getComparator(order, orderBy) {
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+  if(array){
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+ 
 }
 
 function EnhancedTableHead(props) {
@@ -65,7 +74,7 @@ function EnhancedTableHead(props) {
     onRequestSort(event, property);
   };
 
-  return (
+  return (props &&
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
@@ -111,11 +120,11 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired
+  rowCount: PropTypes.number
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete} = props;
+  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete, date} = props;
 
   return (
     <Toolbar
@@ -162,15 +171,22 @@ function EnhancedTableToolbar(props) {
           numSelected={numSelected} selectedIds={selected}/>
         </>
       ) : (
+        <>
+        
+        <FilterToolbar date={date}/>
+
         <Tooltip title="Filter list">
           <IconButton onClick={()=>{console.log(selected)}}>
             <FilterList />
           </IconButton>
         </Tooltip>
+        
+        </>
       )}
     </Toolbar>
   );
 }
+
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
@@ -178,12 +194,30 @@ EnhancedTableToolbar.propTypes = {
   openDelete:PropTypes.bool.isRequired,
   handleCloseDelete:PropTypes.func.isRequired,
   handleCloseCancelDelete:PropTypes.func.isRequired,
-  handleClickOpenDelete:PropTypes.func.isRequired
+  handleClickOpenDelete:PropTypes.func.isRequired,
+  date:PropTypes.object
 };
 
+function FilterToolbar(props) {
+  const{rows, date, open}=props
+
+  
+  return(
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <MobileDatePicker value={date} defaultValue={dayjs()}  views={['year','month']}/>
+    </LocalizationProvider>
+  )
+}
+
+FilterToolbar.propTypes = {
+  date: PropTypes.object,
+  rows: PropTypes.array,
+  open: PropTypes.bool
+}
 
 const LedgerTable = ({rows}) => {
  
+  
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
@@ -192,6 +226,8 @@ const LedgerTable = ({rows}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const[total, setTotal] = useState(0)
+  const[date, setDate] = useState(dayjs())
+
 
   useEffect(()=>{
 
@@ -211,10 +247,11 @@ const LedgerTable = ({rows}) => {
           }
     })  
 
+    
     setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
+    setSelected([]);
 
   },[rows])
-
 
   //=== MUI TABLE CODE ===
 
@@ -266,15 +303,16 @@ const LedgerTable = ({rows}) => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = useMemo(
+  const visibleRows = rows && useMemo(
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, rows],
   );
 
+  
   //================================
 
 
@@ -320,11 +358,11 @@ const handleChangeRowsPerPage = (event) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows?.length}
             />
 
           <TableBody >
-            {visibleRows.map((row, index) => {
+            {rows && visibleRows.map((row, index) => {
 
             const isItemSelected = isSelected(row.id);
             const labelId = `enhanced-table-checkbox-${index}`;
@@ -382,7 +420,7 @@ const handleChangeRowsPerPage = (event) => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rows && rows.length || 1}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

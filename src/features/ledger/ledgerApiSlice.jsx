@@ -62,9 +62,9 @@ export const ledgerApiSlice = apiSlice.injectEndpoints({
                 url: `/ledger`,
                 method: 'DELETE',
                 body: { ids }
-            }),
-            invalidatesTags: (result, error, arg) => [console.log(arg),
-                { type: 'LedgerItem', ids: 'LIST' }
+            }), 
+            invalidatesTags: (result, error, arg) => [
+                { type: 'LedgerItem', id: "LIST" }
             ]
         }),
     })
