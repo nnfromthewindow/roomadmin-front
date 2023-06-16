@@ -124,7 +124,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete, date} = props;
+  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete, date, handleFilterChange, filter} = props;
 
   return (
     <Toolbar
@@ -173,7 +173,7 @@ function EnhancedTableToolbar(props) {
       ) : (
         <>
         
-        <FilterToolbar date={date}/>
+        <FilterToolbar date={date} handleFilterChange={handleFilterChange} filter={filter}/>
 
         <Tooltip title="Filter list">
           <IconButton onClick={()=>{console.log(selected)}}>
@@ -195,16 +195,18 @@ EnhancedTableToolbar.propTypes = {
   handleCloseDelete:PropTypes.func.isRequired,
   handleCloseCancelDelete:PropTypes.func.isRequired,
   handleClickOpenDelete:PropTypes.func.isRequired,
-  date:PropTypes.object
+  date:PropTypes.object,
+  handleFilterChange:PropTypes.func,
+  filter:PropTypes.any
 };
 
 function FilterToolbar(props) {
-  const{rows, date, open}=props
+  const{rows, date, open, handleFilterChange, filter}=props
 
   
   return(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <MobileDatePicker value={date} defaultValue={dayjs()}  views={['year','month']}/>
+    <MobileDatePicker onChange={handleFilterChange}  value={filter}  views={['year','month']}/>
     </LocalizationProvider>
   )
 }
@@ -212,7 +214,9 @@ function FilterToolbar(props) {
 FilterToolbar.propTypes = {
   date: PropTypes.object,
   rows: PropTypes.array,
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  handleFilterChange: PropTypes.func,
+  filter:PropTypes.any
 }
 
 const LedgerTable = ({rows}) => {
@@ -227,13 +231,19 @@ const LedgerTable = ({rows}) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const[total, setTotal] = useState(0)
   const[date, setDate] = useState(dayjs())
-
+  const[filter, setFilter] = useState(dayjs())
+          
+  const filteredRows = rows.filter((row)=>{
+    console.log(dayjs(row.date).year())
+    return(row && dayjs(row.date).month() == dayjs(filter).month() && dayjs(row.date).year() == dayjs(filter).year())
+  
+  })
 
   useEffect(()=>{
 
     let sumIncome = 0
     let sumExpenses = 0
-    rows &&  rows.forEach((obj) => {
+    filteredRows &&  filteredRows.forEach((obj) => {
     
       const income = Number(obj.income);
       const expenses = Number(obj.expenses);
@@ -246,7 +256,6 @@ const LedgerTable = ({rows}) => {
      
           }
     })  
-
     
     setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
     setSelected([]);
@@ -263,7 +272,7 @@ const LedgerTable = ({rows}) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
+      const newSelected = filteredRows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -299,17 +308,17 @@ const LedgerTable = ({rows}) => {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
+  // Avoid a layout jump when reaching the last page with empty filteredRows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
 
-  const visibleRows = rows && useMemo(
+  const visibleRows = filteredRows && useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage, rows],
+    [order, orderBy, page, rowsPerPage, filteredRows],
   );
 
   
@@ -341,13 +350,19 @@ const handleChangeRowsPerPage = (event) => {
 };
 
 
+const handleFilterChange = (event) => {
+  console.log(filter)
+  
+  setFilter(event.$d);
+  console.log(filter)
+}
 
 
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       
-      <EnhancedTableToolbar numSelected={selected.length} selected={selected} openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} handleClickOpenDelete={handleClickOpenDelete}/>
+      <EnhancedTableToolbar numSelected={selected.length} selected={selected} openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} handleClickOpenDelete={handleClickOpenDelete} date={date} handleFilterChange={handleFilterChange} filter={filter}/>
 
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -358,11 +373,11 @@ const handleChangeRowsPerPage = (event) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows?.length}
+              rowCount={filteredRows?.length}
             />
 
           <TableBody >
-            {rows && visibleRows.map((row, index) => {
+            {filteredRows && visibleRows.map((row, index) => {
 
             const isItemSelected = isSelected(row.id);
             const labelId = `enhanced-table-checkbox-${index}`;
@@ -394,8 +409,8 @@ const handleChangeRowsPerPage = (event) => {
                       {row.date}
                     </TableCell>
                     <TableCell align="left">{row.description}</TableCell>
-                    <TableCell align="left">{row.expenses}</TableCell>
-                    <TableCell align="left">{row.income}</TableCell>
+                    <TableCell align="left">{row.expenses == 0 ? "" : row.expenses.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, '')}</TableCell>
+                    <TableCell align="left">{row.income == 0 ? "" : row.income.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, '')}</TableCell>
                   </TableRow>
                 );
               })}
@@ -420,7 +435,7 @@ const handleChangeRowsPerPage = (event) => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows && rows.length || 1}
+        count={filteredRows && filteredRows.length || 1}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

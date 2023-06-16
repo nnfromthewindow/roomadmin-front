@@ -1,6 +1,6 @@
 import { useGetLedgerQuery } from "./ledgerApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import { useState, useEffect } from "react"
+import { useState, useEffect,useMemo } from "react"
 import { TextField,InputLabel,Select,MenuItem, Button, FormControl, InputAdornment } from "@mui/material"
 import LedgerTable from "./LedgerTable"
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers"
@@ -45,6 +45,9 @@ const Ledger = () => {
         const [type, setType] = useState('') || ''
         const [value, setValue] = useState('') || ''
 
+        const memoizedTable = useMemo(()=>{
+        return(<LedgerTable rows={rows}/>)
+        },[ledger])
      
         const handleDescriptionChange = (event) => {
           setDescription(event.target.value);
@@ -153,7 +156,7 @@ const Ledger = () => {
                 </LocalizationProvider>
                 
         </div>
-        {isSuccess && <LedgerTable rows={rows}/>}
+        {isSuccess && memoizedTable}
         
                 
             </section>
