@@ -1,4 +1,4 @@
-import { useState, useEffect,useMemo } from 'react';
+import { useState, useEffect,useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import {Box, Table, TableBody,TableCell,TableContainer,TableHead,TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox, IconButton,Tooltip, Button} from '@mui/material';
@@ -10,6 +10,9 @@ import moment from 'moment';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
+import { DownloadTableExcel } from 'react-export-table-to-excel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 
 const columns = [
@@ -161,7 +164,7 @@ function EnhancedTableToolbar(props) {
         <>
         <Tooltip title="Delete">
           <IconButton onClick={handleClickOpenDelete}>
-            <Delete  />
+          <Delete  />
           </IconButton>
           
         </Tooltip>
@@ -171,17 +174,9 @@ function EnhancedTableToolbar(props) {
           numSelected={numSelected} selectedIds={selected}/>
         </>
       ) : (
-        <>
         
         <FilterToolbar date={date} handleFilterChange={handleFilterChange} filter={filter}/>
-
-        <Tooltip title="Filter list">
-          <IconButton onClick={()=>{console.log(selected)}}>
-            <FilterList />
-          </IconButton>
-        </Tooltip>
-        
-        </>
+       
       )}
     </Toolbar>
   );
@@ -206,7 +201,7 @@ function FilterToolbar(props) {
   
   return(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <MobileDatePicker onChange={handleFilterChange}  value={filter}  views={['year','month']}/>
+    <MobileDatePicker onChange={handleFilterChange}  value={filter}  views={['year','month']} openTo='month' />
     </LocalizationProvider>
   )
 }
@@ -228,18 +223,19 @@ const LedgerTable = ({rows}) => {
   const [dense, setDense] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(1000);
   const[total, setTotal] = useState(0)
   const[date, setDate] = useState(dayjs())
   const[filter, setFilter] = useState(dayjs())
+  const tableRef = useRef(null);
           
   const filteredRows = rows.filter((row)=>{
-    console.log(dayjs(row.date).year())
+    
     return(row && dayjs(row.date).month() == dayjs(filter).month() && dayjs(row.date).year() == dayjs(filter).year())
   
   })
 
-  useEffect(()=>{
+ const totalMemo =filteredRows && useMemo(()=>{
 
     let sumIncome = 0
     let sumExpenses = 0
@@ -257,10 +253,14 @@ const LedgerTable = ({rows}) => {
           }
     })  
     
-    setTotal((sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, ''))
-    setSelected([]);
 
-  },[rows])
+    return (sumIncome-sumExpenses).toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d+/g, '')
+   
+  },[filteredRows])
+
+  useEffect(()=>{
+    setSelected([])
+  },[totalMemo])
 
   //=== MUI TABLE CODE ===
 
@@ -328,7 +328,7 @@ const LedgerTable = ({rows}) => {
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
-    //handleClose()
+    
   };
 
   const handleCloseCancelDelete = () => {
@@ -351,10 +351,7 @@ const handleChangeRowsPerPage = (event) => {
 
 
 const handleFilterChange = (event) => {
-  console.log(filter)
-  
-  setFilter(event.$d);
-  console.log(filter)
+  setFilter(dayjs(event.$d));
 }
 
 
@@ -365,7 +362,7 @@ const handleFilterChange = (event) => {
       <EnhancedTableToolbar numSelected={selected.length} selected={selected} openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} handleClickOpenDelete={handleClickOpenDelete} date={date} handleFilterChange={handleFilterChange} filter={filter}/>
 
       <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label="sticky table" ref={tableRef}>
         
         <EnhancedTableHead
               numSelected={selected.length}
@@ -425,15 +422,29 @@ const handleFilterChange = (event) => {
               )}
               <TableRow >
               <TableCell align="right" colSpan={3} sx={{fontWeight:'bold'}}>TOTAL BALANCE</TableCell>
-            <TableCell align="right" colSpan={2} sx={{fontWeight:'bold'}} >{total}</TableCell>
+            <TableCell align="right" colSpan={2} sx={{fontWeight:'bold'}} >{totalMemo}</TableCell>
           </TableRow>
-             
+          
               
           </TableBody>
         </Table>
       </TableContainer>
+
+      <DownloadTableExcel
+                    filename="users table"
+                    sheet="users"
+                    currentTableRef={tableRef.current}
+                >
+ <Tooltip title="Export Excel">
+          <IconButton onClick={handleClickOpenDelete} sx={{fontSize:'1em', gap:'10px'}}>
+          <FontAwesomeIcon icon={faFileExcel}  color='green'/> <span style={{marginTop:'3px'}}>Export Excel</span> 
+          </IconButton>
+          
+        </Tooltip>
+                  
+ </DownloadTableExcel>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[1000, 500, 100, 50]}
         component="div"
         count={filteredRows && filteredRows.length || 1}
         rowsPerPage={rowsPerPage}
@@ -441,6 +452,7 @@ const handleFilterChange = (event) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      
     </Paper>
     
         
