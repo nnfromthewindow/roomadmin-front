@@ -331,27 +331,6 @@ margin-top: 3rem;
     background-color: #537c1c4d;
 }
 
-.spreadsheet_container{
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    overflow-x: auto;
-}
-
-.Spreadsheet__cell:nth-child(1){
-    padding-left: 1rem;
-    width: 7rem;
-    }
-
-.Spreadsheet__cell:nth-child(2){
-width: 30rem;
-}
-
-.Spreadsheet__cell:nth-child(4){
-    padding-right: 10px;
-    text-align: right;
-    width: 15rem;
-}
 
 .ledger_add{
     display: flex;

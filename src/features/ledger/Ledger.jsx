@@ -121,8 +121,11 @@ const Ledger = () => {
         return (     
             <section className="ledger">
                 <h1 className="main_title">LEDGER</h1>
-                <div className="ledger_add">
-               
+                
+               <form onSubmit={onSaveNewLedgerItem}>
+
+               <div className="ledger_add">
+
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                
                 
@@ -130,7 +133,7 @@ const Ledger = () => {
 
                 <TextField onChange={handleDescriptionChange} value={description} id="outlined-basic" label="Description" variant="outlined" style={{width:'40rem'}}/>
                 
-                <FormControl>
+                <FormControl >
                 <InputLabel id="type-label" >Type</InputLabel>
                 
                 <Select
@@ -151,11 +154,14 @@ const Ledger = () => {
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,          
                 }} onChange={handleValueChange} value={value} id="outlined-basic" label="Value" variant="outlined" />
 
-                <Button disabled={!canSave} onClick={onSaveNewLedgerItem} color="success" variant="contained" sx={{  fontFamily:'Dosis',fontSize:'1.55em',width:'240px'}} >Add Item<AddCircleOutline sx={{color:lightBlue[500],marginLeft:'8px'}}/></Button>
+                <Button type="submit" disabled={!canSave} color="success" variant="contained" sx={{  fontFamily:'Dosis',fontSize:'1.55em',width:'240px'}} >Add Item<AddCircleOutline sx={{color:lightBlue[500],marginLeft:'8px'}}/></Button>
 
                 </LocalizationProvider>
+                </div>
                 
-        </div>
+                </form>
+                
+       
         {isSuccess && memoizedTable}
         
                 

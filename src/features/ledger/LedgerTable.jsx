@@ -104,11 +104,7 @@ function EnhancedTableHead(props) {
               onClick={createSortHandler(column.id)}
             >
               {column.label}
-              {orderBy === column.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
+            
             </TableSortLabel>
           </TableCell>
         ))}
@@ -431,13 +427,13 @@ const handleFilterChange = (event) => {
       </TableContainer>
 
       <DownloadTableExcel
-                    filename="users table"
-                    sheet="users"
+                    filename={`total_balance_${dayjs(filter).year()}_${dayjs(filter).format('MMM').toLocaleLowerCase()}`}
+                    sheet={`${dayjs(filter).year()} ${dayjs(filter).format('MMM')}`}
                     currentTableRef={tableRef.current}
                 >
  <Tooltip title="Export Excel">
-          <IconButton onClick={handleClickOpenDelete} sx={{fontSize:'1em', gap:'10px'}}>
-          <FontAwesomeIcon icon={faFileExcel}  color='green'/> <span style={{marginTop:'3px'}}>Export Excel</span> 
+          <IconButton onClick={handleClickOpenDelete} sx={{fontSize:'1em', gap:'8px'}}>
+          <FontAwesomeIcon icon={faFileExcel}  color='green'/> <span style={{marginTop:'3px', fontSize:'0.9em'}}>Export Excel</span> 
           </IconButton>
           
         </Tooltip>
