@@ -149,7 +149,10 @@ transition: 2s;
 
 .contact_item{
     display: flex;
+    font-size: 1.4em;
     justify-content: space-between;
+    margin: 0 auto;
+    max-width: 20rem;
     width: 100%;
 }
 

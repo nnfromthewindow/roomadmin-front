@@ -1,8 +1,8 @@
 import { useState, useEffect,useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
-import {Box, Table, TableBody,TableCell,TableContainer,TableHead,TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox, IconButton,Tooltip, Button} from '@mui/material';
-import {Delete, FilterList} from '@mui/icons-material';
+import {FormControlLabel, Table, TableBody,TableCell,TableContainer,TableHead,TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox, IconButton,Tooltip, Switch} from '@mui/material';
+import {Delete, CalendarViewDay} from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import LedgerDeleteDialog from './LedgerDeleteDialog';
 import dayjs from 'dayjs';
@@ -123,7 +123,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete, date, handleFilterChange, filter} = props;
+  const { numSelected, selected,openDelete, handleCloseDelete,handleCloseCancelDelete, handleClickOpenDelete, date, dense, handleChangeDense, handleFilterChange, filter,} = props;
 
   return (
     <Toolbar
@@ -170,9 +170,18 @@ function EnhancedTableToolbar(props) {
           numSelected={numSelected} selectedIds={selected}/>
         </>
       ) : (
-        
-        <FilterToolbar date={date} handleFilterChange={handleFilterChange} filter={filter}/>
-       
+        <>
+        <Tooltip title="Dense Padding" sx={{marginRight:'8px'}}>
+        <CalendarViewDay  />
+        </Tooltip>   
+         
+         
+        <FormControlLabel
+      control={<Switch checked={dense} onChange={handleChangeDense} />}
+    />
+
+     <FilterToolbar date={date} handleFilterChange={handleFilterChange} filter={filter}/>
+        </>
       )}
     </Toolbar>
   );
@@ -188,11 +197,13 @@ EnhancedTableToolbar.propTypes = {
   handleClickOpenDelete:PropTypes.func.isRequired,
   date:PropTypes.object,
   handleFilterChange:PropTypes.func,
-  filter:PropTypes.any
+  filter:PropTypes.any,
+  dense:PropTypes.bool,
+  handleChangeDense:PropTypes.func
 };
 
 function FilterToolbar(props) {
-  const{rows, date, open, handleFilterChange, filter}=props
+  const{handleFilterChange, filter}=props
 
   
   return(
@@ -203,9 +214,6 @@ function FilterToolbar(props) {
 }
 
 FilterToolbar.propTypes = {
-  date: PropTypes.object,
-  rows: PropTypes.array,
-  open: PropTypes.bool,
   handleFilterChange: PropTypes.func,
   filter:PropTypes.any
 }
@@ -351,14 +359,14 @@ const handleFilterChange = (event) => {
 }
 
 
-
   return (
+    <>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       
-      <EnhancedTableToolbar numSelected={selected.length} selected={selected} openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} handleClickOpenDelete={handleClickOpenDelete} date={date} handleFilterChange={handleFilterChange} filter={filter}/>
+      <EnhancedTableToolbar numSelected={selected.length} selected={selected} openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} handleClickOpenDelete={handleClickOpenDelete} dense={dense} handleChangeDense={handleChangeDense} handleFilterChange={handleFilterChange} filter={filter}/>
 
       <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table" ref={tableRef}>
+        <Table stickyHeader aria-label="sticky table" ref={tableRef}  size={dense ? 'small' : 'medium'}>
         
         <EnhancedTableHead
               numSelected={selected.length}
@@ -438,20 +446,20 @@ const handleFilterChange = (event) => {
           
         </Tooltip>
                   
- </DownloadTableExcel>
-      <TablePagination
-        rowsPerPageOptions={[1000, 500, 100, 50]}
-        component="div"
-        count={filteredRows && filteredRows.length || 1}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      
-    </Paper>
-    
+  </DownloadTableExcel>
+        <TablePagination
+          rowsPerPageOptions={[1000, 500, 100, 50]}
+          component="div"
+          count={filteredRows && filteredRows.length || 1}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
         
+      </Paper>
+      
+  </>    
   )
 }
 

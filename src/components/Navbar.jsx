@@ -36,7 +36,7 @@ const Navbar = () => {
     { name: 'Customers', route: '/customers',icon: <Group sx={{ color: teal[700] }}/> },
     { name: 'Users', route: '/users',icon: <SupervisedUserCircle sx={{ color: red[700] }}/> },
     { name: 'Ledger', route: '/ledger',icon: <CurrencyExchange sx={{ color: lightGreen['A400'] }}/> },
-    { name: 'Configuration', route: '/configuration',icon: <Settings sx={{ color: brown[500] }}/> }
+    { name: 'Rooms', route: '/rooms',icon: <Settings sx={{ color: brown[500] }}/> }
   ];
   const pagesEmployee = [
     { name: 'Todos', route: `todos/${username}`,icon: <AddTask sx={{ color: pink[700] }}/> }

@@ -1,8 +1,8 @@
-import ReactDOM from 'react-dom'
-
 import { LinkedIn, GitHub, Mail, LibraryMusic } from '@mui/icons-material'
 import { grey} from '@mui/material/colors'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpotify,faLinkedin,faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 
 const Footer = () => {
@@ -16,18 +16,24 @@ const Footer = () => {
                 <h3>CONTACT:</h3>
             </div>
             <div className="contact_item">
-                <LinkedIn sx={{ color: grey[50] }} className='contact_item--icon' onClick={() => {
+        
+      <FontAwesomeIcon icon={faLinkedin}  color='white' className='contact_item--icon' onClick={() => {
         window.open('https://www.linkedin.com/in/nnuccelli/', '_blank');
       }}/>
-                <GitHub sx={{ color: grey[50] }} className='contact_item--icon' onClick={() => {
+           
+      <FontAwesomeIcon icon={faGithub}  color='white' className='contact_item--icon' onClick={() => {
         window.open('https://github.com/nnfromthewindow', '_blank');
       }}/>
-                <Mail sx={{ color: grey[50] }} className='contact_item--icon' onClick={() => {
+
+    <FontAwesomeIcon icon={faEnvelope}  color='white' className='contact_item--icon' onClick={() => {
     window.open(`mailto:nuccelli@hotmail.com`, '_blank');
   }}/>
-                <LibraryMusic sx={{ color: grey[50] }} className='contact_item--icon' onClick={() => {
-        window.open('https://open.spotify.com/artist/6mzXAePg8FLCOPptYuTn3O', '_blank');
-      }}/>
+
+    <FontAwesomeIcon icon={faSpotify} className='contact_item--icon'  color='white' onClick={() => {
+          window.open('https://open.spotify.com/artist/6mzXAePg8FLCOPptYuTn3O', '_blank');
+        }}/>
+          
+        
             </div>
         
         </div>
