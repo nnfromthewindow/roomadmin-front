@@ -4,52 +4,100 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
 import { Delete, Edit } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState,useMemo } from 'react';
 import { Button } from '@mui/material';
 import { memo } from 'react';
+import { useDeleteRoomMutation } from './roomsApiSlice';
 
 const RoomsTable = ({rooms}) => {
 console.log(rooms)
-  const [openEdit, setOpenEdit] = useState(false)
-  const [openDelete, setOpenDelete] = useState(false)
-  const [selectedRoom, setSelectedRoom] = useState(null)
-  const [roomId, setRoomId] = useState(null)
 
-  const {ids, entities} = rooms
+  const [deleteRoom,
+    isLoading,
+    isSuccess,
+    isError,
+    error] = useDeleteRoomMutation()
 
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('number');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(2);
+    
+    const {ids, entities} = rooms
 
   
-const handleClickOpenEdit = (room) => {
-  setSelectedRoom(room)
-  setOpenEdit(true);
-};
+    const onDeleteRoom = async (id) => {
+        await deleteRoom({id})
+    }  
 
-const handleCloseDelete = () => {
-  setOpenDelete(false);
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+    
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
 
-};
+    function descendingComparator(a, b, orderBy) {
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
+    }
+    
+    function getComparator(order, orderBy) {
+      return order === 'desc'
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
+    }
+    
 
-const handleCloseCancelDelete = () => {
-  setOpenDelete(false);
-};
+  // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
+// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
+// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
+// with exampleArray.slice().sort(exampleComparator)
+function stableSort(array, comparator) {
+  if(array){
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+ 
+}
 
+  // Avoid a layout jump when reaching the last page with empty filteredRows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - ids.length) : 0;
 
-const handleClickOpenDelete = (roomId) => {
-setRoomId(roomId)  
-setOpenDelete(true);
-};
-
+  const visibleRows = rooms && useMemo(
+    () =>
+      stableSort(rooms, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage, rooms],
+  );
+  
 
   return (
     <>
+    <Paper>
     <TableContainer component={Paper} sx={{marginTop:'3rem'}}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
+        <TableHead >
           <TableRow>
             <TableCell align="right">Number</TableCell>
             <TableCell align="right">Passengers</TableCell>
@@ -57,7 +105,7 @@ setOpenDelete(true);
           </TableRow>
         </TableHead>
         <TableBody>
-          {rooms && rooms.map((room) => (
+          {rooms && visibleRows.map((room) => (
             <TableRow
               key={room.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -68,10 +116,7 @@ setOpenDelete(true);
               <TableCell align="right">{room.rooms}</TableCell>
               <TableCell align="right">
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
-                <Button onClick={() => handleClickOpenEdit(room)}>
-                <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
-                </Button>
-                <Button onClick={()=> handleClickOpenDelete(id)}>
+                <Button onClick={()=> onDeleteRoom(room.id)}>
                 <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
                 </Button>
              
@@ -79,12 +124,28 @@ setOpenDelete(true);
                 </TableCell>
             </TableRow>
           ))}
+          {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                </TableRow>
+              )}
         </TableBody>
       </Table>
     </TableContainer>
-       {selectedRoom && <RoomEditDialog open={openEdit} handleClose={handleCloseEdit} room={selectedRoom}/>  
-       }
-       {roomId && <RoomDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} roomId={roomId}/>}
+    <TablePagination
+          rowsPerPageOptions={[2, 500, 100, 50]}
+          component="div"
+          count={ids && ids.length || 1}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+    </Paper>     
   </>
   );
 }

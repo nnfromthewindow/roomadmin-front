@@ -5,7 +5,17 @@ import {
 import { apiSlice } from "../../app/api/apiSlice";
 
 
-const roomsAdapter = createEntityAdapter(/*create sort method*/)
+const roomsAdapter = createEntityAdapter({sortComparer: (a, b) => {
+    if (a.number === b.number) {
+      return 0;
+    } else if (a.number && !b.number) {
+      return -1;
+    } else if (!a.number && b.number) {
+      return 1;
+    } else {
+      return b.number > a.number ? -1 : 1;
+    }
+  }})
 const initialState = roomsAdapter.getInitialState()
 
 export const roomsApiSlice = apiSlice.injectEndpoints({
@@ -34,12 +44,36 @@ export const roomsApiSlice = apiSlice.injectEndpoints({
                 ]
             } else return [{type:'Room', id:'LIST'}]
         }
-    })
+    }),
+    addNewRoom: builder.mutation({
+        query: initialRoom => ({
+            url: '/rooms',
+            method: 'POST',
+            body: {
+                ...initialRoom,
+            }
+        }),
+        invalidatesTags: [
+            { type: 'Room', id: "LIST" }
+        ]
+    }),
+    deleteRoom: builder.mutation({
+        query: ({ id }) => ({
+            url: `/rooms`,
+            method: 'DELETE',
+            body: { id }
+        }), 
+        invalidatesTags: (result, error, arg) => [
+            { type: 'Room', id: "LIST" }
+        ]
+    }),
     })
 })
 
 export const {
-    useGetRoomsQuery
+    useGetRoomsQuery,
+    useAddNewRoomMutation,
+    useDeleteRoomMutation
 } = roomsApiSlice
 
 export const selectRoomsResult = roomsApiSlice.endpoints.getRooms.select()
