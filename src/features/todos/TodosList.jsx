@@ -7,6 +7,8 @@ import { lightBlue } from "@mui/material/colors";
 import { useState } from "react";
 import NewTodoForm from "./NewTodoForm";
 import { useGetUsersQuery } from "../users/usersApiSlice";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 
 const TodosList = () =>{
@@ -93,6 +95,12 @@ const TodosList = () =>{
                 
                 {filteredIds && filteredIds.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}
+               <div >
+               <Stack spacing={2}>
+                    <Pagination count={10} color="primary" />
+                  </Stack>
+               </div>
+                  
             </section>
             
             )

@@ -343,6 +343,10 @@ margin-top: 3rem;
     flex-wrap: wrap;
 }
 
+.css-wjh20t-MuiPagination-ul{
+justify-content: center;
+}
+
 
 @media only screen and (max-width: 285px) {
     .developer{

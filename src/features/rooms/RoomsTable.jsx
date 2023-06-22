@@ -5,8 +5,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
+import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import { useState,useMemo } from 'react';
 import { Button } from '@mui/material';
 import { memo } from 'react';
@@ -24,7 +25,13 @@ console.log(rooms)
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('number');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(2);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const columns = [
+      { id: 'number', label: 'Number', minWidth: 170 },
+      { id: 'passengers', label: 'Passengers', minWidth: 170 },
+      { id: 'rooms', label: 'Rooms', minWidth: 170 }
+    ]
     
     const {ids, entities} = rooms
 
@@ -40,6 +47,16 @@ console.log(rooms)
     const handleChangeRowsPerPage = (event) => {
       setRowsPerPage(+event.target.value);
       setPage(0);
+    };
+
+    const handleRequestSort = (event, property) => {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+    };
+
+    const createSortHandler = (property) => (event) => {
+      handleRequestSort(event, property);
     };
 
     function descendingComparator(a, b, orderBy) {
@@ -80,7 +97,7 @@ function stableSort(array, comparator) {
 
   // Avoid a layout jump when reaching the last page with empty filteredRows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - ids.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rooms.length) : 0;
 
   const visibleRows = rooms && useMemo(
     () =>
@@ -90,7 +107,6 @@ function stableSort(array, comparator) {
       ),
     [order, orderBy, page, rowsPerPage, rooms],
   );
-  
 
   return (
     <>
@@ -99,9 +115,23 @@ function stableSort(array, comparator) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead >
           <TableRow>
-            <TableCell align="right">Number</TableCell>
-            <TableCell align="right">Passengers</TableCell>
-            <TableCell align="right">Rooms</TableCell>
+            {columns.map((column)=>(
+            <TableCell
+            key={column.id}
+            align='right'
+            padding={column.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === column.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === column.id}
+              direction={orderBy === column.id ? order : 'asc'}
+              onClick={createSortHandler(column.id)}
+            >
+              {column.label}
+            
+            </TableSortLabel>
+          </TableCell>
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -127,7 +157,7 @@ function stableSort(array, comparator) {
           {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: (dense ? 33 : 53) * emptyRows,
+                      height: 53 * emptyRows,
                     }}
                   >
                     <TableCell colSpan={6} />
@@ -137,9 +167,9 @@ function stableSort(array, comparator) {
       </Table>
     </TableContainer>
     <TablePagination
-          rowsPerPageOptions={[2, 500, 100, 50]}
+          rowsPerPageOptions={[10, 50, 100]}
           component="div"
-          count={ids && ids.length || 1}
+          count={rooms  && rooms.length || 1}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
