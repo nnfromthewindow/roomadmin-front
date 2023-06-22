@@ -43,11 +43,8 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
      */
     window.clearTimeout(clickRef?.current)
     clickRef.current = window.setTimeout(() => {
-      //console.log(calEvent.booking)
       setOpen(true)
       setSelectedBooking(calEvent.booking)
-      
-
     }, 250)
   }, [setSelectedBooking])
 

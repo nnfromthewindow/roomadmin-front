@@ -14,6 +14,7 @@ import moment from 'moment';
 import { useAddNewBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
 import CustomerAddDialog from '../customers/CustomerAddDialog';
+import dayjs from 'dayjs';
 
 const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
    
@@ -184,10 +185,10 @@ return (
         <DialogContent>
 
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
-        <MobileDatePicker disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
+        <MobileDatePicker disablePast maxDate={dayjs(checkoutDate).subtract(1,'day')} onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
 
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
-        <MobileDatePicker disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
+        <MobileDatePicker minDate={dayjs(checkinDate).add(1,'day')} onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
 
         <InputLabel id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
         <Select required
@@ -271,7 +272,7 @@ return (
             onChange={handleCostChange}     
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              
+              readOnly:true
             }}
           
           />

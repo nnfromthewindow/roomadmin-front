@@ -68,7 +68,7 @@ const NewTodoForm = ({open, handleClose, users}) =>{
       }
     }
 
-    const employeeOptions = employee && ids.map(userId => {
+    const employeeOptions = users && ids.map(userId => {
       return(
         <MenuItem key={userId} value={userId}>{entities[userId].name} {entities[userId].lastname}</MenuItem>
       )

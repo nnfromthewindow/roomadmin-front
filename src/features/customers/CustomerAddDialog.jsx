@@ -79,6 +79,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
   }
 
   const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
+  
 
     return (
         <form className='todo_form' >
@@ -145,7 +146,9 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleEmailChange}
-                value={email}             
+                value={email}    
+                error={email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)} 
+                helperText={error && 'Invalid email'}        
               />
 
             <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>

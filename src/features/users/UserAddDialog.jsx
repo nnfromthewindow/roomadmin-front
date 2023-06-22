@@ -120,7 +120,7 @@ const UserAddDialog = ({open, handleClose}) => {
     )
   })
 
-  const canSave = [name, lastname, idnumber, adress, phone, username,  password, roles].every(Boolean)
+  const canSave = [name, lastname, idnumber, adress, phone, username,  password].every(Boolean) && roles.length!=0
 
     return (
         <form className='todo_form' >

@@ -14,7 +14,6 @@ import { memo } from 'react';
 import { useDeleteRoomMutation } from './roomsApiSlice';
 
 const RoomsTable = ({rooms}) => {
-console.log(rooms)
 
   const [deleteRoom,
     isLoading,

@@ -4,11 +4,12 @@ import Todo from "./Todo";
 import { Button, TextField } from "@mui/material";
 import { AddCircleOutline} from "@mui/icons-material";
 import { lightBlue } from "@mui/material/colors";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import NewTodoForm from "./NewTodoForm";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import TablePagination from '@mui/material/TablePagination';
 
 
 const TodosList = () =>{
@@ -29,7 +30,9 @@ const TodosList = () =>{
 
     const [open, setOpen] = useState(false)
     const [filter, setFilter] = useState("")
-
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -42,10 +45,20 @@ const TodosList = () =>{
         setFilter(event.target.value);
       }
 
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+    
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
+  
+
   
     let content
-    
-    if(isLoading){
+   
+     if(isLoading){
         content = <div className="spinner">
         <ColorRing
         visible={true}
@@ -66,7 +79,7 @@ const TodosList = () =>{
 
         const filteredIds = ids.filter((todoId) => {
             const todo = entities[todoId] || '';
-            const user = usersEntities[todo.employee] || '';
+            const user = todo && usersEntities[todo.employee] || '';
             return (
               todo &&
               user &&
@@ -75,6 +88,17 @@ const TodosList = () =>{
               todo.date?.includes(filter)
             );
           });
+         
+          // Avoid a layout jump when reaching the last page with empty filteredRows.
+          const emptyRows =
+          page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredIds.length) : 0;
+
+          const visibleRows =filteredIds && filteredIds.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage,
+              )
+
+
         content = (
             <section className="todos_list">
                 
@@ -93,12 +117,19 @@ const TodosList = () =>{
                     />
                 </div>
                 
-                {filteredIds && filteredIds.map((todoId)=>{
+                {filteredIds && visibleRows.map((todoId)=>{
                return <Todo key={todoId} todoId={todoId}/>})}
                <div >
-               <Stack spacing={2}>
-                    <Pagination count={10} color="primary" />
-                  </Stack>
+                   <TablePagination
+                      rowsPerPageOptions={[10, 50, 100]}
+                      labelRowsPerPage='Todos per page'
+                      component="div"
+                      count={filteredIds  && filteredIds.length || 1}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                </div>
                   
             </section>
