@@ -18,14 +18,23 @@ import { useAddNewUserMutation } from './usersApiSlice';
 const UserAddDialog = ({open, handleClose}) => {
 
   const [name, setName] = useState('')
+  const [nameError, setNameError] = useState(false)
   const [lastname, setLastname] = useState('')
+  const [lastnameError, setLastnameError] = useState(false)
   const [idnumber, setIdnumber] = useState('')
+  const [idnumberError, setIdnumberError] = useState(false)
   const [adress, setAdress] = useState('')
+  const [adressError, setAdressError] = useState(false)
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState(false)
   const [phone, setPhone] = useState('')
+  const [phoneError, setPhoneError] = useState(false)
   const [username, setUsername] = useState('')
+  const [usernameError, setUsernameError] = useState(false)
   const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
   const [avatar, setAvatar] = useState('')
+  const [avatarError, setAvatarError] = useState(false)
   const [roles, setRoles] = useState([])
  
   const phoneRegex = /^[\d+ ]*$/
@@ -61,23 +70,37 @@ const UserAddDialog = ({open, handleClose}) => {
   }
 
   const handleNameChange = (event) => {
-    setName(event.target.value);
+    const name = event.target.value
+    setName(name)
+    name.length>20 ? setNameError(true) : setNameError(false)
   };
   
   const handleLastnameChange = (event) => {
-    setLastname(event.target.value);
+    const lastname = event.target.value
+    setLastname(lastname)
+    lastname.length>20 ? setLastnameError(true) : setLastnameError(false)
   };
   
-  const handleIdNumberChange = (event) => {
-    setIdnumber(event.target.value);
+  const handleIdnumberChange = (event) => {
+    const idnumber = event.target.value
+    setIdnumber(idnumber)
+    idnumber.length>30 ? setIdnumberError(true) : setIdnumberError(false)
   };
   
   const handleAdressChange = (event) => {
-    setAdress(event.target.value);
+    const adress = event.target.value
+    setAdress(adress)
+    adress.length>50 ? setAdressError(true) : setAdressError(false)
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    const email = event.target.value
+    setEmail(email);
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+    setEmailError(true)
+    }else{
+      setEmailError(false)
+    }
   };
   
   const handlePhoneChange = (event) => {
@@ -85,18 +108,29 @@ const UserAddDialog = ({open, handleClose}) => {
     if (newPhone.match(phoneRegex) || newPhone === '') {
       setPhone(newPhone);
     }
+
+    newPhone.length>20 ? setPhoneError(true) : setPhoneError(false)
   }
 
   const handleAvatarChange = (event) => {
-    setAvatar(event.target.value);
+    const avatar = event.target.value
+    setAvatar(avatar)
+    avatar.length>500 && avatar.match(/^(http|https):\/\/.*\.(jpeg|jpg|png)$/) ? setAvatarError(true) : setAvatarError(false)
+ 
   }
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+    const username = event.target.value
+    setUsername(username)
+    username.length>20 ? setUsernameError(true) : setUsernameError(false)
+ 
   }
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    const password = event.target.value
+    setPassword(password)
+    password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/) ? setPasswordError(true) : setPasswordError(false)
+ 
   }
 
   const handleRolesChange = (event) => {
@@ -120,7 +154,7 @@ const UserAddDialog = ({open, handleClose}) => {
     )
   })
 
-  const canSave = [name, lastname, idnumber, adress, phone, username,  password].every(Boolean) && roles.length!=0
+  const canSave = [name, lastname, idnumber, adress,phone, username, password,!emailError,!nameError,!lastnameError,!idnumberError,!adressError,!phoneError,!usernameError,!passwordError,!avatarError].every(Boolean) && roles.length!=0
 
     return (
         <form className='todo_form' >
@@ -139,7 +173,9 @@ const UserAddDialog = ({open, handleClose}) => {
                 id="name"
                 type="text"
                 fullWidth
-                variant="filled" onChange={handleNameChange} value={name}          
+                variant="filled" onChange={handleNameChange} value={name} 
+                error={nameError}
+                helperText={nameError && 'The field must contain less than 20 characters'}         
               />
 
             <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
@@ -151,7 +187,9 @@ const UserAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleLastnameChange}
-                value={lastname}             
+                value={lastname}  
+                error={lastnameError}
+                helperText={lastnameError && 'The field must contain less than 20 characters'}            
               />
 
             <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
@@ -162,8 +200,10 @@ const UserAddDialog = ({open, handleClose}) => {
                 type="text"
                 fullWidth
                 variant="filled"
-                onChange={handleIdNumberChange}
-                value={idnumber}             
+                onChange={handleIdnumberChange}
+                value={idnumber} 
+                error={idnumberError}
+                helperText={idnumberError && 'The field must contain less than 30 characters'}               
               />
 
             <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
@@ -176,6 +216,8 @@ const UserAddDialog = ({open, handleClose}) => {
                 variant="filled"
                 onChange={handleAdressChange}
                 value={adress}
+                error={adressError}
+                helperText={adressError && 'The field must contain less than 50 characters'}   
               />
 
             <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
@@ -187,7 +229,9 @@ const UserAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleEmailChange}
-                value={email}             
+                value={email}   
+                error={emailError} 
+                helperText={email.length>0 && emailError && 'Invalid Email'}               
               />
 
             <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
@@ -199,7 +243,9 @@ const UserAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handlePhoneChange}
-                value={phone}             
+                value={phone}  
+                error={phoneError}
+                helperText={phoneError && 'The field must contain less than 20 characters'}            
               />
 
             <InputLabel id="avatar-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
@@ -212,7 +258,9 @@ const UserAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleAvatarChange}
-                value={avatar}             
+                value={avatar}
+                error={phoneError}
+                helperText={phoneError && 'Must be a valid jpeg,jpg or png image link'}              
             />
 
             <InputLabel id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>

@@ -19,12 +19,17 @@ import { memo } from 'react';
 const CustomerEditDialog = ({open, handleClose, customer}) => {
 
   const [name, setName] = useState(customer.name)
+  const [nameError, setNameError] = useState(false)
   const [lastname, setLastname] = useState(customer.lastname || '')
-  const [idnumber, setIdNumber] = useState(customer.idnumber || '')
+  const [lastnameError, setLastnameError] = useState(false)
+  const [idnumber, setIdnumber] = useState(customer.idnumber || '')
+  const [idnumberError, setIdnumberError] = useState(false)
   const [adress, setAdress] = useState(customer.adress || '')
+  const [adressError, setAdressError] = useState(false)
   const [email, setEmail] = useState(customer.email || '')
+  const [emailError, setEmailError] = useState(false)
   const [phone, setPhone] = useState(customer.phone || '')
- 
+  const [phoneError, setPhoneError] = useState(false)
   const phoneRegex = /^[\d+ ]*$/
  
   const [updateCustomer, {
@@ -37,7 +42,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
   useEffect(()=>{
     setName(customer.name  || '')
     setLastname(customer.lastname || '')
-    setIdNumber(customer.idnumber || '')
+    setIdnumber(customer.idnumber || '')
     setAdress(customer.adress || '')
     setEmail(customer.email || '' )
     setPhone(customer.phone || '')
@@ -54,23 +59,37 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
   }
 
   const handleNameChange = (event) => {
-    setName(event.target.value);
+    const name = event.target.value
+    setName(name)
+    name.length>20 ? setNameError(true) : setNameError(false)
   };
   
   const handleLastnameChange = (event) => {
-    setLastname(event.target.value);
+    const lastname = event.target.value
+    setLastname(lastname)
+    lastname.length>20 ? setLastnameError(true) : setLastnameError(false)
   };
   
-  const handleIdNumberChange = (event) => {
-    setIdNumber(event.target.value);
+  const handleIdnumberChange = (event) => {
+    const idnumber = event.target.value
+    setIdnumber(idnumber)
+    idnumber.length>30 ? setIdnumberError(true) : setIdnumberError(false)
   };
   
   const handleAdressChange = (event) => {
-    setAdress(event.target.value);
+    const adress = event.target.value
+    setAdress(adress)
+    adress.length>50 ? setAdressError(true) : setAdressError(false)
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    const email = event.target.value
+    setEmail(email);
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+    setEmailError(true)
+    }else{
+      setEmailError(false)
+    }
   };
   
   const handlePhoneChange = (event) => {
@@ -78,9 +97,11 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
     if (newPhone.match(phoneRegex) || newPhone === '') {
       setPhone(newPhone);
     }
+
+    newPhone.length>20 ? setPhoneError(true) : setPhoneError(false)
   }
 
-  const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
+  const canSave = [name, lastname, idnumber, adress,phone,!emailError,!nameError,!lastnameError,!idnumberError,!adressError,!phoneError].every(Boolean)
 
     return (
         <form className='todo_form' >
@@ -99,7 +120,10 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 id="name"
                 type="text"
                 fullWidth
-                variant="filled" onChange={handleNameChange} value={name}          
+                variant="filled" onChange={handleNameChange} value={name}
+                error={nameError}
+                helperText={nameError && 'The field must contain less than 20 characters'}   
+                       
               />
 
             <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
@@ -111,7 +135,9 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleLastnameChange}
-                value={lastname}             
+                value={lastname}
+                error={lastnameError}
+                helperText={lastnameError && 'The field must contain less than 20 characters'}                
               />
 
             <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
@@ -122,8 +148,10 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 type="text"
                 fullWidth
                 variant="filled"
-                onChange={handleIdNumberChange}
+                onChange={handleIdnumberChange}
                 value={idnumber}             
+                error={idnumberError}
+                helperText={idnumberError && 'The field must contain less than 30 characters'}   
               />
 
             <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
@@ -136,6 +164,8 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 variant="filled"
                 onChange={handleAdressChange}
                 value={adress}
+                error={adressError}
+                helperText={adressError && 'The field must contain less than 50 characters'}   
               />
 
             <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
@@ -147,7 +177,9 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleEmailChange}
-                value={email}             
+                value={email}    
+                error={emailError} 
+                helperText={email.length>0 && emailError && 'Invalid Email'}     
               />
 
             <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
@@ -159,7 +191,9 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 fullWidth
                 variant="filled"
                 onChange={handlePhoneChange}
-                value={phone}             
+                value={phone} 
+                error={phoneError}
+                helperText={phoneError && 'The field must contain less than 20 characters'}               
               />
         
             </DialogContent>

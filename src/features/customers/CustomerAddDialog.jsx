@@ -18,11 +18,19 @@ import { useAddNewCustomerMutation } from './customersApiSlice';
 const CustomerAddDialog = ({open, handleClose}) => {
 
   const [name, setName] = useState('')
+  const [nameError, setNameError] = useState(false)
   const [lastname, setLastname] = useState('')
+  const [lastnameError, setLastnameError] = useState(false)
   const [idnumber, setIdnumber] = useState('')
+  const [idnumberError, setIdnumberError] = useState(false)
   const [adress, setAdress] = useState('')
+  const [adressError, setAdressError] = useState(false)
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState(false)
   const [phone, setPhone] = useState('')
+  const [phoneError, setPhoneError] = useState(false)
+
+
  
   const phoneRegex = /^[\d+ ]*$/
  
@@ -52,23 +60,37 @@ const CustomerAddDialog = ({open, handleClose}) => {
   }
 
   const handleNameChange = (event) => {
-    setName(event.target.value);
+    const name = event.target.value
+    setName(name)
+    name.length>20 ? setNameError(true) : setNameError(false)
   };
   
   const handleLastnameChange = (event) => {
-    setLastname(event.target.value);
+    const lastname = event.target.value
+    setLastname(lastname)
+    lastname.length>20 ? setLastnameError(true) : setLastnameError(false)
   };
   
-  const handleIdNumberChange = (event) => {
-    setIdnumber(event.target.value);
+  const handleIdnumberChange = (event) => {
+    const idnumber = event.target.value
+    setIdnumber(idnumber)
+    idnumber.length>30 ? setIdnumberError(true) : setIdnumberError(false)
   };
   
   const handleAdressChange = (event) => {
-    setAdress(event.target.value);
+    const adress = event.target.value
+    setAdress(adress)
+    adress.length>50 ? setAdressError(true) : setAdressError(false)
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    const email = event.target.value
+    setEmail(email);
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+    setEmailError(true)
+    }else{
+      setEmailError(false)
+    }
   };
   
   const handlePhoneChange = (event) => {
@@ -76,9 +98,11 @@ const CustomerAddDialog = ({open, handleClose}) => {
     if (newPhone.match(phoneRegex) || newPhone === '') {
       setPhone(newPhone);
     }
+
+    newPhone.length>20 ? setPhoneError(true) : setPhoneError(false)
   }
 
-  const canSave = [name, lastname, idnumber, adress,phone].every(Boolean)
+  const canSave = [name, lastname, idnumber, adress,phone,!emailError,!nameError,!lastnameError,!idnumberError,!adressError,!phoneError].every(Boolean)
   
 
     return (
@@ -98,7 +122,10 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 id="name"
                 type="text"
                 fullWidth
-                variant="filled" onChange={handleNameChange} value={name}          
+                variant="filled" onChange={handleNameChange} value={name}
+                error={nameError}
+                helperText={nameError && 'The field must contain less than 20 characters'}   
+                       
               />
 
             <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
@@ -110,7 +137,9 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handleLastnameChange}
-                value={lastname}             
+                value={lastname}
+                error={lastnameError}
+                helperText={lastnameError && 'The field must contain less than 20 characters'}                
               />
 
             <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
@@ -121,8 +150,10 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 type="text"
                 fullWidth
                 variant="filled"
-                onChange={handleIdNumberChange}
+                onChange={handleIdnumberChange}
                 value={idnumber}             
+                error={idnumberError}
+                helperText={idnumberError && 'The field must contain less than 30 characters'}   
               />
 
             <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
@@ -135,6 +166,8 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 variant="filled"
                 onChange={handleAdressChange}
                 value={adress}
+                error={adressError}
+                helperText={adressError && 'The field must contain less than 50 characters'}   
               />
 
             <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
@@ -147,8 +180,8 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 variant="filled"
                 onChange={handleEmailChange}
                 value={email}    
-                error={email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)} 
-                helperText={error && 'Invalid email'}        
+                error={emailError} 
+                helperText={email.length>0 && emailError && 'Invalid Email'}     
               />
 
             <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
@@ -160,7 +193,9 @@ const CustomerAddDialog = ({open, handleClose}) => {
                 fullWidth
                 variant="filled"
                 onChange={handlePhoneChange}
-                value={phone}             
+                value={phone} 
+                error={phoneError}
+                helperText={phoneError && 'The field must contain less than 20 characters'}               
               />
         
             </DialogContent>

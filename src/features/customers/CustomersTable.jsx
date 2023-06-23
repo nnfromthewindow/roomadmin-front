@@ -168,15 +168,15 @@ const visibleRows = customers && useMemo(
               <TableCell align="right" component="th" scope="row">
                 {customer.name}
               </TableCell>
-              <TableCell align="right">{customer.lastname}</TableCell>
-              <TableCell align="right">{customer.idnumber.toLocaleString("es")}</TableCell>
-              <TableCell align="right">{customer.adress}</TableCell>
-              <TableCell align="right">
+              <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.lastname}</TableCell>
+              <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.idnumber.toLocaleString("es")}</TableCell>
+              <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.adress}</TableCell>
+              <TableCell sx={{wordBreak:'break-word'}} align="right">
                 <Link href={`mailto:${customer.email}`} underline="none" target="_blank" rel="noopener">
                 {customer.email}
                 </Link>
               </TableCell>
-              <TableCell align="right">
+              <TableCell sx={{wordBreak:'break-word'}} align="right">
                 <Link href={`tel:${customer.phone}`} underline="none" target="_blank" rel="noopener">
                 {customer.phone}
                 </Link>
