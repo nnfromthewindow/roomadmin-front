@@ -217,9 +217,7 @@ const visibleRows = users && useMemo(
         </TableBody>
       </Table>
     </TableContainer>
-       {selectedUser && <UserEditDialog open={openEdit} handleClose={handleCloseEdit} user={selectedUser}/>  
-       }
-       {userId && <UserDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} userId={userId}/>}
+     
        <TablePagination
           rowsPerPageOptions={[10, 50, 100]}
           component="div"
@@ -230,6 +228,9 @@ const visibleRows = users && useMemo(
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
   </Paper>
+  {selectedUser && <UserEditDialog open={openEdit} handleClose={handleCloseEdit} user={selectedUser}/>  
+       }
+       {userId && <UserDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} userId={userId}/>}
   </>
   );
 }

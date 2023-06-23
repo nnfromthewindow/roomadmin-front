@@ -85,7 +85,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
   const handleEmailChange = (event) => {
     const email = event.target.value
     setEmail(email);
-    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && email.length>30){
     setEmailError(true)
     }else{
       setEmailError(false)
@@ -122,7 +122,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 fullWidth
                 variant="filled" onChange={handleNameChange} value={name}
                 error={nameError}
-                helperText={nameError && 'The field must contain less than 20 characters'}   
+                helperText={nameError && 'The field should have less than 20 characters'}   
                        
               />
 
@@ -137,7 +137,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 onChange={handleLastnameChange}
                 value={lastname}
                 error={lastnameError}
-                helperText={lastnameError && 'The field must contain less than 20 characters'}                
+                helperText={lastnameError && 'The field should have less than 20 characters'}                
               />
 
             <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
@@ -151,7 +151,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 onChange={handleIdnumberChange}
                 value={idnumber}             
                 error={idnumberError}
-                helperText={idnumberError && 'The field must contain less than 30 characters'}   
+                helperText={idnumberError && 'The field should have less than 30 characters'}   
               />
 
             <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
@@ -165,7 +165,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 onChange={handleAdressChange}
                 value={adress}
                 error={adressError}
-                helperText={adressError && 'The field must contain less than 50 characters'}   
+                helperText={adressError && 'The field should have less than 50 characters'}   
               />
 
             <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
@@ -193,7 +193,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
                 onChange={handlePhoneChange}
                 value={phone} 
                 error={phoneError}
-                helperText={phoneError && 'The field must contain less than 20 characters'}               
+                helperText={phoneError && 'The field should have less than 20 characters'}               
               />
         
             </DialogContent>

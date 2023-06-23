@@ -169,7 +169,7 @@ const visibleRows = customers && useMemo(
                 {customer.name}
               </TableCell>
               <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.lastname}</TableCell>
-              <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.idnumber.toLocaleString("es")}</TableCell>
+              <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.idnumber}</TableCell>
               <TableCell sx={{wordBreak:'break-word'}} align="right">{customer.adress}</TableCell>
               <TableCell sx={{wordBreak:'break-word'}} align="right">
                 <Link href={`mailto:${customer.email}`} underline="none" target="_blank" rel="noopener">

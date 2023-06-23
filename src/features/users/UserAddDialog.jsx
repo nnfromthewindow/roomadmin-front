@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { ColorRing } from 'react-loader-spinner';
 import { Button, InputLabel, Select, MenuItem , OutlinedInput} from '@mui/material';
 import { AddCircleOutline, Delete} from '@mui/icons-material';
 import { lightBlue, grey } from '@mui/material/colors';
@@ -57,6 +58,15 @@ const UserAddDialog = ({open, handleClose}) => {
     setUsername('')
     setPassword('')
     setRoles([])
+    setNameError(false)
+    setLastnameError(false)
+    setIdnumberError(false)
+    setAdressError(false)
+    setEmailError(false)
+    setPhoneError(false)
+    setAvatarError(false)
+    setUsernameError(false)
+    setPasswordError(false)
   },[handleClose])
 
   const onSaveNewUser = async(e) =>{
@@ -96,7 +106,7 @@ const UserAddDialog = ({open, handleClose}) => {
   const handleEmailChange = (event) => {
     const email = event.target.value
     setEmail(email);
-    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || email.length>30){
     setEmailError(true)
     }else{
       setEmailError(false)
@@ -115,21 +125,21 @@ const UserAddDialog = ({open, handleClose}) => {
   const handleAvatarChange = (event) => {
     const avatar = event.target.value
     setAvatar(avatar)
-    avatar.length>500 && avatar.match(/^(http|https):\/\/.*\.(jpeg|jpg|png)$/) ? setAvatarError(true) : setAvatarError(false)
+    avatar.length>400 ? setAvatarError(true) : setAvatarError(false)
  
   }
 
   const handleUsernameChange = (event) => {
     const username = event.target.value
     setUsername(username)
-    username.length>20 ? setUsernameError(true) : setUsernameError(false)
+    username.length>20 || username.length<4? setUsernameError(true) : setUsernameError(false)
  
   }
 
   const handlePasswordChange = (event) => {
     const password = event.target.value
     setPassword(password)
-    password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/) ? setPasswordError(true) : setPasswordError(false)
+    !password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/) ? setPasswordError(true) : setPasswordError(false)
  
   }
 
@@ -156,161 +166,189 @@ const UserAddDialog = ({open, handleClose}) => {
 
   const canSave = [name, lastname, idnumber, adress,phone, username, password,!emailError,!nameError,!lastnameError,!idnumberError,!adressError,!phoneError,!usernameError,!passwordError,!avatarError].every(Boolean) && roles.length!=0
 
+
+  if(isLoading){
+    return  (<div className="spinner" style={{position:'fixed', margin:'auto',
+    width: '100vw',
+    height: '100vh',
+    top:'0rem',
+    paddingTop:'30vh',
+    backgroundColor: '#ffffffc7',
+    zIndex: '3000'}}>
+                <ColorRing
+                    visible={true}
+                    height="200"
+                    width="200"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                    />
+              </div>)
+  }else{
     return (
-        <form className='todo_form' >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Dialog open={open} onClose={handleClose}>
-            <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add User</DialogTitle>
-    
-            <DialogContent>
-    
-           
-            <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
-            >Name</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="name"
-                type="text"
-                fullWidth
-                variant="filled" onChange={handleNameChange} value={name} 
-                error={nameError}
-                helperText={nameError && 'The field must contain less than 20 characters'}         
-              />
-
-            <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="lastname"
-                type="text"
-                fullWidth
-                variant="filled"
-                onChange={handleLastnameChange}
-                value={lastname}  
-                error={lastnameError}
-                helperText={lastnameError && 'The field must contain less than 20 characters'}            
-              />
-
-            <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="idnumber"
-                type="text"
-                fullWidth
-                variant="filled"
-                onChange={handleIdnumberChange}
-                value={idnumber} 
-                error={idnumberError}
-                helperText={idnumberError && 'The field must contain less than 30 characters'}               
-              />
-
-            <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="adress"
-                type="text"
-                fullWidth
-                variant="filled"
-                onChange={handleAdressChange}
-                value={adress}
-                error={adressError}
-                helperText={adressError && 'The field must contain less than 50 characters'}   
-              />
-
-            <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="email"
-                type="email"
-                fullWidth
-                variant="filled"
-                onChange={handleEmailChange}
-                value={email}   
-                error={emailError} 
-                helperText={email.length>0 && emailError && 'Invalid Email'}               
-              />
-
-            <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="phone"
-                type="phone"
-                fullWidth
-                variant="filled"
-                onChange={handlePhoneChange}
-                value={phone}  
-                error={phoneError}
-                helperText={phoneError && 'The field must contain less than 20 characters'}            
-              />
-
-            <InputLabel id="avatar-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
-            
-
-            <TextField required
-                margin="dense"
-                id="avatar"
-                type="text"
-                fullWidth
-                variant="filled"
-                onChange={handleAvatarChange}
-                value={avatar}
-                error={phoneError}
-                helperText={phoneError && 'Must be a valid jpeg,jpg or png image link'}              
+      <form className='todo_form' >
+        
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Dialog open={open} onClose={handleClose}>
+          <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add User</DialogTitle>
+  
+          <DialogContent>
+  
+         
+          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
+          >Name</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="name"
+              type="text"
+              fullWidth
+              variant="filled" onChange={handleNameChange} value={name} 
+              error={nameError}
+              helperText={nameError && 'The field should have less than 20 characters'}         
             />
 
-            <InputLabel id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
-            
+          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="lastname"
+              type="text"
+              fullWidth
+              variant="filled"
+              onChange={handleLastnameChange}
+              value={lastname}  
+              error={lastnameError}
+              helperText={lastnameError && 'The field should have less than 20 characters'}            
+            />
 
-            <TextField required
-                margin="dense"
-                id="username"
-                type="text"
-                fullWidth
-                variant="filled"
-                onChange={handleUsernameChange}
-                value={username}             
-              />
+          <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="idnumber"
+              type="text"
+              fullWidth
+              variant="filled"
+              onChange={handleIdnumberChange}
+              value={idnumber} 
+              error={idnumberError}
+              helperText={idnumberError && 'The field should have less than 30 characters'}               
+            />
 
-            <InputLabel id="password-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Password</InputLabel>
-            
-            <TextField required
-                margin="dense"
-                id="password"
-                type="password"
-                fullWidth
-                variant="filled"
-                onChange={handlePasswordChange}
-                value={password}             
-              />
-        
-            <InputLabel id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
+          <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="adress"
+              type="text"
+              fullWidth
+              variant="filled"
+              onChange={handleAdressChange}
+              value={adress}
+              error={adressError}
+              helperText={adressError && 'The field should have less than 50 characters'}   
+            />
 
-            <Select required
-                labelId="role-label"
-                id="role"
-                value={roles}
-                variant="filled"
-                sx={{width:'100%'}}
-                multiple
-                onChange={handleRolesChange}
-            >
-                {rolesOptions}
-            </Select>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button disabled={!canSave} onClick={onSaveNewUser}>Add User</Button>
-            </DialogActions>
-          </Dialog>
-        </LocalizationProvider>
-        
-        </form>
-    )
+          <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="email"
+              type="email"
+              fullWidth
+              variant="filled"
+              onChange={handleEmailChange}
+              value={email}   
+              error={emailError} 
+              helperText={email.length>0 && emailError && 'Invalid Email'}               
+            />
+
+          <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="phone"
+              type="phone"
+              fullWidth
+              variant="filled"
+              onChange={handlePhoneChange}
+              value={phone}  
+              error={phoneError}
+              helperText={phoneError && 'The field should have less than 20 characters'}            
+            />
+
+          <InputLabel id="avatar-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
+          
+
+          <TextField required
+              margin="dense"
+              id="avatar"
+              type="text"
+              fullWidth
+              variant="filled"
+              onChange={handleAvatarChange}
+              value={avatar}
+              error={avatarError}
+              helperText={avatarError && 'The field should have less than 400 characters'}              
+          />
+
+          <InputLabel id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
+          
+
+          <TextField required
+              margin="dense"
+              id="username"
+              type="text"
+              fullWidth
+              variant="filled"
+              onChange={handleUsernameChange}
+              value={username}  
+              error={usernameError}
+              helperText={usernameError && 'The username should have a minimum of 4 characters and a maximum of 20 characters'}             
+            />
+
+          <InputLabel id="password-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Password</InputLabel>
+          
+          <TextField required
+              margin="dense"
+              id="password"
+              type="password"
+              fullWidth
+              variant="filled"  
+              onChange={handlePasswordChange}
+              value={password}  
+              error={passwordError}
+              helperText={passwordError && 'The password should contain at least one lowercase letter, one uppercase letter, one number, and have a minimum of 8 characters and a maximum of 20 characters'}             
+            />
+      
+          <InputLabel id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
+
+          <Select required
+              labelId="role-label"
+              id="role"
+              value={roles}
+              variant="filled"
+              sx={{width:'100%'}}
+              multiple
+              onChange={handleRolesChange}
+          >
+              {rolesOptions}
+          </Select>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button disabled={!canSave} onClick={onSaveNewUser}>Add User</Button>
+          </DialogActions>
+        </Dialog>
+      </LocalizationProvider>
+      
+      </form>
+  )
+  }
+
+   
 }
 
 export default UserAddDialog
