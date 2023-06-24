@@ -77,7 +77,7 @@ const TodosList = () =>{
 
         
 
-        const filteredIds = ids.filter((todoId) => {
+        const filteredIds = ids?.filter((todoId) => {
             const todo = entities[todoId] || '';
             const user = todo && usersEntities[todo.employee] || '';
             return (

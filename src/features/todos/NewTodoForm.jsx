@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { ColorRing } from 'react-loader-spinner';
 import { Button, InputLabel, Select, MenuItem } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -74,8 +75,29 @@ const NewTodoForm = ({open, handleClose, users}) =>{
       )
     })
 
-return (
+if(isLoading){
+  return  (<div className="spinner" style={{position:'fixed', margin:'auto',
+  width: '100vw',
+  height: '100vh',
+  top:'0rem',
+  left:0,
+  paddingTop:'30vh',
+  backgroundColor: '#ffffffc7',
+  zIndex: '3000'}}>
+              <ColorRing
+                  visible={true}
+                  height="200"
+                  width="200"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                  />
+            </div>)
+}else{
+  return (
     <form className='todo_form' onSubmit={onSaveNewTodo}>
+      
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Todo</DialogTitle>
@@ -130,7 +152,7 @@ return (
     
     </form>
 )
-
+}
 
 }
 
