@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel, Select, MenuItem , OutlinedInput} from '@mui/material';
+import { Button, InputLabel, Select, MenuItem , Alert, AlertTitle} from '@mui/material';
 import { AddCircleOutline, Delete} from '@mui/icons-material';
 import { lightBlue, grey } from '@mui/material/colors';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -37,6 +37,7 @@ const UserAddDialog = ({open, handleClose}) => {
   const [avatar, setAvatar] = useState('')
   const [avatarError, setAvatarError] = useState(false)
   const [roles, setRoles] = useState([])
+  const [alert,setAlert] = useState(false)
  
   const phoneRegex = /^[\d+ ]*$/
  
@@ -44,6 +45,7 @@ const UserAddDialog = ({open, handleClose}) => {
     isLoading,
     isSuccess,
     isError,
+    setIsError,
     error
   }] = useAddNewUserMutation()
 
@@ -68,6 +70,18 @@ const UserAddDialog = ({open, handleClose}) => {
     setUsernameError(false)
     setPasswordError(false)
   },[handleClose])
+
+  useEffect(() => {
+    if (isError) {
+     setAlert(true)
+      const timeout = setTimeout(() => {
+        setAlert(false)
+       
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isError]);
 
   const onSaveNewUser = async(e) =>{
     e.preventDefault()
@@ -188,7 +202,10 @@ const UserAddDialog = ({open, handleClose}) => {
   }else{
     return (
       <form className='todo_form' >
-        
+        {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s'}}>
+  <AlertTitle>Error</AlertTitle>
+  {error?.data?.message}— <strong>check it out!</strong>
+</Alert>}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add User</DialogTitle>

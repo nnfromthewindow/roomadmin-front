@@ -192,7 +192,7 @@ const visibleRows = users && useMemo(
                 </TableCell>
               <TableCell align="right">{user.username}</TableCell>
               <TableCell align="right">{Object.values(user.roles).join(', ')}</TableCell>
-              <TableCell align="right">
+              <TableCell align="right" width={'1rem'}>
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
                 <Button onClick={() => handleClickOpenEdit(user)}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>

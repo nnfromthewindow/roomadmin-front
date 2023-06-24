@@ -80,7 +80,7 @@ const Login = () =>{
                         <label htmlFor="password" >Password:</label>
                     </div>
                     <div className="login_inputs">
-                    <TextField className="login_textfield" label="Username" variant="filled" type="text" color="secondary" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
+                    <TextField autoFocus className="login_textfield" label="Username" variant="filled" type="text" color="secondary" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
                     <TextField className="login_textfield"  label="Password" variant="filled" type="password" color="secondary" id="pasword" onChange={handlePwdInput} value={password} required/>
                         
                     </div>

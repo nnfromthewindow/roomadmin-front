@@ -181,7 +181,7 @@ const visibleRows = customers && useMemo(
                 {customer.phone}
                 </Link>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="right" width={'1rem'}>
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
                 <Button onClick={() => handleClickOpenEdit(customer)}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
