@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useDeleteLedgerItemMutation } from './ledgerApiSlice';
+import { ColorRing } from 'react-loader-spinner';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -14,17 +15,36 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const LedgerDeleteDialog = ({openDelete, handleCloseDelete, handleCloseCancelDelete, selectedIds, numSelected}) => {
   
-    const [deleteLedgerSelectedItem,
-    isLoading,
+    const [deleteLedgerSelectedItem,{
+    isLoading:deleteLedgerSelectedItemIsLoading,
     isSuccess,
     isError,
-    error] = useDeleteLedgerItemMutation()
+    error}] = useDeleteLedgerItemMutation()
 
     const onDeleteSelectedLedgerItems = async () => {
         await deleteLedgerSelectedItem({ids:selectedIds})
         handleCloseDelete()
     }  
-
+if(deleteLedgerSelectedItemIsLoading){
+  return  (<div className="spinner" style={{position:'fixed', margin:'auto',
+  width: '100vw',
+  height: '100vh',
+  top:'0rem',
+  left:'0rem',
+  paddingTop:'30vh',
+  backgroundColor: '#ffffffc7',
+  zIndex: '3000'}}>
+              <ColorRing
+                  visible={true}
+                  height="200"
+                  width="200"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                  />
+            </div>)
+}else{
   return (
     <div>
       <Dialog
@@ -47,6 +67,8 @@ const LedgerDeleteDialog = ({openDelete, handleCloseDelete, handleCloseCancelDel
       </Dialog>
     </div>
   );
+}
+  
 }
 
 export default LedgerDeleteDialog

@@ -27,7 +27,6 @@ function App() {
         <Route path='welcome' element={<Welcome/>}/>
         <Route path='todos' element={<TodosList/>}/>
         <Route path='todos/:username' element={<TodosUserList/>}/>
-        //<Route path='todos/:todoId' element={<EditTodoForm/>}/>
         <Route path='bookings' element={<Bookings/>}/>
         <Route path='customers' element={<CustomersList/>}/>
         <Route path='users' element={<UsersList/>}/>

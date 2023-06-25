@@ -332,7 +332,7 @@ const LedgerTable = ({rows}) => {
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
-    
+    setSelected([])
   };
 
   const handleCloseCancelDelete = () => {

@@ -12,14 +12,15 @@ import { useState,useMemo } from 'react';
 import { Button } from '@mui/material';
 import { memo } from 'react';
 import { useDeleteRoomMutation } from './roomsApiSlice';
+import { ColorRing } from 'react-loader-spinner';
 
 const RoomsTable = ({rooms}) => {
 
-  const [deleteRoom,
-    isLoading,
+  const [deleteRoom,{
+    isLoading:deleteRoomIsLoading,
     isSuccess,
     isError,
-    error] = useDeleteRoomMutation()
+    error}] = useDeleteRoomMutation()
 
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('number');
@@ -107,76 +108,99 @@ function stableSort(array, comparator) {
     [order, orderBy, page, rowsPerPage, rooms],
   );
 
-  return (
-    <>
-    <Paper>
-    <TableContainer component={Paper} sx={{marginTop:'3rem'}}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead >
-          <TableRow>
-            {columns.map((column)=>(
-            <TableCell
-            key={column.id}
-            align='right'
-            padding={column.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === column.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === column.id}
-              direction={orderBy === column.id ? order : 'asc'}
-              onClick={createSortHandler(column.id)}
+  if(deleteRoomIsLoading){
+    return  (<div className="spinner" style={{position:'fixed', margin:'auto',
+    width: '100vw',
+    height: '100vh',
+    top:'0rem',
+    left:'0rem',
+    paddingTop:'30vh',
+    backgroundColor: '#ffffffc7',
+    zIndex: '3000'}}>
+                <ColorRing
+                    visible={true}
+                    height="200"
+                    width="200"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                    />
+              </div>)
+  }else{
+
+    return (
+      <>
+      <Paper>
+      <TableContainer component={Paper} sx={{marginTop:'3rem'}}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead >
+            <TableRow>
+              {columns.map((column)=>(
+              <TableCell
+              key={column.id}
+              align='right'
+              padding={column.disablePadding ? 'none' : 'normal'}
+              sortDirection={orderBy === column.id ? order : false}
             >
-              {column.label}
-            
-            </TableSortLabel>
-          </TableCell>
-              ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rooms && visibleRows.map((room) => (
-            <TableRow
-              key={room.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-             
-              <TableCell align="right">{room.number}</TableCell>
-              <TableCell align="right">{room.passengers}</TableCell>
-              <TableCell align="right">{room.rooms}</TableCell>
-              <TableCell align="right">
-                <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
-                <Button onClick={()=> onDeleteRoom(room.id)}>
-                <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
-                </Button>
-             
-                </div>
-                </TableCell>
+              <TableSortLabel
+                active={orderBy === column.id}
+                direction={orderBy === column.id ? order : 'asc'}
+                onClick={createSortHandler(column.id)}
+              >
+                {column.label}
+              
+              </TableSortLabel>
+            </TableCell>
+                ))}
             </TableRow>
-          ))}
-          {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                </TableRow>
-              )}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <TablePagination
-          rowsPerPageOptions={[10, 50, 100]}
-          component="div"
-          count={rooms  && rooms.length || 1}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-    </Paper>     
-  </>
-  );
+          </TableHead>
+          <TableBody>
+            {rooms && visibleRows.map((room) => (
+              <TableRow
+                key={room.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+               
+                <TableCell align="right">{room.number}</TableCell>
+                <TableCell align="right">{room.passengers}</TableCell>
+                <TableCell align="right">{room.rooms}</TableCell>
+                <TableCell align="right">
+                  <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
+                  <Button onClick={()=> onDeleteRoom(room.id)}>
+                  <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
+                  </Button>
+               
+                  </div>
+                  </TableCell>
+              </TableRow>
+            ))}
+            {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: 53 * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+            rowsPerPageOptions={[10, 50, 100]}
+            component="div"
+            count={rooms  && rooms.length || 1}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+      </Paper>     
+    </>
+    );  
+  }
+
 }
 const memoizedRoomsTable = memo(RoomsTable)
 export default memoizedRoomsTable

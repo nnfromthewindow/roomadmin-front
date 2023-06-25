@@ -186,7 +186,7 @@ const visibleRows = customers && useMemo(
                 <Button onClick={() => handleClickOpenEdit(customer)}>
                 <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
                 </Button>
-                <Button onClick={()=> handleClickOpenDelete(id)}>
+                <Button onClick={()=> handleClickOpenDelete(customer?.id)}>
                 <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
                 </Button>
              

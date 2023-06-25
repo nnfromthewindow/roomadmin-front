@@ -16,6 +16,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
 import DeleteBookingDialog from './deleteBookingDialog';
 import CustomerAddDialog from '../customers/CustomerAddDialog';
+import { ColorRing } from 'react-loader-spinner';
 
 const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) => {
     
@@ -195,136 +196,156 @@ const handleClickOpenCustomer = () => {
       )
     })) : null
   
+    if(isLoading){
+      return  (<div className="spinner" style={{position:'fixed', margin:'auto',
+      width: '100vw',
+      height: '100vh',
+      top:'0rem',
+      left:'0rem',
+      paddingTop:'30vh',
+      backgroundColor: '#ffffffc7',
+      zIndex: '3000'}}>
+                  <ColorRing
+                      visible={true}
+                      height="200"
+                      width="200"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="blocks-wrapper"
+                      colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                      />
+                </div>)
+    }else{
+      return (
+        <form className='todo_form' style={{zIndex:-1}}>
+        
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Dialog open={open}  onClose={handleClose}>
+            <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Booking</DialogTitle>
+    
+            <DialogContent>
   
-  return (
-      <form className='todo_form' style={{zIndex:-1}}>
-      
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Dialog open={open}  onClose={handleClose}>
-          <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Booking</DialogTitle>
+            <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
+          <MobileDatePicker disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
   
-          <DialogContent>
-
-          <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
-        <MobileDatePicker disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
-
-        <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
-        <MobileDatePicker disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
-
-        <InputLabel id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
-        <Select required
-            labelId="customer-label"
-            id="customer"
-            value={selectedCustomer}
-            variant="filled"
-            fullWidth
-            onChange={handleCustomerChange}
-        >
-            {customersOptions}
-        </Select>
-        <div style={{textAlign:'center'}}>
-        <Button onClick={handleClickOpenCustomer} variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}} />Add Customer</Button>
-        </div>
-       <CustomerAddDialog handleClose={handleCloseCustomer} open={openCustomer}/>
-
-        <InputLabel id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
-        <Select required
-            labelId="room-label"
-            id="room"
-            value={room}
-            variant="filled"
-            fullWidth
-            onChange={handleRoomChange}
-        >
-            {roomOptions}
-        </Select>
-
-        <InputLabel id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   
-        <Select required
-            labelId="passengers-label"
-            id="passengers"
-            value={passengers}
-            variant="filled"
-            sx={{width:'100%'}}
-            onChange={handlePassengersChange}
-        >
-            {passengersOptions}
-        </Select>
-
-        <InputLabel id="cost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Cost</InputLabel>
-        <TextField required
-            margin="dense"
-            id="cost"
-            type="text"
-            fullWidth
-            variant="filled"
-            value={cost}
-            onChange={handleCostChange}     
-            InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              
-            }}
-          
-          />
-
-        <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
-        <TextField required
-            margin="dense"
-            id="discount"
-            type="number"
-            fullWidth
-            variant="filled"
-            value={discount}
-            onChange={handleDiscountChange}     
-            InputProps={{
-              startAdornment: <InputAdornment position="start">%</InputAdornment>,
-            }}
-          />
-
-        <InputLabel id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
-        <TextField required
-            margin="dense"
-            id="totalCost"
-            type="text"
-            fullWidth
-            variant="filled"
-            value={totalCost}
-            onChange={handleCostChange}     
-            InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              
-            }}
-          
-          />
-        <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
-          <TextField 
-            margin="dense"
-            id="note"
-            type="text"
-            fullWidth
-            multiline
-            rows={4}
-            variant="filled"
-            value={note}
-            onChange={handleNoteChange}
-          />
+          <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
+          <MobileDatePicker disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
+  
+          <InputLabel id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
+          <Select required
+              labelId="customer-label"
+              id="customer"
+              value={selectedCustomer}
+              variant="filled"
+              fullWidth
+              onChange={handleCustomerChange}
+          >
+              {customersOptions}
+          </Select>
           <div style={{textAlign:'center'}}>
-          <Button variant="contained" color="error" sx={{width:'80%', marginTop:'1rem', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} onClick={handleClickOpenDelete}><Delete sx={{color:grey[500],}}/>Delete Booking</Button>
+          <Button onClick={handleClickOpenCustomer} variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}} />Add Customer</Button>
           </div>
-       
+         <CustomerAddDialog handleClose={handleCloseCustomer} open={openCustomer}/>
   
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={onUpdateBooking} disabled={!canSave}>Edit Booking</Button>
-          </DialogActions>
-        </Dialog>
-      </LocalizationProvider>
-
-      <DeleteBookingDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} bookingId={booking.id}/>
-
-      </form>
-  )
+          <InputLabel id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
+          <Select required
+              labelId="room-label"
+              id="room"
+              value={room}
+              variant="filled"
+              fullWidth
+              onChange={handleRoomChange}
+          >
+              {roomOptions}
+          </Select>
+  
+          <InputLabel id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   
+          <Select required
+              labelId="passengers-label"
+              id="passengers"
+              value={passengers}
+              variant="filled"
+              sx={{width:'100%'}}
+              onChange={handlePassengersChange}
+          >
+              {passengersOptions}
+          </Select>
+  
+          <InputLabel id="cost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Cost</InputLabel>
+          <TextField required
+              margin="dense"
+              id="cost"
+              type="text"
+              fullWidth
+              variant="filled"
+              value={cost}
+              onChange={handleCostChange}     
+              InputProps={{
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                
+              }}
+            
+            />
+  
+          <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
+          <TextField required
+              margin="dense"
+              id="discount"
+              type="number"
+              fullWidth
+              variant="filled"
+              value={discount}
+              onChange={handleDiscountChange}     
+              InputProps={{
+                startAdornment: <InputAdornment position="start">%</InputAdornment>,
+              }}
+            />
+  
+          <InputLabel id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
+          <TextField required
+              margin="dense"
+              id="totalCost"
+              type="text"
+              fullWidth
+              variant="filled"
+              value={totalCost}
+              onChange={handleCostChange}     
+              InputProps={{
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                
+              }}
+            
+            />
+          <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
+            <TextField 
+              margin="dense"
+              id="note"
+              type="text"
+              fullWidth
+              multiline
+              rows={4}
+              variant="filled"
+              value={note}
+              onChange={handleNoteChange}
+            />
+            <div style={{textAlign:'center'}}>
+            <Button variant="contained" color="error" sx={{width:'80%', marginTop:'1rem', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} onClick={handleClickOpenDelete}><Delete sx={{color:grey[500],}}/>Delete Booking</Button>
+            </div>
+         
+    
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={onUpdateBooking} disabled={!canSave}>Edit Booking</Button>
+            </DialogActions>
+          </Dialog>
+        </LocalizationProvider>
+  
+        <DeleteBookingDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} bookingId={booking.id}/>
+  
+        </form>
+    )
+    }
   
 }
 
