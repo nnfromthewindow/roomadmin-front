@@ -7,8 +7,6 @@ import { lightBlue } from "@mui/material/colors";
 import { useState, useMemo } from "react";
 import NewTodoForm from "./NewTodoForm";
 import { useGetUsersQuery } from "../users/usersApiSlice";
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import TablePagination from '@mui/material/TablePagination';
 
 
@@ -19,11 +17,7 @@ const TodosList = () =>{
     isSuccess,
     isError,
     error
-    } = useGetTodosQuery('todosList', {
-        //pollingInterval: 15000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
-    })
+    } = useGetTodosQuery('todosList')
 
 
     const{data:users}=useGetUsersQuery()
@@ -88,11 +82,7 @@ const TodosList = () =>{
               todo.date?.includes(filter)
             );
           });
-         
-          // Avoid a layout jump when reaching the last page with empty filteredRows.
-          const emptyRows =
-          page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredIds.length) : 0;
-
+        
           const visibleRows =filteredIds && filteredIds.slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
@@ -109,6 +99,8 @@ const TodosList = () =>{
                 </div>
                 <div className="filter_container">
                     <TextField
+                    id="filter"
+                    name="filter-input"
                     label="Filter"
                     variant="outlined"
                     value={filter}
@@ -121,6 +113,7 @@ const TodosList = () =>{
                return <Todo key={todoId} todoId={todoId}/>})}
                <div >
                    <TablePagination
+                      id="table_pagination"
                       rowsPerPageOptions={[10, 50, 100]}
                       labelRowsPerPage='Todos per page'
                       component="div"

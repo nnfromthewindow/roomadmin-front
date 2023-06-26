@@ -18,14 +18,12 @@ import { useSendLogoutMutation } from '../features/auth/authApiSlice';
 import { AddTask, MenuBook, Group, SupervisedUserCircle,CurrencyExchange, Settings } from '@mui/icons-material';
 import { pink,deepOrange,teal,red,lightGreen,brown,lightBlue } from '@mui/material/colors';
 import { Logout, ManageAccounts } from '@mui/icons-material';
-import { useSelector } from "react-redux"
-import { selectCurrentUser } from '../features/auth/authSlice';
+
 
 const Navbar = () => {
 
-  const { username, isAdmin } = useAuth()
-  const user = useSelector(selectCurrentUser)
-  console.log(user)
+  const { username, isAdmin, avatar } = useAuth()
+
   const [sendLogout, {
     isLoading,
     isSuccess,
@@ -201,7 +199,7 @@ pages = pagesEmployee
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user} src={user.avatar} />
+                <Avatar alt={username} src={avatar} />
               </IconButton>
             </Tooltip>
             <Menu

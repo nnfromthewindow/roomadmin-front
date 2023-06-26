@@ -1,8 +1,6 @@
 import { useGetBookingsQuery } from "./bookingsApiSlice"
 import { useGetCustomersQuery } from "../customers/customersApiSlice"
-import { useGetRatesQuery } from "../rates/ratesApiSlice"
 import { useGetRoomsQuery } from "../rooms/roomsApiSlice"
-import { Link } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
 import BookingsCalendar from "./BookingsCalendar"
 import { Button } from "@mui/material"
@@ -24,8 +22,6 @@ const Bookings = () => {
   const {data:customers} = useGetCustomersQuery()
 
   const {data:rooms} = useGetRoomsQuery()
-
-  const {data:rates} = useGetRatesQuery()
 
   const [open, setOpen] = useState(false)
 
@@ -54,7 +50,7 @@ wrapperClass="blocks-wrapper"
 colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
 />
 </div>
-  } else if (isSuccess && customers && rooms && rates){
+  } else if (isSuccess && customers && rooms){
 
     const {ids, entities} = bookings
 
@@ -63,10 +59,10 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           <h1 className="main_title">BOOKINGS</h1>
           <div className="btn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Booking</Button>
-                <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms} rates={rates} bookings={bookings}/>
+                <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms}  bookings={bookings}/>
                 </div>
                 <div className="calendar_container">
-                <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} rates={rates}/>
+                <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} />
                 </div>
               
       </section>
@@ -80,7 +76,7 @@ colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           <h1 className="main_title">BOOKINGS</h1>
           <div className="btn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Booking</Button>
-                <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms} rates={rates} bookings={bookings}/>
+                <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms}  bookings={bookings}/>
                 </div>
                <h1 className="main_title">NO BOOKINGS FOUND</h1>
               

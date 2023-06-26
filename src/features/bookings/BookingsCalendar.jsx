@@ -6,7 +6,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 
 
-const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
+const BookingsCalendar = ({bookings, customers, rooms}) =>  {
 
   const localizer = momentLocalizer(moment);
 
@@ -70,8 +70,6 @@ const BookingsCalendar = ({bookings, customers, rooms, rates}) =>  {
 
   const {ids:roomsIds, entities: roomsEntities} = rooms
 
-  const {ids:ratesIds, entities: ratesEntities} = rates  
-  
 
 let bookingEvents = bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId] || '';
@@ -111,7 +109,7 @@ let bookingEvents = bookingIds.map((bookingId) => {
             onSelectEvent={onSelectEvent}
             style={{ height: "100vh" }}
             />
-             <EditBookingForm open={open} handleClose={handleClose} booking={selectedBooking} rooms={rooms} rates={rates} customers={customers}/>
+             <EditBookingForm open={open} handleClose={handleClose} booking={selectedBooking} rooms={rooms} customers={customers}/>
            
           </div>
         );

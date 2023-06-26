@@ -9,7 +9,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useAddNewTodoMutation } from './todosApiSlice';
 
@@ -24,8 +23,6 @@ const NewTodoForm = ({open, handleClose, users}) =>{
       isError,
       error
     }] = useAddNewTodoMutation()
-
-    const navigate = useNavigate()
    
     const [date, setDate] = useState(dayjs()) 
     const [employee, setEmployee] = useState('');
@@ -105,7 +102,7 @@ if(isLoading){
         <DialogContent>
         <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Date</InputLabel>
 
-        <MobileDatePicker autoFocus disablePast  onChange={(newDate) => setDate(newDate)} value={date}/>
+        <MobileDatePicker  autoFocus disablePast  onChange={(newDate) => setDate(newDate)} value={date}/>
         <InputLabel id="employee-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Employee</InputLabel>                   
         <Select required
             labelId="employee-label"

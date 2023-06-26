@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
-import { TextField, Button } from "@mui/material"
+import { TextField, Button ,InputLabel} from "@mui/material"
 import { ColorRing } from "react-loader-spinner"
 
 const Login = () =>{
@@ -76,12 +76,12 @@ const Login = () =>{
                 <form className="login_form" onSubmit={handleSubmit}>
                     <div className="login_container">
                     <div className="login_labels">
-                        <label htmlFor="username" >Username:</label>
-                        <label htmlFor="password" >Password:</label>
+                    <InputLabel id="username-label" htmlFor="username" sx={{color:'black', fontFamily:'Dosis',  fontSize:'1.2em'}}>Username:</InputLabel>
+                    <InputLabel id="password-label" htmlFor="password" sx={{color:'black', fontFamily:'Dosis', fontSize:'1.2em'}}>Password:</InputLabel>
                     </div>
                     <div className="login_inputs">
-                    <TextField autoFocus className="login_textfield" label="Username" variant="filled" type="text" color="secondary" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
-                    <TextField className="login_textfield"  label="Password" variant="filled" type="password" color="secondary" id="pasword" onChange={handlePwdInput} value={password} required/>
+                    <TextField autoFocus name="username-input" className="login_textfield" label="Username" variant="filled" type="text" color="secondary" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
+                    <TextField name="password-input" className="login_textfield"  label="Password" variant="filled" type="password" color="secondary" id="password" onChange={handlePwdInput} value={password} required/>
                         
                     </div>
                     </div>

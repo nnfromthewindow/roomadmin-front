@@ -5,7 +5,7 @@ import { Edit, Delete } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
-import { selectUserById, selectAllUsers } from "../users/usersApiSlice";
+import { selectUserById} from "../users/usersApiSlice";
 import EditTodoForm from "./EditTodoForm";
 import { useState } from "react";
 import { ColorRing } from "react-loader-spinner";

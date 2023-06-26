@@ -1,5 +1,3 @@
-import { LinkedIn, GitHub, Mail, LibraryMusic } from '@mui/icons-material'
-import { grey} from '@mui/material/colors'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify,faLinkedin,faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';

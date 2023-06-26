@@ -18,15 +18,12 @@ import DeleteBookingDialog from './deleteBookingDialog';
 import CustomerAddDialog from '../customers/CustomerAddDialog';
 import { ColorRing } from 'react-loader-spinner';
 
-const EditBookingForm = ({open, handleClose, booking, customers, rooms, rates}) => {
+const EditBookingForm = ({open, handleClose, booking, customers, rooms}) => {
     
     const{ids:customersIds,entities:customersEntities} = customers || {} 
     const{ids:roomsIds,entities:roomsEntities} = rooms || {}
-    const{ids:ratesIds,entities:ratesEntities} = rates || {}
- 
     const selectedBooking = booking
 
-    
     const [checkinDate, setCheckinDate] = useState(dayjs(booking.checkin))
     const [checkoutDate, setCheckoutDate] = useState(dayjs(booking.checkout))
     const [room, setRoom] = useState('')

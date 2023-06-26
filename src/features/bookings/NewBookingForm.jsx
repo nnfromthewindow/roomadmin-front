@@ -17,11 +17,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import CustomerAddDialog from '../customers/CustomerAddDialog';
 import dayjs from 'dayjs';
 
-const NewBookingForm = ({open, handleClose, customers,rooms,rates,bookings}) =>{
+const NewBookingForm = ({open, handleClose, customers,rooms,bookings}) =>{
    
   const{ids:customersIds,entities:customersEntities} = customers || {} 
   const{ids:roomsIds,entities:roomsEntities} = rooms || {}
-  const{ids:ratesIds,entities:ratesEntities} = rates || {}
   const{ids:bookingsIds,entities:bookingsEntities} = bookings || {}
 
   const [checkinDate, setCheckinDate] = useState('')
@@ -205,13 +204,13 @@ if(isLoading){
 
         <DialogContent>
 
-        <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
+        <InputLabel  id="checkin-date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
         <MobileDatePicker disablePast maxDate={dayjs(checkoutDate).subtract(1,'day')} onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
 
-        <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
+        <InputLabel id="checkout-date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
         <MobileDatePicker minDate={dayjs(checkinDate).add(1,'day')} onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
 
-        <InputLabel id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
+        <InputLabel htmlFor='customer' id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
         <Select required
             labelId="customer-label"
             id="customer"
@@ -228,7 +227,7 @@ if(isLoading){
         </div>
        
 
-        <InputLabel id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
+        <InputLabel htmlFor='room' id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
         <Select required
             labelId="room-label"
             id="room"
@@ -240,7 +239,7 @@ if(isLoading){
             {roomOptions}
         </Select>
 
-        <InputLabel id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   
+        <InputLabel htmlFor="passengers" id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   
         <Select required
             labelId="passengers-label"
             id="passengers"
@@ -252,7 +251,7 @@ if(isLoading){
             {passengersOptions}
         </Select>
 
-        <InputLabel id="cost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Cost</InputLabel>
+        <InputLabel htmlFor='cost' id="cost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Cost</InputLabel>
         <TextField required
             margin="dense"
             id="cost"
@@ -268,7 +267,7 @@ if(isLoading){
           
           />
 
-        <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
+        <InputLabel htmlFor='discount' id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
         <TextField required
             margin="dense"
             id="discount"
@@ -282,7 +281,7 @@ if(isLoading){
             }}
           />
 
-        <InputLabel id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
+        <InputLabel htmlFor='totalCost' id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
         <TextField required
             margin="dense"
             id="totalCost"
@@ -297,7 +296,7 @@ if(isLoading){
             }}
           
           />
-        <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
+        <InputLabel htmlFor='note' id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
           <TextField 
             margin="dense"
             id="note"
