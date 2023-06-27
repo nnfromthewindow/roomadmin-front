@@ -161,22 +161,22 @@ const UserEditDialog = ({open, handleClose, user}) => {
           <DialogContent>
   
          
-          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
+          <InputLabel htmlFor='name-input' id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
           >Name</InputLabel>
           
           <TextField required
               margin="dense"
-              id="name"
+              inputProps={{id:'name-input'}}
               type="text"
               fullWidth
               variant="filled" onChange={handleNameChange} value={name}          
             />
 
-          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
+          <InputLabel htmlFor='lastname-input' id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
           
           <TextField required
               margin="dense"
-              id="lastname"
+              inputProps={{id:'lastname-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -184,11 +184,11 @@ const UserEditDialog = ({open, handleClose, user}) => {
               value={lastname}             
             />
 
-          <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
+          <InputLabel htmlFor='idnumber-input' id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
           
           <TextField required
               margin="dense"
-              id="idnumber"
+              inputProps={{id:'idnumber-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -196,11 +196,11 @@ const UserEditDialog = ({open, handleClose, user}) => {
               value={idnumber}             
             />
 
-          <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
+          <InputLabel htmlFor='adress-input' id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
           
           <TextField required
               margin="dense"
-              id="adress"
+              inputProps={{id:'adress-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -208,11 +208,11 @@ const UserEditDialog = ({open, handleClose, user}) => {
               value={adress}
             />
 
-          <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
+          <InputLabel htmlFor='email-input' id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
           
           <TextField required
               margin="dense"
-              id="email"
+              inputProps={{id:'email-input'}}
               type="email"
               fullWidth
               variant="filled"
@@ -220,11 +220,11 @@ const UserEditDialog = ({open, handleClose, user}) => {
               value={email}             
             />
 
-          <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
+          <InputLabel htmlFor='phone-input' id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
           
           <TextField required
               margin="dense"
-              id="phone"
+              inputProps={{id:'phone-input'}}
               type="phone"
               fullWidth
               variant="filled"
@@ -232,11 +232,11 @@ const UserEditDialog = ({open, handleClose, user}) => {
               value={phone}             
             />
 
-            <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
+            <InputLabel htmlFor='avatar-input' id="avatar-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
           
           <TextField required
               margin="dense"
-              id="email"
+              inputProps={{id:'avatar-input'}}
               type="email"
               fullWidth
               variant="filled"
@@ -244,11 +244,11 @@ const UserEditDialog = ({open, handleClose, user}) => {
               value={avatar}             
             />
 
-          <InputLabel id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
+          <InputLabel htmlFor='username-input' id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
         
           <TextField required
               margin="dense"
-              id="username"
+              inputProps={{id:'username-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -258,11 +258,10 @@ const UserEditDialog = ({open, handleClose, user}) => {
               helperText={usernameError && 'The username should have a minimum of 4 characters and a maximum of 20 characters'}             
             />
 
-            <InputLabel id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
+            <InputLabel htmlFor='role-input' id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
 
           <Select required
-              labelId="role-label"
-              id="role"
+              inputProps={{id:'role-input'}}
               value={roles}
               variant="filled"
               sx={{width:'100%'}}

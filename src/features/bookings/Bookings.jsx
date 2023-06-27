@@ -17,7 +17,7 @@ const Bookings = () => {
     isSuccess,
     isError,
     error
-  } = useGetBookingsQuery()
+  } = useGetBookingsQuery('bookingsList')
 
   const {data:customers} = useGetCustomersQuery()
 

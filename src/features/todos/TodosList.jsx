@@ -20,7 +20,7 @@ const TodosList = () =>{
     } = useGetTodosQuery('todosList')
 
 
-    const{data:users}=useGetUsersQuery()
+    const{data:users}=useGetUsersQuery('usersList')
 
     const [open, setOpen] = useState(false)
     const [filter, setFilter] = useState("")
@@ -66,14 +66,18 @@ const TodosList = () =>{
     </div>
     } else if (isSuccess){
 
-        const{ids, entities} = todos || ''
-        const{ entities:usersEntities} = users || ''
+        const{ids, entities} = todos || {}
+        const{ entities:usersEntities} = users || {}
 
         
 
-        const filteredIds = ids?.filter((todoId) => {
-            const todo = entities[todoId] || '';
-            const user = todo && usersEntities[todo.employee] || '';
+        const filteredIds =ids && ids.filter((todoId) => {
+         
+          const todo = entities[todoId] || {};
+            
+          const user = todo && users && usersEntities[todo.employee] || {};
+         
+
             return (
               todo &&
               user &&
@@ -114,6 +118,7 @@ const TodosList = () =>{
                <div >
                    <TablePagination
                       id="table_pagination"
+                      
                       rowsPerPageOptions={[10, 50, 100]}
                       labelRowsPerPage='Todos per page'
                       component="div"

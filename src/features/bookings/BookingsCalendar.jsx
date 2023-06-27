@@ -71,7 +71,7 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
   const {ids:roomsIds, entities: roomsEntities} = rooms
 
 
-let bookingEvents = bookingIds.map((bookingId) => {
+let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId] || '';
   const customer = customersEntities[booking.customer] || '';
   const room = roomsEntities[booking.room];

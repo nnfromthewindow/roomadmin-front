@@ -141,12 +141,12 @@ const CustomerAddDialog = ({open, handleClose}) => {
           <DialogContent>
   
          
-          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
+          <InputLabel htmlFor='name-input' id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
           >Name</InputLabel>
           
           <TextField required
               margin="dense"
-              id="name"
+              inputProps={{id:'name-input'}}
               type="text"
               fullWidth
               variant="filled" onChange={handleNameChange} value={name}
@@ -155,11 +155,11 @@ const CustomerAddDialog = ({open, handleClose}) => {
                      
             />
 
-          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
+          <InputLabel htmlFor='lastname-input' id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
           
           <TextField required
               margin="dense"
-              id="lastname"
+              inputProps={{id:'lastname-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -169,11 +169,11 @@ const CustomerAddDialog = ({open, handleClose}) => {
               helperText={lastnameError && 'The field should have less than 20 characters'}                
             />
 
-          <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
+          <InputLabel htmlFor='idnumber-input' id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
           
           <TextField required
               margin="dense"
-              id="idnumber"
+              inputProps={{id:'idnumber-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -183,11 +183,11 @@ const CustomerAddDialog = ({open, handleClose}) => {
               helperText={idnumberError && 'The field should have less than 30 characters'}   
             />
 
-          <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
+          <InputLabel htmlFor='adress-input' id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
           
           <TextField required
               margin="dense"
-              id="adress"
+              inputProps={{id:'adress-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -197,11 +197,11 @@ const CustomerAddDialog = ({open, handleClose}) => {
               helperText={adressError && 'The field should have less than 50 characters'}   
             />
 
-          <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
+          <InputLabel htmlFor='email-input' id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
           
           <TextField required
               margin="dense"
-              id="email"
+              inputProps={{id:'email-input'}}
               type="email"
               fullWidth
               variant="filled"
@@ -211,11 +211,11 @@ const CustomerAddDialog = ({open, handleClose}) => {
               helperText={email.length>0 && emailError && 'Invalid Email'}     
             />
 
-          <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
+          <InputLabel htmlFor='phone-input' id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
           
           <TextField required
               margin="dense"
-              id="phone"
+              inputProps={{id:'phone-input'}}
               type="phone"
               fullWidth
               variant="filled"

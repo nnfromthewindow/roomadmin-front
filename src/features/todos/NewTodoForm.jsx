@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
@@ -100,13 +100,17 @@ if(isLoading){
         <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Todo</DialogTitle>
 
         <DialogContent>
-        <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Date</InputLabel>
+        
+        <InputLabel htmlFor='date-input' id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Date</InputLabel>
 
-        <MobileDatePicker  autoFocus disablePast  onChange={(newDate) => setDate(newDate)} value={date}/>
-        <InputLabel id="employee-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Employee</InputLabel>                   
+        <MobileDatePicker slotProps={{field:{id:'date-input'}}} autoFocus disablePast  onChange={(newDate) => setDate(newDate)} value={date}/>
+
+        <InputLabel htmlFor='employee-input' id="employee-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Employee</InputLabel>                   
+        
         <Select required
             labelId="employee-label"
-            id="employee"
+            inputProps={{id:'employee-input'}}
+            
             value={employee}
             variant="filled"
             sx={{width:'100%'}}
@@ -114,10 +118,11 @@ if(isLoading){
         >
             {employeeOptions}
         </Select>
-        <InputLabel id="description-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Description</InputLabel>
+        <InputLabel htmlFor='description-input' id="description-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Description</InputLabel>
         <TextField required
+            name='description-input'
             margin="dense"
-            id="description"
+            inputProps={{id:'description-input'}}
             type="text"
             fullWidth
             multiline
@@ -126,10 +131,12 @@ if(isLoading){
             value={description}
             onChange={handleDescriptionChange}
           />
-        <InputLabel id="status-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Status</InputLabel>
+
+        <InputLabel htmlFor='status-input' id="status-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Status</InputLabel>
+         
          <Select required
             labelId="status-label"
-            id="demo-simple-select"
+            inputProps={{id:'status-input'}}
             value={status}
             variant="filled"
             sx={{width:'100%'}} 

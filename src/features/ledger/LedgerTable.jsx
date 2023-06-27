@@ -88,6 +88,7 @@ function EnhancedTableHead(props) {
             onChange={onSelectAllClick}
             inputProps={{
               'aria-label': 'select all desserts',
+              id:'allselected-checkbox'
             }}
           />
         </TableCell>
@@ -177,7 +178,7 @@ function EnhancedTableToolbar(props) {
          
          
         <FormControlLabel
-      control={<Switch checked={dense} onChange={handleChangeDense} />}
+      control={<Switch inputProps={{id:'dense-switch'}} checked={dense} onChange={handleChangeDense} />}
     />
 
      <FilterToolbar date={date} handleFilterChange={handleFilterChange} filter={filter}/>
@@ -398,6 +399,7 @@ const handleFilterChange = (event) => {
                         checked={isItemSelected}
                         inputProps={{
                           'aria-labelledby': labelId,
+                          id: labelId
                         }}
                       />
                     </TableCell>

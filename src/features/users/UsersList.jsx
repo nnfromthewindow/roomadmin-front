@@ -14,7 +14,7 @@ const UsersList = () => {
     isSuccess,
     isError,
     error
-    } = useGetUsersQuery()
+    } = useGetUsersQuery('usersList')
 
     const [open, setOpen] = useState(false)
     const [filter, setFilter] = useState("")

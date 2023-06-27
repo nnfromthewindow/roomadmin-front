@@ -13,7 +13,7 @@ const CustomersList = () => {
     isLoading,
     isSuccess,
     isError,
-    error} = useGetCustomersQuery()
+    error} = useGetCustomersQuery('customersList')
 
    
     const [open, setOpen] = useState(false)

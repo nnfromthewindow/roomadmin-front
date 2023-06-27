@@ -213,12 +213,12 @@ const UserAddDialog = ({open, handleClose}) => {
           <DialogContent>
   
          
-          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
+          <InputLabel htmlFor='name-input' id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}
           >Name</InputLabel>
           
           <TextField required
               margin="dense"
-              id="name"
+              inputProps={{id:'name-input'}}
               type="text"
               fullWidth
               variant="filled" onChange={handleNameChange} value={name} 
@@ -226,11 +226,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={nameError && 'The field should have less than 20 characters'}         
             />
 
-          <InputLabel id="name-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
+          <InputLabel htmlFor='lastname-input' id="lastname-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Lastname</InputLabel>
           
           <TextField required
               margin="dense"
-              id="lastname"
+              inputProps={{id:'lastname-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -240,11 +240,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={lastnameError && 'The field should have less than 20 characters'}            
             />
 
-          <InputLabel id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
+          <InputLabel htmlFor='idnumber-input' id="idnumber-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>ID number</InputLabel>
           
           <TextField required
               margin="dense"
-              id="idnumber"
+              inputProps={{id:'idnumber-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -254,11 +254,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={idnumberError && 'The field should have less than 30 characters'}               
             />
 
-          <InputLabel id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
+          <InputLabel htmlFor='adress-input' id="adress-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Adress</InputLabel>
           
           <TextField required
               margin="dense"
-              id="adress"
+              inputProps={{id:'adress-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -268,11 +268,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={adressError && 'The field should have less than 50 characters'}   
             />
 
-          <InputLabel id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
+          <InputLabel htmlFor='email-input' id="email-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Email</InputLabel>
           
           <TextField required
               margin="dense"
-              id="email"
+              inputProps={{id:'email-input'}}
               type="email"
               fullWidth
               variant="filled"
@@ -282,11 +282,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={email.length>0 && emailError && 'Invalid Email'}               
             />
 
-          <InputLabel id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
+          <InputLabel htmlFor='phone-input' id="phone-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Phone</InputLabel>
           
           <TextField required
               margin="dense"
-              id="phone"
+              inputProps={{id:'phone-input'}}
               type="phone"
               fullWidth
               variant="filled"
@@ -296,12 +296,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={phoneError && 'The field should have less than 20 characters'}            
             />
 
-          <InputLabel id="avatar-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
+          <InputLabel htmlFor='avatar-input' id="avatar-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Avatar</InputLabel>
           
-
           <TextField required
               margin="dense"
-              id="avatar"
+              inputProps={{id:'avatar-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -311,12 +310,12 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={avatarError && 'The field should have less than 400 characters'}              
           />
 
-          <InputLabel id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
+          <InputLabel htmlFor='username-input'  id="username-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Username</InputLabel>
           
 
           <TextField required
               margin="dense"
-              id="username"
+              inputProps={{id:'username-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -326,11 +325,11 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={usernameError && 'The username should have a minimum of 4 characters and a maximum of 20 characters'}             
             />
 
-          <InputLabel id="password-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Password</InputLabel>
+          <InputLabel htmlFor='password-input' id="password-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Password</InputLabel>
           
           <TextField required
               margin="dense"
-              id="password"
+              inputProps={{id:'password-input'}}
               type="password"
               fullWidth
               variant="filled"  
@@ -340,11 +339,10 @@ const UserAddDialog = ({open, handleClose}) => {
               helperText={passwordError && 'The password should contain at least one lowercase letter, one uppercase letter, one number, and have a minimum of 8 characters and a maximum of 20 characters'}             
             />
       
-          <InputLabel id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
+          <InputLabel htmlFor='role-input' id="role-label" sx={{fontFamily:'Dosis',  fontWeight:'bold', fontSize:'1.2em'}}>Role</InputLabel>
 
           <Select required
-              labelId="role-label"
-              id="role"
+              inputProps={{id:'role-input'}}
               value={roles}
               variant="filled"
               sx={{width:'100%'}}

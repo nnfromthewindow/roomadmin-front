@@ -13,7 +13,9 @@ import UsersList from './features/users/UsersList'
 import Ledger from './features/ledger/Ledger'
 import Rates from './features/rates/Rates'
 import Rooms from './features/rooms/Rooms'
-import EditTodoForm from './features/todos/EditTodoForm'
+import Prefetch from './features/auth/Prefetch'
+import PersistLogin from './features/auth/PersistLogin'
+
 
 function App() {
 
@@ -21,21 +23,24 @@ function App() {
 <Routes>
     <Route path="/" element={<PublicLayout/>}>
       <Route index element={<Login/>}/>
-    </Route> 
+    </Route>
+    <Route element={<PersistLogin/>}> 
       <Route element={<RequireAuth/>}>
-        <Route element={<PrivateLayout/>}>
-        <Route path='welcome' element={<Welcome/>}/>
-        <Route path='todos' element={<TodosList/>}/>
-        <Route path='todos/:username' element={<TodosUserList/>}/>
-        <Route path='bookings' element={<Bookings/>}/>
-        <Route path='customers' element={<CustomersList/>}/>
-        <Route path='users' element={<UsersList/>}/>
-        <Route path='ledger' element={<Ledger/>}/>
-        <Route path='rates' element={<Rates/>}/>
-        <Route path='rooms' element={<Rooms/>}/>
+        <Route element={<Prefetch/>}>
+          <Route element={<PrivateLayout/>}>
+            <Route path='welcome' element={<Welcome/>}/>
+            <Route path='todos' element={<TodosList/>}/>
+            <Route path='todos/:username' element={<TodosUserList/>}/>
+            <Route path='bookings' element={<Bookings/>}/>
+            <Route path='customers' element={<CustomersList/>}/>
+            <Route path='users' element={<UsersList/>}/>
+            <Route path='ledger' element={<Ledger/>}/>
+            <Route path='rates' element={<Rates/>}/>
+            <Route path='rooms' element={<Rooms/>}/>
+          </Route>
         </Route>
       </Route>
-    
+    </Route>
 </Routes>
   
   )

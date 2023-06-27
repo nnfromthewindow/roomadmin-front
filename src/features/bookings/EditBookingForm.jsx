@@ -222,16 +222,18 @@ const handleClickOpenCustomer = () => {
     
             <DialogContent>
   
-            <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
-          <MobileDatePicker disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
+            <InputLabel htmlFor='checkin-date-input' id="checkin-date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-in</InputLabel>
+
+          <MobileDatePicker slotProps={{field:{id:'checkin-date-input'}}}  disablePast  onChange={(newDate) => setCheckinDate(newDate)} value={checkinDate} sx={{width:'100%'}}/>
   
-          <InputLabel id="date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
-          <MobileDatePicker disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
+          <InputLabel htmlFor='checkout-date-input' id="checkout-date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
+
+          <MobileDatePicker slotProps={{field:{id:'checkout-date-input'}}}  disablePast  onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
   
-          <InputLabel id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
+          <InputLabel htmlFor='customer-input' id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>    
+
           <Select required
-              labelId="customer-label"
-              id="customer"
+              inputProps={{id:'customer-input'}}
               value={selectedCustomer}
               variant="filled"
               fullWidth
@@ -239,14 +241,18 @@ const handleClickOpenCustomer = () => {
           >
               {customersOptions}
           </Select>
+
           <div style={{textAlign:'center'}}>
+          
           <Button onClick={handleClickOpenCustomer} variant="contained" color="info" sx={{width:'80%', margin:'2rem auto', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} ><AddCircleOutline sx={{color:lightBlue[500],}} />Add Customer</Button>
+          
           </div>
+
          <CustomerAddDialog handleClose={handleCloseCustomer} open={openCustomer}/>
   
-          <InputLabel id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
+          <InputLabel htmlFor='room-input' id="room-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Room</InputLabel>                   
           <Select required
-              labelId="room-label"
+              inputProps={{id:'room-input'}}
               id="room"
               value={room}
               variant="filled"
@@ -256,10 +262,9 @@ const handleClickOpenCustomer = () => {
               {roomOptions}
           </Select>
   
-          <InputLabel id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   
+          <InputLabel htmlFor='passengers-input' id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   
           <Select required
-              labelId="passengers-label"
-              id="passengers"
+              inputProps={{id:'passengers-input'}}
               value={passengers}
               variant="filled"
               sx={{width:'100%'}}
@@ -268,10 +273,10 @@ const handleClickOpenCustomer = () => {
               {passengersOptions}
           </Select>
   
-          <InputLabel id="cost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Cost</InputLabel>
+          <InputLabel htmlFor='cost-input' id="cost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Cost</InputLabel>
           <TextField required
               margin="dense"
-              id="cost"
+              inputProps={{id:'cost-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -284,10 +289,10 @@ const handleClickOpenCustomer = () => {
             
             />
   
-          <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
+          <InputLabel htmlFor='discount-input' id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Discount %</InputLabel>
           <TextField required
               margin="dense"
-              id="discount"
+              inputProps={{id:'discount-input'}}
               type="number"
               fullWidth
               variant="filled"
@@ -298,10 +303,10 @@ const handleClickOpenCustomer = () => {
               }}
             />
   
-          <InputLabel id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
+          <InputLabel htmlFor='totalCost-input' id="totalCost-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Total Cost</InputLabel>
           <TextField required
               margin="dense"
-              id="totalCost"
+              inputProps={{id:'totalCost-input'}}
               type="text"
               fullWidth
               variant="filled"
@@ -313,10 +318,12 @@ const handleClickOpenCustomer = () => {
               }}
             
             />
-          <InputLabel id="discount-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
+          
+          <InputLabel htmlFor='note-input' id="note-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Note</InputLabel>
+            
             <TextField 
               margin="dense"
-              id="note"
+              inputProps={{id:'note-input'}}
               type="text"
               fullWidth
               multiline
@@ -325,8 +332,11 @@ const handleClickOpenCustomer = () => {
               value={note}
               onChange={handleNoteChange}
             />
+            
             <div style={{textAlign:'center'}}>
+
             <Button variant="contained" color="error" sx={{width:'80%', marginTop:'1rem', fontFamily:'Dosis',fontSize:'1em', gap:'10px'}} onClick={handleClickOpenDelete}><Delete sx={{color:grey[500],}}/>Delete Booking</Button>
+
             </div>
          
     

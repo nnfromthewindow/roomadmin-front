@@ -147,16 +147,15 @@ const Ledger = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                
                 
-                <MobileDatePicker onChange={(newDate) => setDate(newDate)}  value={date} sx={{width:'12rem'}}/>
+                <MobileDatePicker slotProps={{field:{id:'ledger-date-input'}}} onChange={(newDate) => setDate(newDate)}  value={date} sx={{width:'12rem'}}/>
 
-                <TextField onChange={handleDescriptionChange} value={description} id="outlined-basic" label="Description" variant="outlined" style={{width:'40rem'}}/>
+                <TextField onChange={handleDescriptionChange} value={description} label="Description" variant="outlined" style={{width:'40rem'}}/>
                 
                 <FormControl >
-                <InputLabel id="type-label" >Type</InputLabel>
+                <InputLabel htmlFor="type-input" id="type-label" >Type</InputLabel>
                 
                 <Select
-                labelId="type-label"
-                id="type-select"
+                inputProps={{id:'type-input'}}
                 value={type}
                 label="Type"
                 placeholder="Type"
@@ -170,7 +169,7 @@ const Ledger = () => {
    
                 <TextField InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,          
-                }} onChange={handleValueChange} value={value} id="outlined-basic" label="Value" variant="outlined" />
+                }} onChange={handleValueChange} value={value} label="Value" variant="outlined" />
 
                 <Button type="submit" disabled={!canSave} color="success" variant="contained" sx={{  fontFamily:'Dosis',fontSize:'1.55em',width:'240px'}} >Add Item<AddCircleOutline sx={{color:lightBlue[500],marginLeft:'8px'}}/></Button>
 
