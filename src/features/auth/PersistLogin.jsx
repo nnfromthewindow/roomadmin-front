@@ -12,7 +12,7 @@ const PersistLogin = () => {
     const [persist] = usePersist()
     const token = useSelector(selectCurrentToken)
     const effectRan = useRef(false)
-    const navigate = useNavigate()
+
     const [trueSuccess, setTrueSuccess] = useState(false)
 
     const [refresh, {
@@ -29,7 +29,7 @@ const PersistLogin = () => {
         if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
 
             const verifyRefreshToken = async () => {
-                console.log('verifying refresh token')
+     
                 try {              
                     await refresh()
                     setTrueSuccess(true)
@@ -52,7 +52,7 @@ const PersistLogin = () => {
         console.log('no persist')
         content = <Outlet />
     } else if (isLoading) { 
-        console.log('loading')
+        
         content = <div className="spinner" style={{position:'fixed', margin:'auto',
         width: '100vw',
         height: '100vh',
@@ -72,7 +72,6 @@ const PersistLogin = () => {
                         />
                   </div>
     } else if (isError) {
-        console.log('error')
         content = (
             <p className='errmsg'>
                 {`${error?.data?.message} - `}
@@ -80,11 +79,8 @@ const PersistLogin = () => {
             </p>
         )
     } else if (isSuccess && trueSuccess) {
-        console.log('success')
         content = <Outlet />
     } else if (token && isUninitialized) { 
-        console.log('token and uninit')
-        console.log(isUninitialized)
         content = <Outlet />
     }
 

@@ -93,16 +93,17 @@ const Login = () =>{
                     </div>
                   
                 </form>
-                <label htmlFor="persist" className="form__persist">
-                        <input
-                            type="checkbox"
-                            className="form__checkbox"
-                            id="persist"
-                            onChange={handleToggle}
-                            checked={persist}
-                        />
-                        Trust This Device
+                <div style={{display:"flex", justifyContent:'center'}}>
+                    <label htmlFor="persist" className="trust-device" style={{fontFamily:'Dosis'}}>
+                            <input
+                                type="checkbox"
+                                id="persist"
+                                onChange={handleToggle}
+                                checked={persist}
+                            />
+                            Trust This Device
                     </label>
+                </div>  
             </div>
         </main>
         )
