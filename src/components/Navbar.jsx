@@ -18,11 +18,16 @@ import { useSendLogoutMutation } from '../features/auth/authApiSlice';
 import { AddTask, MenuBook, Group, SupervisedUserCircle,CurrencyExchange, Settings } from '@mui/icons-material';
 import { pink,deepOrange,teal,red,lightGreen,brown,lightBlue } from '@mui/material/colors';
 import { Logout, ManageAccounts } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
+import { useEffect } from 'react';
 
 
 const Navbar = () => {
 
   const { username, isAdmin, avatar } = useAuth()
+
+  const navigate = useNavigate()
 
   const [sendLogout, {
     isLoading,
@@ -30,6 +35,10 @@ const Navbar = () => {
     isError,
     error
 }] = useSendLogoutMutation()
+
+useEffect(() => {
+  if (isSuccess) navigate('/')
+}, [isSuccess, navigate])
 
   const pagesAdmin = [
     { name: 'Todos', route: '/todos',icon: <AddTask sx={{ color: pink[700] }}/> },
@@ -241,7 +250,27 @@ pages = pagesEmployee
     </AppBar>
   )
   
-
-  return content;
+  if(isLoading){
+    <div className="spinner" style={{position:'fixed', margin:'auto',
+      width: '100vw',
+      height: '100vh',
+      top:'0rem',
+      left:'0rem',
+      paddingTop:'30vh',
+      backgroundColor: '#ffffffc7',
+      zIndex: '3000'}}>
+                  <ColorRing
+                      visible={true}
+                      height="200"
+                      width="200"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="blocks-wrapper"
+                      colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                      />
+                </div>
+  }else{
+    return content;
+  }
 }
 export default Navbar;

@@ -257,6 +257,7 @@ min-height: 6rem;
 }
 
 .todo_status{
+display: flex;    
 margin: auto;
 }
 

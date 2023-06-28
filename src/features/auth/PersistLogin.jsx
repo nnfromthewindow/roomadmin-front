@@ -5,12 +5,14 @@ import { selectCurrentToken } from "./authSlice"
 import { useRefreshMutation } from "./authApiSlice"
 import usePersist from "../hooks/usePersist"
 import { ColorRing } from "react-loader-spinner"
+import { useNavigate } from "react-router-dom"
+
 
 const PersistLogin = () => {
     const [persist] = usePersist()
     const token = useSelector(selectCurrentToken)
     const effectRan = useRef(false)
-
+    const navigate = useNavigate()
     const [trueSuccess, setTrueSuccess] = useState(false)
 
     const [refresh, {
