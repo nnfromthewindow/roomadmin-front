@@ -12,7 +12,7 @@ const PersistLogin = () => {
     const [persist] = usePersist()
     const token = useSelector(selectCurrentToken)
     const effectRan = useRef(false)
-
+    const navigate = useNavigate()
     const [trueSuccess, setTrueSuccess] = useState(false)
 
     const [refresh, {
@@ -23,6 +23,12 @@ const PersistLogin = () => {
         error
     }] = useRefreshMutation()
 
+    useEffect(()=>{
+        if(isError){
+            navigate('/')
+    
+        }
+        },[isError])
 
     useEffect(() => {
 
@@ -49,7 +55,7 @@ const PersistLogin = () => {
 
     let content
     if (!persist) { 
-        console.log('no persist')
+      
         content = <Outlet />
     } else if (isLoading) { 
         

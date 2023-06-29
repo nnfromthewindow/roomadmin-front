@@ -8,6 +8,7 @@ import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
 import NewBookingForm from "./NewBookingForm"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 const Bookings = () => {
@@ -24,7 +25,7 @@ const Bookings = () => {
   const {data:rooms} = useGetRoomsQuery()
 
   const [open, setOpen] = useState(false)
-
+  
   const handleClickOpen = () => {
     setOpen(true);
   };

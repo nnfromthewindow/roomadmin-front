@@ -17,7 +17,10 @@ const TodosList = () =>{
     isSuccess,
     isError,
     error
-    } = useGetTodosQuery('todosList')
+    } = useGetTodosQuery('todosList',{
+      pollingInterval: 600000,
+
+  })
 
 
     const{data:users}=useGetUsersQuery('usersList')
@@ -133,7 +136,7 @@ const TodosList = () =>{
             </section>
             
             )
-    }else if(isError){
+    }else if(isError){ 
         content = <>
                   <h1 className="main_title">NO TODOS</h1>
                   <div className="btn_container">

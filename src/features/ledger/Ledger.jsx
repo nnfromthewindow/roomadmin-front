@@ -20,7 +20,9 @@ const Ledger = () => {
         isSuccess,
         isError,
         error
-        } = useGetLedgerQuery('ledgerList')
+        } = useGetLedgerQuery('ledgerList',{
+          pollingInterval: 900000
+      })
 
         const [addNewLedgerItem, {
           isLoading:isLoadingNewLedgerItem,
@@ -136,50 +138,50 @@ const Ledger = () => {
                     </div>)
         
         } else if (isSuccess || isError){
-        return (     
+          return (     
             <section className="ledger">
                 <h1 className="main_title">LEDGER</h1>
-                
-               <form onSubmit={onSaveNewLedgerItem}>
+                  
+                <form onSubmit={onSaveNewLedgerItem}>
 
-               <div className="ledger_add">
+                <div className="ledger_add">
 
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-               
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
                 
-                <MobileDatePicker slotProps={{field:{id:'ledger-date-input'}}} onChange={(newDate) => setDate(newDate)}  value={date} sx={{width:'12rem'}}/>
+                  
+                  <MobileDatePicker slotProps={{field:{id:'ledger-date-input'}}} onChange={(newDate) => setDate(newDate)}  value={date} sx={{width:'12rem'}}/>
 
-                <TextField onChange={handleDescriptionChange} value={description} label="Description" variant="outlined" style={{width:'40rem'}}/>
-                
-                <FormControl >
-                <InputLabel htmlFor="type-input" id="type-label" >Type</InputLabel>
-                
-                <Select
-                inputProps={{id:'type-input'}}
-                value={type}
-                label="Type"
-                placeholder="Type"
-                onChange={handleTypeChange}
-                sx={{width:'10rem'}}
-                >
-                <MenuItem value={'Expenses'}>Expenses</MenuItem>
-                <MenuItem value={'Income'}>Income</MenuItem>
-                </Select>
-                </FormControl>
-   
-                <TextField InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,          
-                }} onChange={handleValueChange} value={value} label="Value" variant="outlined" />
+                  <TextField onChange={handleDescriptionChange} value={description} label="Description" variant="outlined" style={{width:'40rem'}}/>
+                  
+                  <FormControl >
+                  <InputLabel htmlFor="type-input" id="type-label" >Type</InputLabel>
+                  
+                  <Select
+                  inputProps={{id:'type-input'}}
+                  value={type}
+                  label="Type"
+                  placeholder="Type"
+                  onChange={handleTypeChange}
+                  sx={{width:'10rem'}}
+                  >
+                  <MenuItem value={'Expenses'}>Expenses</MenuItem>
+                  <MenuItem value={'Income'}>Income</MenuItem>
+                  </Select>
+                  </FormControl>
+    
+                  <TextField InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,          
+                  }} onChange={handleValueChange} value={value} label="Value" variant="outlined" />
 
-                <Button type="submit" disabled={!canSave} color="success" variant="contained" sx={{  fontFamily:'Dosis',fontSize:'1.55em',width:'240px'}} >Add Item<AddCircleOutline sx={{color:lightBlue[500],marginLeft:'8px'}}/></Button>
+                  <Button type="submit" disabled={!canSave} color="success" variant="contained" sx={{  fontFamily:'Dosis',fontSize:'1.55em',width:'240px'}} >Add Item<AddCircleOutline sx={{color:lightBlue[500],marginLeft:'8px'}}/></Button>
 
-                </LocalizationProvider>
-                </div>
-                
-                </form>
-                
-       
-        {isSuccess && memoizedTable}
+                  </LocalizationProvider>
+                  </div>
+                  
+                  </form>
+                  
+        
+              {isSuccess && memoizedTable}
         
                 
             </section>

@@ -25,7 +25,7 @@ const Rooms = () => {
             error: errorNewRoomItem
           }] = useAddNewRoomMutation()    
     
-        const [open, setOpen] = useState(false)
+   
     const [filter, setFilter] = useState("")
     const [number, setNumber] = useState('')
     const [passengers, setPassengers] = useState('')
@@ -142,7 +142,18 @@ const Rooms = () => {
         </section>
                 )
             }else if(isError){
-                content = <p>{JSON.stringify(error)}</p>
+                content = <section className="rooms">
+                <h1 className="main_title">ROOMS</h1>
+                <form  onSubmit={onSaveNewRoom}>
+                <div className="ledger_add">                
+                        <TextField onChange={handleNumberChange} type="number"  value={number} id="number" label="Number" variant="outlined" style={{width:'6rem'}}/>
+                        <TextField onChange={handlePassengersChange} type="number" value={passengers} id="passengers" label="Passengers" variant="outlined" style={{width:'6rem'}}/>
+                        <TextField onChange={handleNumberOfRoomsChange} type="number" value={numberOfRooms} id="number-of-rooms" label="Rooms" variant="outlined" style={{width:'6rem'}}/>
+                        <Button type="submit" disabled={!canSave} color="success" variant="contained" sx={{  fontFamily:'Dosis',fontSize:'1.55em',width:'240px'}} >Add Item<AddCircleOutline sx={{color:lightBlue[500],marginLeft:'8px'}}/></Button>
+    
+                </div>
+                </form>
+            </section>
             }
             return content
 }

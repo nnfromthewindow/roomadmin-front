@@ -55,14 +55,15 @@ const TodoEmployee = ({todoId, username, date, description, status, employee}) =
                     </div>
 
                     <div className="todo_card--status">
-                        <div className="todosBtn_container">
-                            <Button onClick={handleInProgress}color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><PlayCircle/></Button>
+                        <div className="btn_container">
+                            <Button onClick={handleInProgress}color="warning" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><PlayCircle/></Button>
                             
                             <div className="todo_status">
-                                <h3>STATUS:<div className={statusClassName}>{status}</div></h3>
-
-                            </div>
-                            <Button onClick={handleCompleted} color="error" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><CheckCircle/></Button>
+                                    <div style={{display:'flex',gap:'10px', flexWrap:'wrap'}}>
+                                        <h3>STATUS:</h3><div className={statusClassName}>{status}</div>
+                                    </div>
+                                </div>
+                            <Button onClick={handleCompleted} color="success" sx={{backgroundColor:"#221616", borderRadius:'5rem', ":hover":{backgroundColor:'#201915b5', transition:'1s'}}}><CheckCircle/></Button>
                         </div>
                     </div>
                 

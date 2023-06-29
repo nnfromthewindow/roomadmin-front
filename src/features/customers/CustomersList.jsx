@@ -13,7 +13,11 @@ const CustomersList = () => {
     isLoading,
     isSuccess,
     isError,
-    error} = useGetCustomersQuery('customersList')
+    error} = useGetCustomersQuery('customersList',{
+        pollingInterval: 15000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    })
 
    
     const [open, setOpen] = useState(false)
@@ -48,7 +52,7 @@ wrapperClass="blocks-wrapper"
 colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
 />
 </div>
-} else if (isSuccess){
+} else if (isSuccess ){
 
     const {ids, entities} = customers
 
@@ -88,7 +92,15 @@ content = (
     </section>
     )
 }else if(isError){
-    content = <p>{JSON.stringify(error)}</p>
+    content = <section className="customers">
+    <h1 className="main_title">CUSTOMERS</h1>
+    <div className="btn_container">
+    <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Customer</Button>
+    </div>
+
+ <CustomerAddDialog open={open} handleClose={handleClose}/>
+
+</section>
 }
 return content
 }

@@ -88,7 +88,14 @@ content = (
     </section>
     )
 }else if(isError){
-    content = <p>{JSON.stringify(error)}</p>
+    content = <section className="customers">
+    <h1 className="main_title">USERS</h1>
+    <div className="btn_container">
+    <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add User</Button>
+    </div>
+ <UserAddDialog open={open} handleClose={handleClose}/>
+
+</section>
 }
 return content
 }

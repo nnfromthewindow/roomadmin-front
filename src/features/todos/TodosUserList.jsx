@@ -12,7 +12,7 @@ const TodosUserList = () =>{
         isSuccess,
         isError,
         error} = useGetTodosByUserQuery(username,{
-            pollingInterval: 15000,
+            pollingInterval: 300000,
             refetchOnFocus: true,
             refetchOnMountOrArgChange: true
         })
@@ -48,7 +48,7 @@ const TodosUserList = () =>{
                 )
 
         }else if(isError){
-            content = <p>{JSON.stringify(error)}</p>
+            content = <h3 style={{fontFamily:'Dosis', fontSize:'2em'}}>{JSON.stringify(error.data.message)}{' Please login again'}</h3>
         }
         return content
         
