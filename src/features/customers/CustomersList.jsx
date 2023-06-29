@@ -13,11 +13,7 @@ const CustomersList = () => {
     isLoading,
     isSuccess,
     isError,
-    error} = useGetCustomersQuery('customersList',{
-        pollingInterval: 15000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
-    })
+    error} = useGetCustomersQuery('customersList')
 
    
     const [open, setOpen] = useState(false)

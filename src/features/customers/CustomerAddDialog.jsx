@@ -115,22 +115,23 @@ const CustomerAddDialog = ({open, handleClose}) => {
 
   if(isLoading){
     return  (<div className="spinner" style={{position:'fixed', margin:'auto',
-    width: '100vw',
-    height: '100vh',
-    top:'0rem',
-    paddingTop:'30vh',
-    backgroundColor: '#ffffffc7',
-    zIndex: '3000'}}>
-                <ColorRing
-                    visible={true}
-                    height="200"
-                    width="200"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-                    />
-              </div>)
+  width: '100vw',
+  height: '100vh',
+  top:'0rem',
+  left:0,
+  paddingTop:'30vh',
+  backgroundColor: '#ffffffc7',
+  zIndex: '3000'}}>
+              <ColorRing
+                  visible={true}
+                  height="200"
+                  width="200"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                  />
+            </div>)
   }else{
     return (
       <form className='todo_form' >

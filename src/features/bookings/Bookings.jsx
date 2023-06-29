@@ -20,9 +20,9 @@ const Bookings = () => {
     error
   } = useGetBookingsQuery('bookingsList')
 
-  const {data:customers} = useGetCustomersQuery()
+  const {data:customers} = useGetCustomersQuery('customersList')
 
-  const {data:rooms} = useGetRoomsQuery()
+  const {data:rooms} = useGetRoomsQuery('roomsList')
 
   const [open, setOpen] = useState(false)
   
@@ -42,15 +42,15 @@ const Bookings = () => {
   if(isLoading){
     content = <div className="spinner">
     <ColorRing
-visible={true}
-height="200"
-width="200"
-ariaLabel="blocks-loading"
-wrapperStyle={{}}
-wrapperClass="blocks-wrapper"
-colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-/>
-</div>
+      visible={true}
+      height="200"
+      width="200"
+      ariaLabel="blocks-loading"
+      wrapperStyle={{}}
+      wrapperClass="blocks-wrapper"
+      colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      />
+      </div>
   } else if (isSuccess && customers && rooms){
 
     const {ids, entities} = bookings

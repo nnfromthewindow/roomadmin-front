@@ -26,7 +26,7 @@ const Todo = ({todoId})=>{
         error
       }] = useDeleteTodoMutation()
 
-    const{data:users}=useGetUsersQuery()
+    const{data:users}=useGetUsersQuery('usersList')
 
     const [open, setOpen] = useState(false);
 
@@ -38,15 +38,11 @@ const Todo = ({todoId})=>{
       setOpen(false);
     };
 
-    const user = useSelector((state) => selectUserById(state,todo?.employee))
-   
     
     const onDeleteTodo = async () => {
         await deleteTodo({ id: todo.id })
     }  
 
-    
-   
 
         if(isLoading){
             return  (<div className="spinner" style={{position:'fixed', margin:'auto',
@@ -67,6 +63,9 @@ const Todo = ({todoId})=>{
                             />
                       </div>)
         }else if(todo && users){
+
+            const{ids,entities} = users
+
             const statusClassName = todo.status === 'PENDING'
             ? 'status_pending'
             : todo.status === 'IN PROGRESS'
@@ -80,7 +79,7 @@ const Todo = ({todoId})=>{
                     <h2 className="todo_date">{dateFormatted}</h2>
                     <div className="todo_card--container">
                         <div className="todo_card--text">
-                            <h3 className="todo_employee"><u>Employee</u>: {user && `${user.name} ${user.lastname}`}</h3>
+                            <h3 className="todo_employee"><u>Employee</u>: {users && `${entities[todo.employee].name} ${entities[todo.employee].lastname}`}</h3>
                             <h3 className="todo_description">{todo.description}</h3>
                             <h3 className="todo_status"></h3>
                         </div>

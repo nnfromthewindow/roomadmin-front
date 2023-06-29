@@ -64,6 +64,7 @@ const NewBookingForm = ({open, handleClose, customers,rooms,bookings}) =>{
     setDiscount(0)
     setTotalCost(0)
     setNote('')
+  
   },[handleClose])
 
   useEffect (()=>{

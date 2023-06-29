@@ -19,6 +19,7 @@ const TodosList = () =>{
     error
     } = useGetTodosQuery('todosList',{
       pollingInterval: 600000,
+      
 
   })
 
