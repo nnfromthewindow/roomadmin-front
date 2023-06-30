@@ -20,9 +20,11 @@ const Bookings = () => {
     error
   } = useGetBookingsQuery('bookingsList')
 
-  const {data:customers} = useGetCustomersQuery('customersList')
+  const {data:customers,
+         isSuccess:customersIsSuccess} = useGetCustomersQuery('customersList')
 
-  const {data:rooms} = useGetRoomsQuery('roomsList')
+  const {data:rooms,
+         isSuccess:roomsIsSuccess} = useGetRoomsQuery('roomsList')
 
   const [open, setOpen] = useState(false)
   
@@ -51,7 +53,7 @@ const Bookings = () => {
       colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
       />
       </div>
-  } else if (isSuccess && customers && rooms){
+  } else if (isSuccess ){
 
     const {ids, entities} = bookings
 

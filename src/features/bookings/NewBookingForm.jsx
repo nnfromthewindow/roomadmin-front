@@ -211,7 +211,7 @@ if(isLoading){
 
         <InputLabel htmlFor='checkout-date-input' id="checkout-date-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Check-out</InputLabel>
 
-        <MobileDatePicker slotProps={{field:{id:'checkout-date-input'}}}  minDate={dayjs(checkinDate).add(1,'day')} onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
+        <MobileDatePicker slotProps={{field:{id:'checkout-date-input'}}} disablePast  minDate={dayjs(checkinDate).add(1,'day')} onChange={(newDate) => setCheckoutDate(newDate)} value={checkoutDate} sx={{width:'100%'}}/>
 
         <InputLabel htmlFor='customer-input' id="customer-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Customer</InputLabel>                   
         <Select required

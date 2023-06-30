@@ -331,7 +331,7 @@ const UserAddDialog = ({open, handleClose}) => {
               margin="dense"
               inputProps={{id:'password-input'}}
               type="password"
-              fullWidth
+              sx={{maxWidth:'280px'}}
               variant="filled"  
               onChange={handlePasswordChange}
               value={password}  

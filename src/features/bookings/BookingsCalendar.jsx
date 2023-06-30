@@ -68,13 +68,13 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
 
   const {ids:customersIds, entities: customersEntities} = customers || null
 
-  const {ids:roomsIds, entities: roomsEntities} = rooms
+  const {ids:roomsIds, entities: roomsEntities} = rooms || ''
 
 
 let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId] || '';
   const customer = customersEntities[booking.customer] || '';
-  const room = roomsEntities[booking.room];
+  const room = rooms && roomsEntities[booking.room] || '';
   const checkinDateJs = booking.checkin;
   const checkoutDateJs = booking.checkout;
 

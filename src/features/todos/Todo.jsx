@@ -79,7 +79,7 @@ const Todo = ({todoId})=>{
                     <h2 className="todo_date">{dateFormatted}</h2>
                     <div className="todo_card--container">
                         <div className="todo_card--text">
-                            <h3 className="todo_employee"><u>Employee</u>: {users && `${entities[todo.employee].name} ${entities[todo.employee].lastname}`}</h3>
+                            <h3 className="todo_employee"><u>Employee</u>: {users && entities[todo.employee]?.name && entities[todo.employee]?.lastname ? `${entities[todo.employee]?.name} ${entities[todo.employee]?.lastname}` : 'EMPLOYEE DELETED - DELETE TODO'}</h3>
                             <h3 className="todo_description">{todo.description}</h3>
                             <h3 className="todo_status"></h3>
                         </div>

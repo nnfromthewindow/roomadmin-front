@@ -22,7 +22,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms}) => {
     
     const{ids:customersIds,entities:customersEntities} = customers || {} 
     const{ids:roomsIds,entities:roomsEntities} = rooms || {}
-    const selectedBooking = booking
+    
 
     const [checkinDate, setCheckinDate] = useState(dayjs(booking.checkin))
     const [checkoutDate, setCheckoutDate] = useState(dayjs(booking.checkout))
