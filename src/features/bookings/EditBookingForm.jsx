@@ -36,7 +36,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms}) => {
     const [openDelete, setOpenDelete] = useState(false);
     const [openCustomer, setOpenCustomer] = useState(false);
     
-    const selectedCustomer = customersIds.includes(customer) && customer || ''
+    const selectedCustomer = customers && customersIds.includes(customer) && customer || ''
     
     const [updateBooking, {
       isLoading,
@@ -46,7 +46,7 @@ const EditBookingForm = ({open, handleClose, booking, customers, rooms}) => {
     }] = useUpdateBookingMutation()
 
     useEffect(()=>{
-      if(customersIds.includes(customer)){
+      if(customersIds?.includes(customer)){
         setCustomer(booking.id)
       }else{
         setCustomer('')
@@ -254,12 +254,12 @@ const handleClickOpenCustomer = () => {
           <Select required
               inputProps={{id:'room-input'}}
               id="room"
-              value={room}
+              value={rooms ? room : ''}
               variant="filled"
               fullWidth
               onChange={handleRoomChange}
           >
-              {roomOptions}
+              {rooms ? roomOptions : ''}
           </Select>
   
           <InputLabel htmlFor='passengers-input' id="passengers-label" sx={{fontFamily:'Dosis', fontWeight:'bold', fontSize:'1.2em'}}>Passengers</InputLabel>                   

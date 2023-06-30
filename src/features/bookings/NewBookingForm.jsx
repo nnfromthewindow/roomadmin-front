@@ -10,7 +10,7 @@ import { lightBlue } from '@mui/material/colors';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
 import { useAddNewBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -18,7 +18,7 @@ import CustomerAddDialog from '../customers/CustomerAddDialog';
 import dayjs from 'dayjs';
 
 const NewBookingForm = ({open, handleClose, customers,rooms,bookings}) =>{
-   
+ 
   const{ids:customersIds,entities:customersEntities} = customers || {} 
   const{ids:roomsIds,entities:roomsEntities} = rooms || {}
   const{ids:bookingsIds,entities:bookingsEntities} = bookings || {}

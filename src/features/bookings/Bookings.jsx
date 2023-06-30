@@ -7,8 +7,7 @@ import { Button } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
 import NewBookingForm from "./NewBookingForm"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useMemo } from "react"
 
 
 const Bookings = () => {
@@ -18,8 +17,10 @@ const Bookings = () => {
     isSuccess,
     isError,
     error
-  } = useGetBookingsQuery('bookingsList')
-
+  } = useGetBookingsQuery('bookingsList',{
+   // refetchOnFocus:true
+  })
+    
   const {data:customers,
          isSuccess:customersIsSuccess} = useGetCustomersQuery('customersList')
 
@@ -39,7 +40,9 @@ const Bookings = () => {
 
   let content
 
-  
+  const memoizedNewBookingForm = useMemo(()=>{
+return  <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms}  bookings={bookings}/>
+  },[bookings])  
 
   if(isLoading){
     content = <div className="spinner">
@@ -79,7 +82,7 @@ const Bookings = () => {
           <h1 className="main_title">BOOKINGS</h1>
           <div className="btn_container">
                 <Button variant="contained" color="success" sx={{width:'80%', margin:'0 auto', fontFamily:'Dosis',fontSize:'1.55em', gap:'10px'}} onClick={handleClickOpen}><AddCircleOutline sx={{color:lightBlue[500],}}/>Add Booking</Button>
-                <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms}  bookings={bookings}/>
+               {memoizedNewBookingForm}
                 </div>
                <h1 className="main_title">NO BOOKINGS FOUND</h1>
               

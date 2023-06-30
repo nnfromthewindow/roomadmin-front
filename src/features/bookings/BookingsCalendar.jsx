@@ -19,7 +19,7 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
         setOpen(false);
       };
   
- 
+      
 
   useEffect(() => {
     /**
@@ -64,24 +64,24 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
  
 
 
-  const {ids:bookingIds, entities: bookingEntities} = bookings
+  const {ids:bookingIds, entities: bookingEntities} = bookings || ''
 
-  const {ids:customersIds, entities: customersEntities} = customers || null
+  const {ids:customersIds, entities: customersEntities} = customers || ''
 
   const {ids:roomsIds, entities: roomsEntities} = rooms || ''
 
 
 let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId] || '';
-  const customer = customersEntities[booking.customer] || '';
-  const room = rooms && roomsEntities[booking.room] || '';
+  const customer = booking && customers && customersEntities[booking.customer] || '';
+  const room = booking && rooms && roomsEntities[booking.room] || '';
   const checkinDateJs = booking.checkin;
   const checkoutDateJs = booking.checkout;
 
   return {
     start: new Date(checkinDateJs),
     end: new Date (checkoutDateJs),
-    title: `${room.number ||''} - ${customer.name || 'CUSTOMER DELETED'} ${customer.lastname || ''}`,
+    title: `${room.number || 'ROOM DELETED'} - ${customer && customer.name || 'CUSTOMER DELETED'} ${customer.lastname || ''}`,
     booking: booking,
     allDay: false,
     
@@ -89,12 +89,13 @@ let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
 }
 )
 
-  const {events,views, defaultDate} = useMemo(
-    ()=>({
+  const {events,views, defaultDate} =  useMemo(
+      ()=>({
       events:bookingEvents,
       views: Object.keys(Views).map((k) => Views[k]),
       defaultDate: new Date(),
-    }),[bookingEntities])
+      }),[bookingEntities]
+    )
 
     
         return (
