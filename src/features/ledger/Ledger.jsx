@@ -1,8 +1,7 @@
 import { useGetLedgerQuery } from "./ledgerApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import { useState, useEffect,useMemo } from "react"
+import { useState,useMemo, lazy, Suspense } from "react"
 import { TextField,InputLabel,Select,MenuItem, Button, FormControl, InputAdornment } from "@mui/material"
-import LedgerTable from "./LedgerTable"
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { AddCircleOutline } from "@mui/icons-material"
@@ -10,6 +9,7 @@ import { lightBlue } from "@mui/material/colors"
 import { useAddNewLedgerItemMutation } from "./ledgerApiSlice"
 import moment from "moment"
 
+const LedgerTable = lazy(() => import( "./LedgerTable"));
 
 const Ledger = () => {
 
@@ -48,7 +48,9 @@ const Ledger = () => {
         const [value, setValue] = useState('') || ''
 
         const memoizedTable = useMemo(()=>{
-        return(<LedgerTable rows={rows}/>)
+        return(<Suspense fallback={<div>Loading...</div>}>
+          <LedgerTable rows={rows}/>
+          </Suspense>)
         },[ledger])
      
         const handleDescriptionChange = (event) => {

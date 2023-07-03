@@ -1,12 +1,12 @@
 import { useGetCustomersQuery } from "./customersApiSlice"
 import { AddCircleOutline } from "@mui/icons-material"
 import { ColorRing } from "react-loader-spinner"
-import CustomersTable from "./CustomersTable"
 import { Button, TextField } from "@mui/material"
 import { lightBlue } from "@mui/material/colors"
 import CustomerAddDialog from "./CustomerAddDialog"
-import { useState } from "react"
+import { useState, lazy, Suspense } from "react"
 
+const CustomersTable = lazy(()=> import("./CustomersTable"))
 
 const CustomersList = () => {
     const{data:customers,
@@ -84,7 +84,10 @@ content = (
                     />
                 </div>
      <CustomerAddDialog open={open} handleClose={handleClose}/>
+    <Suspense fallback={<div>Loading...</div>}>
     <CustomersTable customers={filteredCustomers} />
+    </Suspense> 
+    
     </section>
     )
 }else if(isError){

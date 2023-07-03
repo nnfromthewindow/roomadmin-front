@@ -4,16 +4,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel, Select, MenuItem } from '@mui/material';
-import { AddCircleOutline, Delete} from '@mui/icons-material';
-import { lightBlue, grey } from '@mui/material/colors';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers';
+import { Button, InputLabel } from '@mui/material';
 import { useState, useEffect } from 'react';
-import moment from 'moment';
-import InputAdornment from '@mui/material/InputAdornment';
-import dayjs from 'dayjs';
 import { useAddNewCustomerMutation } from './customersApiSlice';
 
 const CustomerAddDialog = ({open, handleClose}) => {
@@ -135,7 +127,7 @@ const CustomerAddDialog = ({open, handleClose}) => {
   }else{
     return (
       <form className='todo_form' >
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+  
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add Customer</DialogTitle>
   
@@ -232,7 +224,6 @@ const CustomerAddDialog = ({open, handleClose}) => {
             <Button disabled={!canSave} onClick={onSaveNewCustomer}>Add Customer</Button>
           </DialogActions>
         </Dialog>
-      </LocalizationProvider>
       
       </form>
   )

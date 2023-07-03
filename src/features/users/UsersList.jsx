@@ -2,10 +2,12 @@ import { useGetUsersQuery } from "./usersApiSlice"
 import { ColorRing } from "react-loader-spinner"
 import { lightBlue } from "@mui/material/colors"
 import UserAddDialog from "./userAddDialog"
-import UsersTable from "./UsersTable"
-import { useState } from "react"
+
+import { useState, lazy, Suspense } from "react"
 import { Button, TextField } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
+
+const UsersTable = lazy(()=> import('./UsersTable'))
 
 const UsersList = () => {
   const {
@@ -84,7 +86,10 @@ content = (
                     />
                 </div>
      <UserAddDialog open={open} handleClose={handleClose}/>
-    <UsersTable users={filteredUsers} />
+     <Suspense fallback={<div>Loading...</div>}>
+     <UsersTable users={filteredUsers} />
+     </Suspense>
+    
     </section>
     )
 }else if(isError){

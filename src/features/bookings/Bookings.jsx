@@ -2,13 +2,14 @@ import { useGetBookingsQuery } from "./bookingsApiSlice"
 import { useGetCustomersQuery } from "../customers/customersApiSlice"
 import { useGetRoomsQuery } from "../rooms/roomsApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import BookingsCalendar from "./BookingsCalendar"
+
 import { Button } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
 import NewBookingForm from "./NewBookingForm"
-import { useState, useMemo } from "react"
+import { useState, useMemo, lazy, Suspense } from "react"
 
+const BookingsCalendar = lazy(() => import( "./BookingsCalendar"));
 
 const Bookings = () => {
   const {
@@ -68,7 +69,9 @@ return  <NewBookingForm open={open} handleClose={handleClose} customers={custome
                 <NewBookingForm open={open} handleClose={handleClose} customers={customers} rooms={rooms}  bookings={bookings}/>
                 </div>
                 <div className="calendar_container">
-                <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} />
+                 <Suspense fallback={<div>Loading...</div>}>
+                 <BookingsCalendar bookings={bookings} customers={customers} rooms={rooms} />
+                 </Suspense> 
                 </div>
               
       </section>

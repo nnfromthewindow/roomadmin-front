@@ -1,11 +1,10 @@
-import {  momentLocalizer,Views } from "react-big-calendar";
+import {  momentLocalizer,Views, Calendar } from "react-big-calendar";
 import moment from "moment";
 import EditBookingForm from "./EditBookingForm";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useMemo, useRef, useState, useEffect, useCallback, lazy, Suspense } from "react";
 
-const Calendar = lazy(() => import('react-big-calendar').then(module => ({ default: module.Calendar })));
 
 
 const BookingsCalendar = ({bookings, customers, rooms}) =>  {

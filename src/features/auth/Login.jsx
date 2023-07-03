@@ -70,7 +70,7 @@ const Login = () =>{
      : (
         <main className="login">
             <div className="logo_container">
-                <img loading="lazy" src="https://github.com/nnfromthewindow/imagentest/blob/main/assets/img/logoficticio.png?raw=true" width={'70%'} alt="Imagen Logo" />
+                <img loading="lazy" src="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png" srcSet="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png 280w , https://ik.imagekit.io/nuccelli/tr:w-196/logoficticio.png 196w " width='280px' height='300px' sizes='196px , 280px' alt="Imagen Logo" />
             </div>
 
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>

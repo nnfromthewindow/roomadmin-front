@@ -1,13 +1,11 @@
 import { useGetRoomsQuery,useAddNewRoomMutation } from "./roomsApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import { useState, useEffect,useMemo } from "react"
-import { TextField,InputLabel,Select,MenuItem, Button, FormControl, InputAdornment } from "@mui/material"
-import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers"
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { useState, lazy, Suspense} from "react"
+import { TextField, Button } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
 import { lightBlue } from "@mui/material/colors"
-import moment from "moment"
-import RoomsTable from "./RoomsTable"
+
+const RoomsTable = lazy(()=> import("./RoomsTable"))
 
 const Rooms = () => {
     const {
@@ -137,8 +135,10 @@ const Rooms = () => {
                         sx={{marginTop:'2rem', width: "80%" }}
                         />
                     </div>
-
-        <RoomsTable rooms={filteredRooms} />
+        <Suspense  fallback={<div>Loading...</div>}>
+            <RoomsTable rooms={filteredRooms} />
+        </Suspense>
+        
         </section>
                 )
             }else if(isError){
