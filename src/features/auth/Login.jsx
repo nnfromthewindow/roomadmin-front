@@ -70,7 +70,7 @@ const Login = () =>{
      : (
         <main className="login">
             <div className="logo_container">
-                <img loading="lazy" src="https://github.com/nnfromthewindow/imagentest/blob/main/assets/img/logoficticio.png?raw=true" alt="Imagen Logo" />
+                <img loading="lazy" src="https://github.com/nnfromthewindow/imagentest/blob/main/assets/img/logoficticio.png?raw=true" width={'70%'} alt="Imagen Logo" />
             </div>
 
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>

@@ -1,19 +1,20 @@
-import { useState, useEffect,useMemo, useRef } from 'react';
+import { useState, useEffect,useMemo, useRef, Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import {FormControlLabel, Table, TableBody,TableCell,TableContainer,TableHead,TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox, IconButton,Tooltip, Switch} from '@mui/material';
 import {Delete, CalendarViewDay} from '@mui/icons-material';
-import { visuallyHidden } from '@mui/utils';
 import LedgerDeleteDialog from './LedgerDeleteDialog';
 import dayjs from 'dayjs';
-import moment from 'moment';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers';
-import { DownloadTableExcel } from 'react-export-table-to-excel';
+
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
+const DownloadTableExcel = lazy(() => import('react-export-table-to-excel').then(module => ({ default: module.DownloadTableExcel })));
+
+const MobileDatePicker = lazy(() => import('@mui/x-date-pickers').then(module => ({ default: module.MobileDatePicker })));
 
 const columns = [
   { id: 'date', label: 'Date', minWidth: 170 },
@@ -209,7 +210,10 @@ function FilterToolbar(props) {
   
   return(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <MobileDatePicker onChange={handleFilterChange}  value={filter}  views={['year','month']} openTo='month' />
+      <Suspense fallback={<div>Loading...</div>}>
+      <MobileDatePicker onChange={handleFilterChange}  value={filter}  views={['year','month']} openTo='month' />
+      </Suspense>
+
     </LocalizationProvider>
   )
 }
@@ -435,8 +439,8 @@ const handleFilterChange = (event) => {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <DownloadTableExcel
+<Suspense fallback={<div>Loading...</div>}>
+<DownloadTableExcel
                     filename={`total_balance_${dayjs(filter).year()}_${dayjs(filter).format('MMM').toLocaleLowerCase()}`}
                     sheet={`${dayjs(filter).year()} ${dayjs(filter).format('MMM')}`}
                     currentTableRef={tableRef.current}
@@ -449,6 +453,8 @@ const handleFilterChange = (event) => {
         </Tooltip>
                   
   </DownloadTableExcel>
+</Suspense>
+      
         <TablePagination
           rowsPerPageOptions={[1000, 500, 100, 50]}
           component="div"

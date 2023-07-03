@@ -1,9 +1,11 @@
-import { Calendar, momentLocalizer,Views } from "react-big-calendar";
+import {  momentLocalizer,Views } from "react-big-calendar";
 import moment from "moment";
 import EditBookingForm from "./EditBookingForm";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useMemo, useRef, useState, useEffect, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback, lazy, Suspense } from "react";
+
+const Calendar = lazy(() => import('react-big-calendar').then(module => ({ default: module.Calendar })));
 
 
 const BookingsCalendar = ({bookings, customers, rooms}) =>  {
@@ -100,6 +102,7 @@ let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
     
         return (
           <div >
+            <Suspense>
             <Calendar
             localizer={localizer}
             defaultDate={defaultDate}
@@ -110,6 +113,8 @@ let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
             onSelectEvent={onSelectEvent}
             style={{ height: "100vh" }}
             />
+            </Suspense>
+            
              <EditBookingForm open={open} handleClose={handleClose} booking={selectedBooking} rooms={rooms} customers={customers}/>
            
           </div>
