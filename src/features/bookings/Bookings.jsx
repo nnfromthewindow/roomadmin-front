@@ -2,10 +2,9 @@ import { useGetBookingsQuery } from "./bookingsApiSlice"
 import { useGetCustomersQuery } from "../customers/customersApiSlice"
 import { useGetRoomsQuery } from "../rooms/roomsApiSlice"
 import { ColorRing } from "react-loader-spinner"
-
-import { Button } from "@mui/material"
-import { AddCircleOutline } from "@mui/icons-material"
-import { lightBlue } from "@mui/material/colors"
+import Button  from "@mui/material/Button"
+import  AddCircleOutline  from "@mui/icons-material/AddCircleOutline"
+import  lightBlue  from "@mui/material/colors/lightBlue"
 import NewBookingForm from "./NewBookingForm"
 import { useState, useMemo, lazy, Suspense } from "react"
 

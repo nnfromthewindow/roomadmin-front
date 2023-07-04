@@ -4,18 +4,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel, Select, MenuItem } from '@mui/material';
-import { AddCircleOutline, Delete} from '@mui/icons-material';
-import { lightBlue, grey } from '@mui/material/colors';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers';
 import { useState, useEffect } from 'react';
-import moment from 'moment';
-import InputAdornment from '@mui/material/InputAdornment';
-import dayjs from 'dayjs';
 import { useUpdateCustomerMutation } from './customersApiSlice';
-import { memo } from 'react';
+
 
 const CustomerEditDialog = ({open, handleClose, customer}) => {
 

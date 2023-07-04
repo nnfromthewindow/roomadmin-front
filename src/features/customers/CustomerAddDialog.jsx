@@ -4,7 +4,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel } from '@mui/material';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
 import { useState, useEffect } from 'react';
 import { useAddNewCustomerMutation } from './customersApiSlice';
 
