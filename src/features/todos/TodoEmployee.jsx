@@ -1,8 +1,9 @@
 import { useUpdateEmployeeTodoMutation } from "./todosApiSlice";
 import { memo } from "react";
-import { PlayCircle, CheckCircle } from "@mui/icons-material";
+import PlayCircle from "@mui/icons-material/PlayCircle";
+import CheckCircle from "@mui/icons-material/CheckCircle";
 import moment from "moment";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 
 const TodoEmployee = ({todoId, username, date, description, status, employee}) => {
  

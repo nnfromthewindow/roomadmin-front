@@ -9,6 +9,8 @@ import InputLabel from "@mui/material/InputLabel"
 import { ColorRing } from "react-loader-spinner"
 import usePersist from "../hooks/usePersist"
 
+
+
 const Login = () =>{
     const userRef = useRef()
     const errRef = useRef()
@@ -72,7 +74,7 @@ const Login = () =>{
      : (
         <main className="login">
             <div className="logo_container">
-                <img loading="lazy" src="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png" srcSet="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png 280w , https://ik.imagekit.io/nuccelli/tr:w-196/logoficticio.png 196w " width='280px' height='300px' sizes='196px , 280px' alt="Imagen Logo" />
+                <img src="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png" srcSet=" https://ik.imagekit.io/nuccelli/tr:w-420/logoficticio.png 420w  , https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png 280w " height='280px' width='280px'  sizes='280px, 420px' alt="Imagen Logo" />
             </div>
 
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
@@ -81,8 +83,8 @@ const Login = () =>{
                 <form className="login_form" onSubmit={handleSubmit}>
                     <div className="login_container">
                     <div className="login_labels">
-                    <InputLabel id="username-label" htmlFor="username" sx={{color:'black', fontFamily:'Dosis',  fontSize:'1.2em'}}>Username:</InputLabel>
-                    <InputLabel id="password-label" htmlFor="password" sx={{color:'black', fontFamily:'Dosis', fontSize:'1.2em'}}>Password:</InputLabel>
+                    <InputLabel id="username-label" htmlFor="username" sx={{color:'white', fontFamily:'Dosis',  fontSize:'1.2em', textShadow:'2px 2px 8px black'}}>Username:</InputLabel>
+                    <InputLabel id="password-label" htmlFor="password" sx={{color:'white', fontFamily:'Dosis', fontSize:'1.2em', textShadow:'2px 2px 8px black'}}>Password:</InputLabel>
                     </div>
                     <div className="login_inputs">
                     <TextField autoFocus name="username-input" className="login_textfield" label="Username" variant="filled" type="text" color="secondary" id="username" ref={userRef} value={username} onChange={handleUserInput} autoComplete="off" required/>
@@ -96,7 +98,7 @@ const Login = () =>{
                   
                 </form>
                 <div style={{display:"flex", justifyContent:'center'}}>
-                    <label htmlFor="persist" className="trust-device" style={{fontFamily:'Dosis'}}>
+                    <label htmlFor="persist" className="trust-device" style={{fontFamily:'Dosis', color:'white'}}>
                             <input
                                 type="checkbox"
                                 id="persist"

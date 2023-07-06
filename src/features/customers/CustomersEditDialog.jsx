@@ -6,8 +6,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState, useEffect } from 'react';
 import { useUpdateCustomerMutation } from './customersApiSlice';
 
@@ -120,7 +118,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
   }else{
     return (
       <form className='todo_form' >
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      
       <Dialog open={open}  onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Customer</DialogTitle>
   
@@ -217,7 +215,6 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
             <Button disabled={!canSave} onClick={onUpdateCustomer}>Edit Customer</Button>
           </DialogActions>
         </Dialog>
-      </LocalizationProvider>
       
       </form>
   )

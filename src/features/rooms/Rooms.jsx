@@ -1,9 +1,10 @@
 import { useGetRoomsQuery,useAddNewRoomMutation } from "./roomsApiSlice"
 import { ColorRing } from "react-loader-spinner"
 import { useState, lazy, Suspense} from "react"
-import { TextField, Button } from "@mui/material"
-import { AddCircleOutline } from "@mui/icons-material"
-import { lightBlue } from "@mui/material/colors"
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline"
+import lightBlue from "@mui/material/colors/lightBlue"
 
 const RoomsTable = lazy(()=> import("./RoomsTable"))
 

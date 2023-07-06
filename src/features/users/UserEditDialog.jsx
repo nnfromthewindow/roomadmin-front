@@ -4,9 +4,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel, Select, MenuItem } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { useState, useEffect } from 'react';
 import { useUpdateUserMutation } from './usersApiSlice';
 
@@ -121,7 +122,7 @@ const UserEditDialog = ({open, handleClose, user}) => {
   }
 
 
-  const rolesArray = ["Employee","Admin"]
+  const rolesArray = ["Employee","Manager"]
 
   const rolesOptions = rolesArray.map((role) => {
 
@@ -154,7 +155,6 @@ const UserEditDialog = ({open, handleClose, user}) => {
     return (
       <form className='todo_form' >
         
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog open={open}  onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit User</DialogTitle>
   
@@ -277,7 +277,6 @@ const UserEditDialog = ({open, handleClose, user}) => {
             <Button disabled={!canSave} onClick={onUpdateUser}>Edit User</Button>
           </DialogActions>
         </Dialog>
-      </LocalizationProvider>
       {userId && <UserDeleteDialog openDelete={openDelete} handleCloseDelete={handleCloseDelete} handleCloseCancelDelete={handleCloseCancelDelete} userId={userId}/>}
       
       </form>

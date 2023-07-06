@@ -1,11 +1,11 @@
 import useAuth from "../hooks/useAuth"
 
 const Welcome = () => {
-    const { username,  isAdmin } = useAuth()
+    const { username,  isAdmin, isManager } = useAuth()
 
     let content
 
-    if(isAdmin){
+    if(isAdmin || isManager){
         content = (
             <section className="welcome">
                 <h1>Hi {username}!!<br></br><br></br>It's great to have you back in Roomy.<br></br><br></br> You can now access all our features and tools to efficiently manage your bookings, customers, and daily tasks.<br></br><br></br> Let's get started!!</h1>

@@ -1,11 +1,11 @@
 import { useGetUsersQuery } from "./usersApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import { lightBlue } from "@mui/material/colors"
+import lightBlue from "@mui/material/colors/lightBlue"
 import UserAddDialog from "./userAddDialog"
-
 import { useState, lazy, Suspense } from "react"
-import { Button, TextField } from "@mui/material"
-import { AddCircleOutline } from "@mui/icons-material"
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline"
 
 const UsersTable = lazy(()=> import('./UsersTable'))
 

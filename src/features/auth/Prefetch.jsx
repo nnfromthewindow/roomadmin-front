@@ -11,10 +11,10 @@ import useAuth from "../hooks/useAuth"
 
 const Prefetch = () => {
   
-    const {isAdmin, username} = useAuth()
+    const {isAdmin, isManager, username} = useAuth()
 
     useEffect(()=>{
-        if(isAdmin){
+        if(isAdmin || isManager){
             store.dispatch(todosApiSlice.util.prefetch('getTodos','todosList', {force: true}))
             store.dispatch(bookingsApiSlice.util.prefetch('getBookings','bookingsList',{force:true}))
             store.dispatch(customersApiSlice.util.prefetch('getCustomers','customersList',{force:true}))

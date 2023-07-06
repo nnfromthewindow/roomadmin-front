@@ -1,8 +1,9 @@
 import { useGetCustomersQuery } from "./customersApiSlice"
-import { AddCircleOutline } from "@mui/icons-material"
+import AddCircleOutline  from "@mui/icons-material/AddCircleOutline"
 import { ColorRing } from "react-loader-spinner"
-import { Button, TextField } from "@mui/material"
-import { lightBlue } from "@mui/material/colors"
+import  TextField from "@mui/material/TextField"
+import  Button  from "@mui/material/Button"
+import  lightBlue  from "@mui/material/colors/lightBlue"
 import CustomerAddDialog from "./CustomerAddDialog"
 import { useState, lazy, Suspense } from "react"
 

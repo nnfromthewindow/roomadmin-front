@@ -4,16 +4,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ColorRing } from 'react-loader-spinner';
-import { Button, InputLabel, Select, MenuItem , Alert, AlertTitle} from '@mui/material';
-import { AddCircleOutline, Delete} from '@mui/icons-material';
-import { lightBlue, grey } from '@mui/material/colors';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { useState, useEffect } from 'react';
-import moment from 'moment';
-import InputAdornment from '@mui/material/InputAdornment';
-import dayjs from 'dayjs';
 import { useAddNewUserMutation } from './usersApiSlice';
 
 const UserAddDialog = ({open, handleClose}) => {
@@ -169,7 +166,7 @@ const UserAddDialog = ({open, handleClose}) => {
       );
   }
 
-  const rolesArray = ["Employee","Admin"]
+  const rolesArray = ["Employee","Manager"]
 
   const rolesOptions = rolesArray.map((role) => {
 
@@ -206,7 +203,6 @@ const UserAddDialog = ({open, handleClose}) => {
   <AlertTitle>Error</AlertTitle>
   {error?.data?.message}— <strong>check it out!</strong>
 </Alert>}
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog open={open} onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Add User</DialogTitle>
   
@@ -357,7 +353,6 @@ const UserAddDialog = ({open, handleClose}) => {
             <Button disabled={!canSave} onClick={onSaveNewUser}>Add User</Button>
           </DialogActions>
         </Dialog>
-      </LocalizationProvider>
       
       </form>
   )

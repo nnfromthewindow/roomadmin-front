@@ -1,11 +1,10 @@
 import { useGetTodosQuery, useDeleteTodoMutation } from "./todosApiSlice";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import { memo } from "react";
-import { Edit, Delete } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import moment from "moment/moment";
-import { useSelector } from "react-redux";
-import { selectUserById} from "../users/usersApiSlice";
+import Edit from "@mui/icons-material/Edit";
+import Delete from "@mui/icons-material/Delete";
+import Button  from "@mui/material/Button";
+import moment from "moment";
 import EditTodoForm from "./EditTodoForm";
 import { useState } from "react";
 import { ColorRing } from "react-loader-spinner";

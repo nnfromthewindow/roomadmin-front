@@ -37,7 +37,7 @@ import { useEffect } from 'react';
 
 const Navbar = () => {
 
-  const { username, isAdmin, avatar } = useAuth()
+  const { username, isAdmin, isManager, avatar } = useAuth()
 
   const navigate = useNavigate()
 
@@ -52,7 +52,7 @@ useEffect(() => {
   if (isSuccess) navigate('/')
 }, [isSuccess, navigate])
 
-  const pagesAdmin = [
+  const privatePages = [
     { name: 'Todos', route: '/todos',icon: <AddTask sx={{ color: pink[700] }}/> },
     { name: 'Bookings', route: '/bookings',icon: <MenuBook sx={{ color: deepOrange[500] }}/> },
     { name: 'Customers', route: '/customers',icon: <Group sx={{ color: teal[700] }}/> },
@@ -92,8 +92,8 @@ useEffect(() => {
   let pages
   let content;
 
-if(isAdmin){
-pages = pagesAdmin
+if(isAdmin || isManager){
+pages = privatePages
   }else{
 pages = pagesEmployee
   }
@@ -101,7 +101,7 @@ pages = pagesEmployee
   
 
   content = (
-    <AppBar position="static">
+    <AppBar position="static" sx={{backgroundColor:'var(--background-public)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AddHomeWorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -162,8 +162,7 @@ pages = pagesEmployee
                   <div className="menu_icons">
                       {page.icon}
                   </div>
-                  <Button
-                    
+                  <Button                   
                     component={Link}
                     to={page.route}
                     onClick={handleCloseNavMenu}
@@ -173,16 +172,9 @@ pages = pagesEmployee
                   >
                     {page.name}
                   </Button>  
-                </div>
-                
-              ))}
-           
-              
-               
-              
-              </div>
-              
-              
+                </div>      
+              ))}      
+              </div> 
             </Menu>
           </Box>
           <AddHomeWorkIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -240,7 +232,7 @@ pages = pagesEmployee
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >     
-              {settings.map((setting) => (
+              {/*settings.map((setting) => (
               
                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                 {setting.icon}
@@ -249,7 +241,7 @@ pages = pagesEmployee
                       fontSize:'1.2em', textShadow:'1px 1px 3px #616161'}}>{setting.name}</Typography>
                 </MenuItem>
                
-              ))}    
+                  ))*/}    
               <MenuItem key='Logout' onClick={handleCloseUserMenu}>
                   <Logout sx={{ color: red[500], marginRight:'1rem'}}/>
                   <Typography textAlign="center" onClick={sendLogout} sx={{my: 1.2, 

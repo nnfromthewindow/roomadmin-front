@@ -8,9 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { Delete, Edit } from '@mui/icons-material';
+import Edit from "@mui/icons-material/Edit";
+import Delete from "@mui/icons-material/Delete";
 import { useState,useMemo } from 'react';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import UserEditDialog from './UserEditDialog';
 import UserDeleteDialog from './UserDeleteDialog';
 import { memo } from 'react';
@@ -192,17 +193,25 @@ const visibleRows = users && useMemo(
                 </TableCell>
               <TableCell align="right">{user.username}</TableCell>
               <TableCell align="right">{Object.values(user.roles).join(', ')}</TableCell>
+              
               <TableCell align="right" width={'1rem'}>
+              
                 <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
-                <Button onClick={() => handleClickOpenEdit(user)}>
-                <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
-                </Button>
-                <Button onClick={()=> handleClickOpenDelete(user.id)}>
-                <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
-                </Button>
+                {(user.roles.includes('Employee') || user.roles.includes('Manager') ) && <>
+                  <Button onClick={() => handleClickOpenEdit(user)}>
+                    <Edit sx={{cursor:'pointer', color:'green',":hover":{scale:'1.1', transition:'0.5s'}}}/>
+                  </Button>
+                  
+                   <Button onClick={()=> handleClickOpenDelete(user.id)}>
+                    <Delete sx={{cursor:'pointer', color:'red',":hover":{scale:'1.1', transition:'0.5s'}}}/>   
+                  </Button>
+                  </>
+                  }
              
                 </div>
+              
                 </TableCell>
+            
             </TableRow>
           ))}
           {emptyRows > 0 && (

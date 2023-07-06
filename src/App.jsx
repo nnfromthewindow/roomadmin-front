@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import PublicLayout from './components/PublicLayout'
 import PrivateLayout from './components/PrivateLayout'
-import './App.css'
+//import './App.css'
 import Login from './features/auth/Login'
 import Welcome from './features/auth/Welcome'
 import RequireAuth from './features/auth/requireAuth'
@@ -11,7 +11,6 @@ import Bookings from './features/bookings/Bookings'
 import CustomersList from './features/customers/CustomersList'
 import UsersList from './features/users/UsersList'
 import Ledger from './features/ledger/Ledger'
-import Rates from './features/rates/Rates'
 import Rooms from './features/rooms/Rooms'
 import Prefetch from './features/auth/Prefetch'
 import PersistLogin from './features/auth/PersistLogin'
@@ -35,7 +34,6 @@ function App() {
             <Route path='customers' element={<CustomersList/>}/>
             <Route path='users' element={<UsersList/>}/>
             <Route path='ledger' element={<Ledger/>}/>
-            <Route path='rates' element={<Rates/>}/>
             <Route path='rooms' element={<Rooms/>}/>
           </Route>
         </Route>
