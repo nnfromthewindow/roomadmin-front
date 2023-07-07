@@ -5,9 +5,7 @@ const PublicLayout = () =>{
     return(
         
         <section className='layout_public'>
-            <div className="loginTitle-container">
-            <h2 className="loginTitle">ROOMY</h2>
-            </div>
+   
             <div className="outlet-public">
                 <Outlet/>
             </div>

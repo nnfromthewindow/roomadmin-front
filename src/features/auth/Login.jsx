@@ -77,7 +77,7 @@ const Login = () =>{
      : (
         <main className="login">
             <div className="logo_container">
-                <img loading="lazy" src="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png" srcSet=" https://ik.imagekit.io/nuccelli/tr:w-420/logoficticio.png 420w  , https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png 280w " height='280px' width='280px'  sizes='280px, 420px' alt="Imagen Logo" />
+                <h1>Roomy</h1>
             </div>
 
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>

@@ -105,24 +105,33 @@ pages = pagesEmployee
     <AppBar position="static" sx={{backgroundColor:'var(--background-public)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AddHomeWorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography component="a"
+            onClick={()=>navigate('/welcome')}   fontFamily={'Pacifico'} fontSize={'3em'} sx={{
+              display: { xs: 'none', md: 'flex' },  color: 'inherit',
+              WebkitTextStroke: '2px #B0B0B0',
+              WebkitTextStrokeWidth: '1px',
+              borderRadius: '4px', 
+              textDecoration: 'none',
+              cursor:'pointer'
+            }}>R</Typography>
           <Typography
             variant="h6"
             noWrap
             component="a"
-            onClick={()=>navigate('/welcome')}           
+            onClick={()=>navigate('/welcome')}  
+            fontFamily={'Pacifico'}     
+              
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
               color: 'inherit',
+              WebkitTextStroke: '2px #B0B0B0',
+              WebkitTextStrokeWidth: '1px',
+              borderRadius: '4px', 
               textDecoration: 'none',
               cursor:'pointer'
             }}
-          >
-            ROOMY
+          >OOMY
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -178,33 +187,42 @@ pages = pagesEmployee
               </div> 
             </Menu>
           </Box>
-          <AddHomeWorkIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
+          <Typography component="a" 
+            onClick={()=>navigate('/welcome')} fontFamily={'Pacifico'} fontSize={'3em'} sx={{ display: { xs: 'flex', md: 'none', WebkitTextStroke: '2px #B0B0B0', WebkitTextStrokeWidth: '1px',
+            borderRadius: '4px', color: 'inherit',
+            textDecoration: 'none', cursor:'pointer'},
+           }}>R</Typography>
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="/welcome"
+            onClick={()=>navigate('/welcome')}
+            fontFamily={'Pacifico'}
+            fontSize={'1.3em'}  
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'Dosis',
-              fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
+              WebkitTextStroke: '2px #B0B0B0',
+              WebkitTextStrokeWidth: '1px',
+              borderRadius: '4px', 
               textDecoration: 'none',
+              cursor:'pointer'
             }}
           >
-            ROOMY
+            OOMY
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ paddingLeft:'2rem', flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
               key={page.name}
               component={Link}
               to={page.route}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ fontFamily:'Dosis', fontWeight:'regular', fontSize:'1.3em', my: 2, color: 'white', display: 'block' }}
             >
               {page.name}
             </Button>
