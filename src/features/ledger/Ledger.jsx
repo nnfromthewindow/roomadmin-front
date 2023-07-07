@@ -1,6 +1,6 @@
 import { useGetLedgerQuery } from "./ledgerApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import { useState,useMemo, lazy, Suspense } from "react"
+import { useState,useMemo, useEffect, lazy, Suspense } from "react"
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -15,11 +15,15 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline"
 import lightBlue  from "@mui/material/colors/lightBlue"
 import { useAddNewLedgerItemMutation } from "./ledgerApiSlice"
 import moment from "moment"
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import useTitle from "../hooks/useTitle";
 
 const LedgerTable = lazy(() => import( "./LedgerTable"));
 
 const Ledger = () => {
 
+  useTitle('Roomy - Ledger')
 
     const {
         data: ledger,
@@ -53,6 +57,19 @@ const Ledger = () => {
         const [description, setDescription] = useState('') || '' 
         const [type, setType] = useState('') || ''
         const [value, setValue] = useState('') || ''
+        const [alert,setAlert] = useState(false)
+
+        useEffect(() => {
+          if (isErrorNewLedgerItem) {
+           setAlert(true)
+            const timeout = setTimeout(() => {
+              setAlert(false)
+             
+            }, 5000);
+      
+            return () => clearTimeout(timeout);
+          }
+        }, [isErrorNewLedgerItem]);
 
         const memoizedTable = useMemo(()=>{
         return(<Suspense fallback={<div>Loading...</div>}>
@@ -61,7 +78,10 @@ const Ledger = () => {
         },[ledger])
      
         const handleDescriptionChange = (event) => {
-          setDescription(event.target.value);
+          const inputDescription = event.target.value;
+          if (inputDescription.length <= 80) {
+            setDescription(inputDescription);
+          }
         };
 
         const handleTypeChange = (event) => {
@@ -69,18 +89,16 @@ const Ledger = () => {
         };  
 
         const handleValueChange = (event) => {
-            
-        const inputValue = event.target.value;
+          const inputValue = event.target.value;
+        
+          const rawNumber = inputValue.replace(/\./g, '');
+        
+          if (/^\d{0,20}(\.\d{0,2})?$/.test(rawNumber)) {
       
-        const rawNumber = inputValue.replace(/\./g, '');
-
-          if (/^\d*\.?\d*$/.test(rawNumber)) {
-
             const formattedNumber = Number(rawNumber).toLocaleString('es-ES');
-
             setValue(formattedNumber);
           }
-        }
+        };
 
         const canSave = [date, description, type, value].every(Boolean) && value !='0'
         
@@ -88,9 +106,7 @@ const Ledger = () => {
           e.preventDefault()
           if(canSave){
            
-            let newDate = moment(date.$d, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })
-            
-                 
+            let newDate = moment(date.$d, "YYYY-MM-DD").set({ hour: 12, minute: 0, second: 0 })    
             let expenses
             let income
 
@@ -152,7 +168,10 @@ const Ledger = () => {
                 <h1 className="main_title">LEDGER</h1>
                   
                 <form onSubmit={onSaveNewLedgerItem}>
-
+                {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s', position:'fixed', top:'0',width:'100%'}}>
+        <AlertTitle>Error</AlertTitle>
+        {errorNewLedgerItem?.data?.message}— <strong>check it out!</strong>
+      </Alert>}
                 <div className="ledger_add">
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>

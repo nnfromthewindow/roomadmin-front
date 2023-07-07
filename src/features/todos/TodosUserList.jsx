@@ -2,9 +2,12 @@ import { useGetTodosByUserQuery } from "./todosApiSlice";
 import { useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import TodoEmployee from "./TodoEmployee";
-
+import useTitle from "../hooks/useTitle";
 
 const TodosUserList = () =>{
+
+    useTitle('Roomy - Login')
+
     let {username} = useParams();
 
     const {data:todos,

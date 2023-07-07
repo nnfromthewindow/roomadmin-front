@@ -7,10 +7,14 @@ import  AddCircleOutline  from "@mui/icons-material/AddCircleOutline"
 import  lightBlue  from "@mui/material/colors/lightBlue"
 import NewBookingForm from "./NewBookingForm"
 import { useState, useMemo, lazy, Suspense } from "react"
+import useTitle from "../hooks/useTitle"
 
 const BookingsCalendar = lazy(() => import( "./BookingsCalendar"));
 
 const Bookings = () => {
+
+  useTitle('Roomy - Bookings')
+
   const {
     data:bookings,
     isLoading,

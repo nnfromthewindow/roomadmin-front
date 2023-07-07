@@ -6,10 +6,14 @@ import  Button  from "@mui/material/Button"
 import  lightBlue  from "@mui/material/colors/lightBlue"
 import CustomerAddDialog from "./CustomerAddDialog"
 import { useState, lazy, Suspense } from "react"
+import useTitle from "../hooks/useTitle"
 
 const CustomersTable = lazy(()=> import("./CustomersTable"))
 
 const CustomersList = () => {
+
+  useTitle('Roomy - Customers')
+
     const{data:customers,
     isLoading,
     isSuccess,

@@ -51,9 +51,12 @@ const EditTodoForm = ({open, handleClose, users, todo}) =>{
         setStatus(event.target.value);
       };
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value);
-    };  
+      const handleDescriptionChange = (event) => {
+        const inputDescription = event.target.value;
+        if (inputDescription.length <= 200) {
+          setDescription(inputDescription);
+        }
+      }; 
 
     const canSave = [date, employee, description, status].every(Boolean) && !isLoading  
 

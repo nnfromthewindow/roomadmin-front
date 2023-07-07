@@ -22,14 +22,14 @@ import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
 import CurrencyExchange from '@mui/icons-material/CurrencyExchange';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import ManageAccounts from '@mui/icons-material/ManageAccounts';
+//import ManageAccounts from '@mui/icons-material/ManageAccounts';
 import pink from '@mui/material/colors/pink';
 import deepOrange from '@mui/material/colors/deepOrange';
 import teal from '@mui/material/colors/teal';
 import red from '@mui/material/colors/red';
 import lightGreen from '@mui/material/colors/lightGreen';
 import brown from '@mui/material/colors/brown';
-import lightBlue from '@mui/material/colors/lightBlue';
+//import lightBlue from '@mui/material/colors/lightBlue';
 import { useNavigate } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
 import { useEffect } from 'react';
@@ -63,11 +63,12 @@ useEffect(() => {
   const pagesEmployee = [
     { name: 'Todos', route: `todos/${username}`,icon: <AddTask sx={{ color: pink[700] }}/> }
   ];
-  
+ 
+  /*
   const settings = [
   { name: 'Account', route: '/welcome' , icon:<ManageAccounts sx={{ color: lightBlue[800], marginRight:'1rem' }}/>}
 ];
-  
+  */
   
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -203,7 +204,7 @@ pages = pagesEmployee
               component={Link}
               to={page.route}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'black', display: 'block' }}
+              sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {page.name}
             </Button>
@@ -213,7 +214,7 @@ pages = pagesEmployee
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={username} src={avatar} />
+                <Avatar alt={username} src={avatar} imgProps={{loading:'lazy'}}/>
               </IconButton>
             </Tooltip>
             <Menu

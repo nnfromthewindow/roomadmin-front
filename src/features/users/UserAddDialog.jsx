@@ -199,7 +199,7 @@ const UserAddDialog = ({open, handleClose}) => {
   }else{
     return (
       <form className='todo_form' >
-        {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s'}}>
+        {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s', position:'fixed', top:'0',width:'100%'}}>
   <AlertTitle>Error</AlertTitle>
   {error?.data?.message}— <strong>check it out!</strong>
 </Alert>}

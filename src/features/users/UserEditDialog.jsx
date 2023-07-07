@@ -10,6 +10,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useState, useEffect } from 'react';
 import { useUpdateUserMutation } from './usersApiSlice';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const UserEditDialog = ({open, handleClose, user}) => {
 
@@ -25,7 +27,7 @@ const UserEditDialog = ({open, handleClose, user}) => {
   const [roles, setRoles] = useState([user.roles] || [])
   const [openDelete, setOpenDelete] = useState(false)
   const [userId, setUserId] = useState(null)
- 
+  const [alert,setAlert] = useState(false)
   const phoneRegex = /^[\d+ ]*$/
  
   const [updateUser, {
@@ -47,6 +49,18 @@ const UserEditDialog = ({open, handleClose, user}) => {
     setRoles(user.roles || [])
   },[open])
  
+  useEffect(() => {
+    if (isError) {
+     setAlert(true)
+      const timeout = setTimeout(() => {
+        setAlert(false)
+       
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isError]);
+
 
   const onUpdateUser = async(e) =>{
     e.preventDefault()
@@ -109,11 +123,6 @@ const UserEditDialog = ({open, handleClose, user}) => {
   };
 
 
-  const handleClickOpenDelete = (userId) => {
-  setUserId(userId)  
-  setOpenDelete(true);
-  };
-
   const handleUsernameChange = (event) => {
     const username = event.target.value
     setUsername(username)
@@ -154,7 +163,10 @@ const UserEditDialog = ({open, handleClose, user}) => {
   }else{
     return (
       <form className='todo_form' >
-        
+        {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s', position:'fixed', top:'0',width:'100%'} }>
+  <AlertTitle>Error</AlertTitle>
+  {error?.data?.message}— <strong>check it out!</strong>
+</Alert>}
       <Dialog open={open}  onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit User</DialogTitle>
   

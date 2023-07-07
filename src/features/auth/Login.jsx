@@ -8,10 +8,13 @@ import  Button  from "@mui/material/Button"
 import InputLabel from "@mui/material/InputLabel"
 import { ColorRing } from "react-loader-spinner"
 import usePersist from "../hooks/usePersist"
-
+import useTitle from "../hooks/useTitle"
 
 
 const Login = () =>{
+
+    useTitle('Roomy - Login')
+
     const userRef = useRef()
     const errRef = useRef()
     const [username, setUsername] = useState('')
@@ -74,7 +77,7 @@ const Login = () =>{
      : (
         <main className="login">
             <div className="logo_container">
-                <img src="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png" srcSet=" https://ik.imagekit.io/nuccelli/tr:w-420/logoficticio.png 420w  , https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png 280w " height='280px' width='280px'  sizes='280px, 420px' alt="Imagen Logo" />
+                <img loading="lazy" src="https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png" srcSet=" https://ik.imagekit.io/nuccelli/tr:w-420/logoficticio.png 420w  , https://ik.imagekit.io/nuccelli/tr:w-280/logoficticio.png 280w " height='280px' width='280px'  sizes='280px, 420px' alt="Imagen Logo" />
             </div>
 
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>

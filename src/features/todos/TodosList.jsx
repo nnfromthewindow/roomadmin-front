@@ -9,9 +9,12 @@ import { useState, useMemo } from "react";
 import NewTodoForm from "./NewTodoForm";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import TablePagination from '@mui/material/TablePagination';
-
+import useTitle from "../hooks/useTitle";
 
 const TodosList = () =>{
+
+  useTitle('Roomy - TODOS List')
+
     const {
     data: todos,
     isLoading,

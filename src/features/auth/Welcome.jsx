@@ -1,6 +1,10 @@
 import useAuth from "../hooks/useAuth"
+import useTitle from "../hooks/useTitle"
 
 const Welcome = () => {
+    
+    useTitle('Roomy - Welcome')
+    
     const { username,  isAdmin, isManager } = useAuth()
 
     let content

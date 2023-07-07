@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import { useState, useEffect } from 'react';
 import { useUpdateCustomerMutation } from './customersApiSlice';
-
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const CustomerEditDialog = ({open, handleClose, customer}) => {
 
@@ -24,6 +25,7 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
   const [emailError, setEmailError] = useState(false)
   const [phone, setPhone] = useState(customer.phone || '')
   const [phoneError, setPhoneError] = useState(false)
+  const [alert,setAlert] = useState(false)
   const phoneRegex = /^[\d+ ]*$/
  
   const [updateCustomer, {
@@ -42,6 +44,17 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
     setPhone(customer.phone || '')
   },[open])
  
+  useEffect(() => {
+    if (isError) {
+     setAlert(true)
+      const timeout = setTimeout(() => {
+        setAlert(false)
+       
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isError]);
 
   const onUpdateCustomer = async(e) =>{
     e.preventDefault()
@@ -118,7 +131,10 @@ const CustomerEditDialog = ({open, handleClose, customer}) => {
   }else{
     return (
       <form className='todo_form' >
-      
+      {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s', position:'fixed', top:'0',width:'100%'}}>
+  <AlertTitle>Error</AlertTitle>
+  {error?.data?.message}— <strong>check it out!</strong>
+</Alert>}
       <Dialog open={open}  onClose={handleClose}>
           <DialogTitle sx={{fontFamily:'Dosis',  fontSize:'1.5em'}}>Edit Customer</DialogTitle>
   

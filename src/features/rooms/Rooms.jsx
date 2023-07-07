@@ -1,14 +1,20 @@
 import { useGetRoomsQuery,useAddNewRoomMutation } from "./roomsApiSlice"
 import { ColorRing } from "react-loader-spinner"
-import { useState, lazy, Suspense} from "react"
+import { useState,useEffect, lazy, Suspense} from "react"
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline"
 import lightBlue from "@mui/material/colors/lightBlue"
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import useTitle from "../hooks/useTitle";
 
 const RoomsTable = lazy(()=> import("./RoomsTable"))
 
 const Rooms = () => {
+
+    useTitle('Roomy - Rooms')
+
     const {
         data: rooms,
         isLoading,
@@ -29,9 +35,21 @@ const Rooms = () => {
     const [number, setNumber] = useState('')
     const [passengers, setPassengers] = useState('')
     const [numberOfRooms, setNumberOfRooms] = useState('')
-
+    const [alert,setAlert] = useState(false)
     const canSave = [number, passengers, numberOfRooms].every(Boolean) && number !=0 && passengers !=0 && numberOfRooms !=0
     
+    useEffect(() => {
+        if (isErrorNewRoomItem) {
+         setAlert(true)
+          const timeout = setTimeout(() => {
+            setAlert(false)
+           
+          }, 5000);
+    
+          return () => clearTimeout(timeout);
+        }
+      }, [isErrorNewRoomItem]);
+          
     const onSaveNewRoom = async (e) =>{
         e.preventDefault()
         if(canSave){
@@ -117,6 +135,10 @@ const Rooms = () => {
         <section className="rooms">
             <h1 className="main_title">ROOMS</h1>
             <form  onSubmit={onSaveNewRoom}>
+            {alert &&  <Alert variant='filled' severity="error" style={{transition:'2s', position:'fixed', top:'0',width:'100%'}}>
+        <AlertTitle>Error</AlertTitle>
+        {errorNewRoomItem?.data?.message}— <strong>check it out!</strong>
+      </Alert>}
             <div className="ledger_add">                
                     <TextField onChange={handleNumberChange} type="number"  value={number} id="number" label="Number" variant="outlined" style={{width:'6rem'}}/>
                     <TextField onChange={handlePassengersChange} type="number" value={passengers} id="passengers" label="Passengers" variant="outlined" style={{width:'6rem'}}/>

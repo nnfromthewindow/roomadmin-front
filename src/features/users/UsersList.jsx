@@ -6,10 +6,14 @@ import { useState, lazy, Suspense } from "react"
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline"
+import useTitle from "../hooks/useTitle"
 
 const UsersTable = lazy(()=> import('./UsersTable'))
 
 const UsersList = () => {
+
+  useTitle('Roomy - Users')
+
   const {
     data: users,
     isLoading,
