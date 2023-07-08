@@ -1,7 +1,7 @@
 import { useGetUsersQuery } from "./usersApiSlice"
 import { ColorRing } from "react-loader-spinner"
 import lightBlue from "@mui/material/colors/lightBlue"
-import UserAddDialog from "./userAddDialog"
+import UserAddDialog from "./UserAddDialog"
 import { useState, lazy, Suspense } from "react"
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
