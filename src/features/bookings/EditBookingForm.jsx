@@ -19,7 +19,7 @@ import moment from 'moment';
 import { useUpdateBookingMutation } from './bookingsApiSlice';
 import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
-import DeleteBookingDialog from './deleteBookingDialog';
+import DeleteBookingDialog from './DeleteBookingDialog';
 import CustomerAddDialog from '../customers/CustomerAddDialog';
 import { ColorRing } from 'react-loader-spinner';
 
