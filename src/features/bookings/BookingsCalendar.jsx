@@ -3,7 +3,7 @@ import moment from "moment";
 import EditBookingForm from "./EditBookingForm";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useMemo, useRef, useState, useEffect, useCallback, lazy, Suspense } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 
 
 
@@ -72,7 +72,7 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
   const {ids:roomsIds, entities: roomsEntities} = rooms || ''
 
 
-let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
+let bookingEvents = bookingIds && bookingEntities && customersEntities && roomsEntities && bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId] || '';
   const customer = booking && customers && customersEntities[booking.customer] || '';
   const room = booking && rooms && roomsEntities[booking.room] || '';
@@ -101,7 +101,7 @@ let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
     
         return (
           <div >
-            <Suspense>
+            
             <Calendar
             localizer={localizer}
             defaultDate={defaultDate}
@@ -112,7 +112,7 @@ let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
             onSelectEvent={onSelectEvent}
             style={{ height: "100vh" }}
             />
-            </Suspense>
+     
             
              <EditBookingForm open={open} handleClose={handleClose} booking={selectedBooking} rooms={rooms} customers={customers}/>
            
