@@ -82,7 +82,7 @@ let bookingEvents = bookingIds && bookingIds.map((bookingId) => {
   return {
     start: new Date(checkinDateJs),
     end: new Date (checkoutDateJs),
-    title: `${room.number || 'ROOM DELETED'} - ${customer && customer.name || 'CUSTOMER DELETED'} ${customer.lastname || ''}`,
+    title: `${room && room.number || 'ROOM DELETED'} - ${customer && customer.name || 'CUSTOMER DELETED'} ${customer.lastname || ''}`,
     booking: booking,
     allDay: false,
     
