@@ -16,6 +16,14 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
 
   const clickRef = useRef(null)
 
+  
+  const {ids:bookingIds, entities: bookingEntities} = bookings || ''
+
+  const {ids:customersIds, entities: customersEntities} = customers || ''
+
+  const {ids:roomsIds, entities: roomsEntities} = rooms || ''
+  
+
   const handleClose = () => {
         setOpen(false);
       };
@@ -62,17 +70,8 @@ const BookingsCalendar = ({bookings, customers, rooms}) =>  {
     }, 250)
   }, [setSelectedBooking])
 
- 
 
-
-  const {ids:bookingIds, entities: bookingEntities} = bookings || ''
-
-  const {ids:customersIds, entities: customersEntities} = customers || ''
-
-  const {ids:roomsIds, entities: roomsEntities} = rooms || ''
-
-
-let bookingEvents = bookingIds && bookingEntities && customersEntities && roomsEntities && bookingIds.map((bookingId) => {
+let bookingEvents = bookingIds.map((bookingId) => {
   const booking = bookingEntities[bookingId] || '';
   const customer = booking && customers && customersEntities[booking.customer] || '';
   const room = booking && rooms && roomsEntities[booking.room] || '';
@@ -89,6 +88,7 @@ let bookingEvents = bookingIds && bookingEntities && customersEntities && roomsE
   }
 }
 )
+
 
   const {events,views, defaultDate} =  useMemo(
       ()=>({
